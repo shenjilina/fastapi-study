@@ -1,26 +1,22 @@
 # FastAPI Study
 
-使用 `uv` 管理依赖和虚拟环境的 FastAPI 学习项目基础模板。
+This repository follows the Day 1 bootstrap plan from `plan.md`.
 
-## 目录结构
+## What is ready
 
-```text
-fastapi-study/
-├─ app/
-│  ├─ api/
-│  ├─ core/
-│  └─ main.py
-├─ tests/
-├─ .gitignore
-├─ pyproject.toml
-└─ README.md
-```
+- Production-style project skeleton aligned with the target architecture
+- `uv`-managed dependencies and lockfile workflow
+- Environment-driven settings and logging bootstrap
+- SQLAlchemy engine, session factory, and FastAPI dependency injection
+- Application factory, startup entrypoints, and health check endpoint
+- Basic bootstrap test coverage
 
-## 常用命令
+## Quick start
 
 ```bash
-.venv\Scripts\activate
+.venv/Scripts/Activate.ps1  
 uv sync
-uv run uvicorn app.main:app --reload
-uv run pytest
+uv run main.py
 ```
+
+Open `http://127.0.0.1:8000/health` after startup.

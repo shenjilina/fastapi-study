@@ -1,0 +1,55 @@
+"""FastAPI application factory."""
+
+from contextlib import asynccontextmanager
+
+from fastapi import FastAPI
+
+from common.middleware import register_middlewares
+from common.response import success_response
+from config.log_config import configure_logging, get_logger
+from config.settings import get_settings
+from core.constants import DEFAULT_HEALTH_PATH, DEFAULT_ROOT_MESSAGE
+from core.db import test_database_connection
+from core.exceptions import register_exception_handlers
+
+
+def create_app() -> FastAPI:
+    settings = get_settings()
+    configure_logging(settings)
+    logger = get_logger(__name__)
+
+    @asynccontextmanager
+    async def lifespan(_: FastAPI):
+        database_ready = False
+        try:
+            database_ready = test_database_connection()
+        except Exception as exc:  # pragma: no cover - defensive logging on startup
+            logger.warning("Database connectivity check failed during startup: %s", exc)
+
+        logger.info("Application started. Database ready: %s", database_ready)
+        yield
+        logger.info("Application shutdown complete.")
+
+    app = FastAPI(
+        title=settings.app_name,
+        debug=settings.app_debug,
+        lifespan=lifespan,
+    )
+
+    register_middlewares(app, settings)
+    register_exception_handlers(app)
+
+    @app.get("/")
+    async def root() -> dict[str, object]:
+        return success_response({"environment": settings.app_env}, DEFAULT_ROOT_MESSAGE)
+
+    @app.get(DEFAULT_HEALTH_PATH)
+    async def health_check() -> dict[str, object]:
+        return success_response(
+            {
+                "status": "ok",
+                "database_url": settings.database_url,
+            }
+        )
+
+    return app
