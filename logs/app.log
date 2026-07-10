@@ -1,0 +1,9 @@
+2026-07-10 18:03:25,177 | INFO | core.app | Application started. Database ready: True
+2026-07-10 18:03:30,389 | INFO | common.middleware | GET / completed in 1.56 ms
+2026-07-10 18:03:31,153 | INFO | common.middleware | GET /favicon.ico completed in 0.40 ms
+2026-07-10 18:03:39,627 | INFO | common.middleware | GET /docs completed in 0.32 ms
+2026-07-10 18:03:42,746 | INFO | common.middleware | GET /openapi.json completed in 12.45 ms
+2026-07-10 18:15:29,372 | INFO | core.app | Application shutdown complete.
+2026-07-10 18:15:30,578 | INFO | core.app | Application started. Database ready: True
+2026-07-10 18:15:34,362 | INFO | core.app | Application shutdown complete.
+2026-07-10 18:15:35,403 | INFO | core.app | Application started. Database ready: True
