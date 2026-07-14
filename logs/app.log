@@ -119,3 +119,17 @@
 2026-07-14 16:25:20,169 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/users "HTTP/1.1 422 Unprocessable Entity"
 2026-07-14 16:25:20,181 | INFO | common.middleware | [request_id=a39ccb57543a4d6ba6ea25283d5783ad] GET /api/v1/users/999999 completed in 10.32 ms
 2026-07-14 16:25:20,182 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/users/999999 "HTTP/1.1 404 Not Found"
+2026-07-14 18:43:42,841 | INFO | core.app | Application shutdown complete.
+2026-07-14 18:43:43,770 | INFO | core.app | Application started. Database ready: True
+2026-07-14 18:43:59,889 | INFO | core.app | Application shutdown complete.
+2026-07-14 18:44:00,691 | INFO | core.app | Application started. Database ready: True
+2026-07-14 18:44:11,897 | INFO | core.app | Application shutdown complete.
+2026-07-14 18:44:12,693 | INFO | core.app | Application started. Database ready: True
+2026-07-14 18:44:19,003 | INFO | core.app | Application shutdown complete.
+2026-07-14 18:44:19,793 | INFO | core.app | Application started. Database ready: True
+2026-07-14 18:44:27,735 | INFO | core.app | Application shutdown complete.
+2026-07-14 18:44:28,533 | INFO | core.app | Application started. Database ready: True
+2026-07-14 18:45:34,911 | INFO | core.app | Application shutdown complete.
+2026-07-14 18:45:35,722 | INFO | core.app | Application started. Database ready: True
+2026-07-14 18:52:42,375 | INFO | core.app | Application shutdown complete.
+2026-07-14 18:52:43,154 | INFO | core.app | Application started. Database ready: True

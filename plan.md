@@ -245,17 +245,19 @@ uv run ruff check
 
 - 统一注册所有中间件、异常处理器，全局生效
 
-### Day4｜LangChain底层封装①：Embedding \+ Chroma向量库（单例无漏洞）
+### Day4｜LangChain底层封装①：Embedding \+ Chroma向量库（单例无漏洞）（已完成）
 
 **核心目标**：搭建无状态、全局唯一、可复用的向量底层能力
 
-- 编写 core/langchain/embedding\.py 全局嵌入模型单例
+**完成状态**：已完成嵌入模型单例、Chroma 持久化向量库、基础增删查能力、异常恢复逻辑与本地功能验证
 
-- 编写 core/langchain/chroma\_store\.py 持久化向量库，封装增删查基础能力
+- [x] 编写 core/langchain/embedding\.py 全局嵌入模型单例
 
-- 补齐向量库异常兜底、损坏自动恢复逻辑
+- [x] 编写 core/langchain/chroma\_store\.py 持久化向量库，封装增删查基础能力
 
-- 本地测试：文本入库、向量检索、向量删除功能正常
+- [x] 补齐向量库异常兜底、损坏自动恢复逻辑
+
+- [x] 本地测试：文本入库、向量检索、向量删除功能正常
 
 ### Day5｜LangChain底层封装②：LLM \+ 检索器 \+ 工具能力补齐
 
