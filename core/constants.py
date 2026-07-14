@@ -1,5 +1,17 @@
-"""Project-wide constants."""
+"""项目全局常量。"""
 
+# 统一响应相关常量
+SUCCESS_CODE = 0
+DEFAULT_ERROR_CODE = 1
+VALIDATION_ERROR_CODE = 1001
+INTERNAL_ERROR_CODE = 1002
+
+# 默认路由与文案
 DEFAULT_HEALTH_PATH = "/health"
 DEFAULT_ROOT_MESSAGE = "FastAPI study project is ready."
+
+# 中间件与请求处理
+REQUEST_ID_HEADER = "X-Request-ID"
+
+# RAG 相关常量
 DEFAULT_MAX_CONTEXT_TOKENS = 3000

@@ -14,6 +14,13 @@ from core.db import test_database_connection
 from core.exceptions import register_exception_handlers
 
 
+def _register_common_components(app: FastAPI, settings) -> None:
+    """统一注册中间件、异常处理器和 API 路由。"""
+    register_middlewares(app, settings)
+    register_exception_handlers(app)
+    app.include_router(api_router, prefix=settings.api_v1_prefix)
+
+
 def create_app() -> FastAPI:
     settings = get_settings()
     configure_logging(settings)
@@ -37,9 +44,7 @@ def create_app() -> FastAPI:
         lifespan=lifespan,
     )
 
-    register_middlewares(app, settings)
-    register_exception_handlers(app)
-    app.include_router(api_router, prefix=settings.api_v1_prefix)
+    _register_common_components(app, settings)
 
     @app.get("/")
     async def root() -> dict[str, object]:

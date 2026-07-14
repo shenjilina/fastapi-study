@@ -89,3 +89,33 @@
 2026-07-14 14:14:58,328 | INFO | common.middleware | POST /api/v1/users completed in 18.92 ms
 2026-07-14 14:15:00,524 | INFO | common.middleware | POST /api/v1/users completed in 1.54 ms
 2026-07-14 14:15:26,167 | INFO | common.middleware | POST /api/v1/users completed in 81.83 ms
+2026-07-14 14:19:04,889 | INFO | common.middleware | GET /api/v1/users completed in 3.45 ms
+2026-07-14 14:19:21,230 | INFO | common.middleware | GET /api/v1/users/3 completed in 4.61 ms
+2026-07-14 16:23:56,987 | INFO | core.app | Application shutdown complete.
+2026-07-14 16:23:59,059 | INFO | core.app | Application started. Database ready: True
+2026-07-14 16:24:02,901 | INFO | core.app | Application shutdown complete.
+2026-07-14 16:24:03,684 | INFO | core.app | Application started. Database ready: True
+2026-07-14 16:24:09,556 | INFO | core.app | Application shutdown complete.
+2026-07-14 16:24:10,303 | INFO | core.app | Application started. Database ready: True
+2026-07-14 16:24:20,186 | INFO | core.app | Application shutdown complete.
+2026-07-14 16:24:20,957 | INFO | core.app | Application started. Database ready: True
+2026-07-14 16:24:31,613 | INFO | core.app | Application shutdown complete.
+2026-07-14 16:24:32,417 | INFO | core.app | Application started. Database ready: True
+2026-07-14 16:24:38,497 | INFO | core.app | Application shutdown complete.
+2026-07-14 16:24:39,271 | INFO | core.app | Application started. Database ready: True
+2026-07-14 16:24:44,067 | INFO | core.app | Application shutdown complete.
+2026-07-14 16:24:44,856 | INFO | core.app | Application started. Database ready: True
+2026-07-14 16:24:59,018 | INFO | common.middleware | [request_id=d3514703487a40bbb9a531576491e9e2] GET /health completed in 6.29 ms
+2026-07-14 16:24:59,020 | INFO | httpx | HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2026-07-14 16:24:59,024 | INFO | common.middleware | [request_id=f888b1e35a514953babbd41b7dc1b53a] POST /api/v1/users completed in 2.94 ms
+2026-07-14 16:24:59,025 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/users "HTTP/1.1 422 Unprocessable Entity"
+2026-07-14 16:24:59,036 | INFO | common.middleware | [request_id=bc6dc4d0e7e849828f31f8017c87d9e5] GET /api/v1/users/999999 completed in 10.26 ms
+2026-07-14 16:24:59,037 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/users/999999 "HTTP/1.1 404 Not Found"
+2026-07-14 16:25:10,467 | INFO | core.app | Application shutdown complete.
+2026-07-14 16:25:11,257 | INFO | core.app | Application started. Database ready: True
+2026-07-14 16:25:20,164 | INFO | common.middleware | [request_id=4f68eb50b70d46bc93fcf9055ff2db35] GET /health completed in 6.14 ms
+2026-07-14 16:25:20,165 | INFO | httpx | HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2026-07-14 16:25:20,168 | INFO | common.middleware | [request_id=c986ae4eff7444f287131dd025a400e8] POST /api/v1/users completed in 1.76 ms
+2026-07-14 16:25:20,169 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/users "HTTP/1.1 422 Unprocessable Entity"
+2026-07-14 16:25:20,181 | INFO | common.middleware | [request_id=a39ccb57543a4d6ba6ea25283d5783ad] GET /api/v1/users/999999 completed in 10.32 ms
+2026-07-14 16:25:20,182 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/users/999999 "HTTP/1.1 404 Not Found"
