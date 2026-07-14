@@ -4,6 +4,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
+from api import api_router
 from common.middleware import register_middlewares
 from common.response import success_response
 from config.log_config import configure_logging, get_logger
@@ -38,6 +39,7 @@ def create_app() -> FastAPI:
 
     register_middlewares(app, settings)
     register_exception_handlers(app)
+    app.include_router(api_router, prefix=settings.api_v1_prefix)
 
     @app.get("/")
     async def root() -> dict[str, object]:

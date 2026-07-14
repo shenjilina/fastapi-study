@@ -24,7 +24,7 @@ def create_knowledge_base(
         status=status,
     )
     db.add(knowledge_base)
-    db.commit()
+    db.flush()
     db.refresh(knowledge_base)
     return knowledge_base
 
@@ -66,9 +66,28 @@ def create_document(
         parse_status=parse_status,
     )
     db.add(document)
-    db.commit()
+    db.flush()
     db.refresh(document)
     return document
+
+
+def get_document_by_id(db: Session, document_id: int) -> Document | None:
+    """按主键查询文档。"""
+    return db.get(Document, document_id)
+
+
+def get_document_by_md5(
+    db: Session,
+    *,
+    knowledge_base_id: int,
+    file_md5: str,
+) -> Document | None:
+    """按知识库和文件摘要查询文档，用于去重。"""
+    statement = select(Document).where(
+        Document.knowledge_base_id == knowledge_base_id,
+        Document.file_md5 == file_md5,
+    )
+    return db.scalar(statement)
 
 
 def list_documents_by_knowledge_base(db: Session, knowledge_base_id: int) -> list[Document]:
@@ -89,7 +108,7 @@ def update_document_status(
     chunk_count: int | None = None,
 ) -> Document | None:
     """更新文档解析状态。"""
-    document = db.get(Document, document_id)
+    document = get_document_by_id(db, document_id)
     if document is None:
         return None
 
@@ -97,6 +116,6 @@ def update_document_status(
     if chunk_count is not None:
         document.chunk_count = chunk_count
 
-    db.commit()
+    db.flush()
     db.refresh(document)
     return document

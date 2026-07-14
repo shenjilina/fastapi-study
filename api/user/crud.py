@@ -22,7 +22,7 @@ def create_user(
         is_active=is_active,
     )
     db.add(user)
-    db.commit()
+    db.flush()
     db.refresh(user)
     return user
 
@@ -35,6 +35,12 @@ def get_user_by_id(db: Session, user_id: int) -> User | None:
 def get_user_by_username(db: Session, username: str) -> User | None:
     """按用户名查询用户。"""
     statement = select(User).where(User.username == username)
+    return db.scalar(statement)
+
+
+def get_user_by_email(db: Session, email: str) -> User | None:
+    """按邮箱查询用户。"""
+    statement = select(User).where(User.email == email)
     return db.scalar(statement)
 
 

@@ -36,3 +36,56 @@
 2026-07-13 20:23:53,097 | INFO | core.app | Application shutdown complete.
 2026-07-13 20:23:53,877 | INFO | core.app | Application started. Database ready: True
 2026-07-13 20:24:14,241 | INFO | core.app | Application shutdown complete.
+2026-07-13 20:24:14,979 | INFO | core.app | Application started. Database ready: True
+2026-07-14 11:26:18,506 | INFO | common.middleware | GET / completed in 7.74 ms
+2026-07-14 11:26:19,022 | INFO | common.middleware | GET /favicon.ico completed in 2.72 ms
+2026-07-14 11:26:24,503 | INFO | common.middleware | GET /docs completed in 0.68 ms
+2026-07-14 11:26:25,207 | INFO | common.middleware | GET /openapi.json completed in 8.06 ms
+2026-07-14 11:26:27,865 | INFO | common.middleware | GET /docs completed in 0.26 ms
+2026-07-14 11:26:27,909 | INFO | common.middleware | GET /openapi.json completed in 0.28 ms
+2026-07-14 11:32:01,465 | INFO | core.app | Application shutdown complete.
+2026-07-14 11:32:02,396 | INFO | core.app | Application started. Database ready: True
+2026-07-14 11:32:08,137 | INFO | core.app | Application shutdown complete.
+2026-07-14 11:32:08,874 | INFO | core.app | Application started. Database ready: True
+2026-07-14 11:32:13,647 | INFO | core.app | Application shutdown complete.
+2026-07-14 11:32:14,373 | INFO | core.app | Application started. Database ready: True
+2026-07-14 11:32:22,622 | INFO | core.app | Application shutdown complete.
+2026-07-14 11:32:23,373 | INFO | core.app | Application started. Database ready: True
+2026-07-14 11:32:32,814 | INFO | core.app | Application shutdown complete.
+2026-07-14 11:32:33,555 | INFO | core.app | Application started. Database ready: True
+2026-07-14 11:32:40,059 | INFO | core.app | Application shutdown complete.
+2026-07-14 11:32:40,834 | INFO | core.app | Application started. Database ready: True
+2026-07-14 11:32:48,315 | INFO | core.app | Application shutdown complete.
+2026-07-14 11:32:49,054 | INFO | core.app | Application started. Database ready: True
+2026-07-14 11:32:58,489 | INFO | core.app | Application shutdown complete.
+2026-07-14 11:32:59,267 | INFO | core.app | Application started. Database ready: True
+2026-07-14 11:33:07,515 | INFO | core.app | Application shutdown complete.
+2026-07-14 11:33:08,264 | INFO | core.app | Application started. Database ready: True
+2026-07-14 11:33:20,625 | INFO | core.app | Application shutdown complete.
+2026-07-14 11:33:21,383 | INFO | core.app | Application started. Database ready: True
+2026-07-14 11:33:29,410 | INFO | core.app | Application shutdown complete.
+2026-07-14 11:33:30,154 | INFO | core.app | Application started. Database ready: True
+2026-07-14 11:33:36,342 | INFO | core.app | Application shutdown complete.
+2026-07-14 11:33:37,098 | INFO | core.app | Application started. Database ready: True
+2026-07-14 11:33:58,693 | INFO | core.app | Application shutdown complete.
+2026-07-14 11:33:59,409 | INFO | core.app | Application started. Database ready: True
+2026-07-14 11:34:02,563 | INFO | core.app | Application shutdown complete.
+2026-07-14 11:34:03,329 | INFO | core.app | Application started. Database ready: True
+2026-07-14 11:34:23,699 | INFO | common.middleware | POST /api/v1/users completed in 99.77 ms
+2026-07-14 11:34:23,700 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/users "HTTP/1.1 201 Created"
+2026-07-14 11:34:23,744 | INFO | common.middleware | POST /api/v1/knowledge-bases completed in 40.96 ms
+2026-07-14 11:34:23,744 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases "HTTP/1.1 201 Created"
+2026-07-14 11:34:23,782 | INFO | common.middleware | POST /api/v1/documents completed in 35.87 ms
+2026-07-14 11:34:23,784 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/documents "HTTP/1.1 201 Created"
+2026-07-14 11:34:23,820 | INFO | common.middleware | PATCH /api/v1/documents/2/status completed in 34.97 ms
+2026-07-14 11:34:23,821 | INFO | httpx | HTTP Request: PATCH http://testserver/api/v1/documents/2/status "HTTP/1.1 200 OK"
+2026-07-14 11:34:23,859 | INFO | common.middleware | POST /api/v1/conversations completed in 36.60 ms
+2026-07-14 11:34:23,859 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations "HTTP/1.1 201 Created"
+2026-07-14 11:34:23,864 | INFO | common.middleware | GET /api/v1/knowledge-bases/2/conversations completed in 2.79 ms
+2026-07-14 11:34:23,865 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/knowledge-bases/2/conversations "HTTP/1.1 200 OK"
+2026-07-14 14:14:06,177 | INFO | common.middleware | GET / completed in 22.65 ms
+2026-07-14 14:14:11,185 | INFO | common.middleware | GET /docs completed in 2.37 ms
+2026-07-14 14:14:12,059 | INFO | common.middleware | GET /openapi.json completed in 35.40 ms
+2026-07-14 14:14:58,328 | INFO | common.middleware | POST /api/v1/users completed in 18.92 ms
+2026-07-14 14:15:00,524 | INFO | common.middleware | POST /api/v1/users completed in 1.54 ms
+2026-07-14 14:15:26,167 | INFO | common.middleware | POST /api/v1/users completed in 81.83 ms

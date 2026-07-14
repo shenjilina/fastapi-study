@@ -1,1 +1,111 @@
-"""Document schema scaffold for later implementation."""
+"""知识库和文档模块 Schema。"""
+
+from datetime import datetime
+
+from pydantic import BaseModel, ConfigDict, Field, field_validator
+
+from api.document.enums import DocumentParseStatus
+from api.rag.enums import KnowledgeBaseStatus
+from common.dependencies import strip_text
+
+
+class KnowledgeBaseCreateRequest(BaseModel):
+    """创建知识库请求体。"""
+
+    owner_id: int = Field(gt=0, description="知识库所属用户 ID")
+    name: str = Field(min_length=2, max_length=100, description="知识库名称")
+    description: str | None = Field(default=None, max_length=1000, description="知识库描述")
+    status: KnowledgeBaseStatus = Field(
+        default=KnowledgeBaseStatus.ACTIVE,
+        description="知识库状态",
+    )
+
+    @field_validator("name", mode="before")
+    @classmethod
+    def _strip_name(cls, value: str) -> str:
+        text = strip_text(value)
+        if not text:
+            raise ValueError("知识库名称不能为空")
+        return text
+
+    @field_validator("description", mode="before")
+    @classmethod
+    def _strip_description(cls, value: str | None) -> str | None:
+        return strip_text(value)
+
+
+class KnowledgeBaseRead(BaseModel):
+    """知识库响应结构。"""
+
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    owner_id: int
+    name: str
+    description: str | None
+    status: KnowledgeBaseStatus
+    created_at: datetime
+    updated_at: datetime
+
+
+class DocumentCreateRequest(BaseModel):
+    """创建文档请求体。"""
+
+    knowledge_base_id: int = Field(gt=0, description="所属知识库 ID")
+    filename: str = Field(min_length=1, max_length=255, description="原始文件名")
+    file_type: str = Field(min_length=2, max_length=20, description="文件类型，如 txt / pdf")
+    file_size: int = Field(gt=0, le=10 * 1024 * 1024, description="文件大小，单位字节")
+    file_md5: str = Field(min_length=32, max_length=32, description="文件 MD5 摘要")
+    chunk_count: int = Field(default=0, ge=0, description="切片数量")
+    parse_status: DocumentParseStatus = Field(
+        default=DocumentParseStatus.PENDING,
+        description="文档解析状态",
+    )
+
+    @field_validator("filename", "file_type", "file_md5", mode="before")
+    @classmethod
+    def _strip_required_text(cls, value: str) -> str:
+        text = strip_text(value)
+        if not text:
+            raise ValueError("字段不能为空")
+        return text
+
+    @field_validator("file_type")
+    @classmethod
+    def _validate_file_type(cls, value: str) -> str:
+        normalized = value.lower()
+        if normalized not in {"txt", "pdf"}:
+            raise ValueError("文件类型仅支持 txt 或 pdf")
+        return normalized
+
+    @field_validator("file_md5")
+    @classmethod
+    def _validate_file_md5(cls, value: str) -> str:
+        normalized = value.lower()
+        if len(normalized) != 32 or any(char not in "0123456789abcdef" for char in normalized):
+            raise ValueError("file_md5 必须是 32 位十六进制字符串")
+        return normalized
+
+
+class DocumentStatusUpdateRequest(BaseModel):
+    """更新文档解析状态请求体。"""
+
+    parse_status: DocumentParseStatus = Field(description="目标解析状态")
+    chunk_count: int | None = Field(default=None, ge=0, description="切片数量")
+
+
+class DocumentRead(BaseModel):
+    """文档响应结构。"""
+
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    knowledge_base_id: int
+    filename: str
+    file_type: str
+    file_size: int
+    file_md5: str
+    chunk_count: int
+    parse_status: DocumentParseStatus
+    created_at: datetime
+    updated_at: datetime

@@ -27,7 +27,7 @@ def create_conversation_record(
         status=status,
     )
     db.add(conversation)
-    db.commit()
+    db.flush()
     db.refresh(conversation)
     return conversation
 
