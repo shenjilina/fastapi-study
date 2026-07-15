@@ -133,3 +133,68 @@
 2026-07-14 18:45:35,722 | INFO | core.app | Application started. Database ready: True
 2026-07-14 18:52:42,375 | INFO | core.app | Application shutdown complete.
 2026-07-14 18:52:43,154 | INFO | core.app | Application started. Database ready: True
+2026-07-15 22:20:42,616 | INFO | core.app | Application started. Database ready: True
+2026-07-15 22:20:55,105 | INFO | common.middleware | [request_id=92c118916910421da94a93af92fd5e86] GET / completed in 16.61 ms
+2026-07-15 22:20:55,542 | INFO | common.middleware | [request_id=0b0d3750b3eb4651ada41a927e06ad77] GET /favicon.ico completed in 0.69 ms
+2026-07-15 22:20:58,262 | INFO | common.middleware | [request_id=9730e96c6c984274a1dacf3066f728dd] GET /docs completed in 0.46 ms
+2026-07-15 22:21:03,559 | INFO | common.middleware | [request_id=ff2ac657b6774fa0b493f30ac04d755d] GET /openapi.json completed in 12.97 ms
+2026-07-15 22:25:10,424 | INFO | core.app | Application shutdown complete.
+2026-07-15 22:25:11,245 | INFO | core.app | Application started. Database ready: True
+2026-07-15 22:25:13,605 | INFO | core.app | Application shutdown complete.
+2026-07-15 22:25:14,336 | INFO | core.app | Application started. Database ready: True
+2026-07-15 22:27:50,169 | INFO | core.app | Application shutdown complete.
+2026-07-15 22:27:50,920 | INFO | core.app | Application started. Database ready: True
+2026-07-15 22:28:12,358 | INFO | core.app | Application shutdown complete.
+2026-07-15 22:28:13,067 | INFO | core.app | Application started. Database ready: True
+2026-07-15 22:28:23,387 | INFO | core.app | Application shutdown complete.
+2026-07-15 22:28:24,095 | INFO | core.app | Application started. Database ready: True
+2026-07-15 22:29:00,230 | INFO | core.app | Application shutdown complete.
+2026-07-15 22:29:01,010 | INFO | core.app | Application started. Database ready: True
+2026-07-15 22:29:59,262 | INFO | core.app | Application shutdown complete.
+2026-07-15 22:30:00,028 | INFO | core.app | Application started. Database ready: True
+2026-07-15 22:30:18,522 | INFO | core.app | Application shutdown complete.
+2026-07-15 22:30:19,261 | INFO | core.app | Application started. Database ready: True
+2026-07-15 22:30:20,995 | INFO | core.app | Application shutdown complete.
+2026-07-15 22:30:21,708 | INFO | core.app | Application started. Database ready: True
+2026-07-15 22:30:23,394 | INFO | core.app | Application shutdown complete.
+2026-07-15 22:30:24,114 | INFO | core.app | Application started. Database ready: True
+2026-07-15 22:30:37,269 | INFO | core.app | Application shutdown complete.
+2026-07-15 22:30:37,974 | INFO | core.app | Application started. Database ready: True
+2026-07-15 22:30:40,222 | INFO | core.app | Application shutdown complete.
+2026-07-15 22:30:40,928 | INFO | core.app | Application started. Database ready: True
+2026-07-15 22:32:08,291 | INFO | core.app | Application shutdown complete.
+2026-07-15 22:32:09,060 | INFO | core.app | Application started. Database ready: True
+2026-07-15 22:32:36,775 | INFO | core.app | Application shutdown complete.
+2026-07-15 22:32:37,581 | INFO | core.app | Application started. Database ready: True
+2026-07-15 22:32:38,318 | INFO | core.app | Application shutdown complete.
+2026-07-15 22:32:39,084 | INFO | core.app | Application started. Database ready: True
+2026-07-15 22:32:39,955 | INFO | core.app | Application shutdown complete.
+2026-07-15 22:32:40,668 | INFO | core.app | Application started. Database ready: True
+2026-07-15 22:34:19,882 | INFO | common.middleware | [request_id=6d8d5d2d724644a5a2443f88f1a43d93] GET /health completed in 7.60 ms
+2026-07-15 22:34:19,882 | INFO | httpx | HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2026-07-15 22:34:20,304 | INFO | utils.hash_utils | Duplicate file detected: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-31\test_is_duplicate_file_true0\dup.txt (md5=9a0364b9e99bb480dd25e1f0284c8555)
+2026-07-15 22:34:20,386 | INFO | utils.hash_utils | Duplicate text detected (md5=24f1b0a79473250c195c7fb84e393392)
+2026-07-15 22:34:20,481 | INFO | utils.text_utils | Text truncated: original_tokens=500 max_tokens=10 chars 2000->39
+2026-07-15 22:34:20,482 | INFO | utils.text_utils | Text truncated: original_tokens=12 max_tokens=5 chars 48->15
+2026-07-15 22:34:20,482 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-07-15 22:34:20,483 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-07-15 22:34:20,571 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-31\test_parse_txt_utf80\test.txt (size=13)
+2026-07-15 22:34:20,572 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-07-15 22:34:20,648 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-31\test_parse_txt_chinese0\chinese.txt (size=18)
+2026-07-15 22:34:20,652 | INFO | utils.file_parser | TXT parsed successfully: 6 chars
+2026-07-15 22:34:20,734 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-31\test_parse_txt_gbk0\gbk.txt (size=8)
+2026-07-15 22:34:20,736 | INFO | utils.file_parser | TXT parsed successfully: 4 chars
+2026-07-15 22:34:20,898 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-31\test_parse_txt_whitespace_only0\whitespace.txt (size=8)
+2026-07-15 22:34:21,030 | INFO | utils.file_parser | Parsing PDF file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-31\test_parse_pdf_basic0\test.pdf (size=431)
+2026-07-15 22:34:21,112 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-31\test_parse_file_txt_dispatch0\test.txt (size=13)
+2026-07-15 22:34:21,116 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-07-15 22:34:25,594 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): Ollama not running
+2026-07-15 22:34:25,598 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3): Ollama not running
+2026-07-15 22:34:25,598 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3): Ollama not running
+2026-07-15 22:34:25,599 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): fail
+2026-07-15 22:34:25,601 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-07-15 22:34:25,702 | INFO | core.langchain.chroma_store | Chroma store ready. collection=rag_documents persist_directory=D:\www\jilin\python\fastapi-study\chroma
+2026-07-15 22:34:25,706 | WARNING | core.langchain.retriever | top_k=100 exceeds max 20, clamped to max
+2026-07-15 22:34:25,708 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=4
+2026-07-15 22:34:25,710 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=4
+2026-07-15 22:34:25,711 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=2 top_k=4

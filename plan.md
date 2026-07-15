@@ -259,19 +259,21 @@ uv run ruff check
 
 - [x] 本地测试：文本入库、向量检索、向量删除功能正常
 
-### Day5｜LangChain底层封装②：LLM \+ 检索器 \+ 工具能力补齐
+### Day5｜LangChain底层封装②：LLM \+ 检索器 \+ 工具能力补齐（已完成）
 
 **核心目标**：完成大模型、检索器底层封装，补齐文档处理工具链
 
-- 编写 core/langchain/llm\.py Ollama全局单例，新增超时、重试机制
+**完成状态**：已完成 Ollama LLM 单例（超时+重试退避）、知识库隔离检索器、PDF/TXT 解析（含空文件/损坏兜底）、MD5 去重工具、文本清洗+Token 截断工具，62 项单元测试全部通过。
 
-- 编写 core/langchain/retriever\.py 向量检索器，支持知识库隔离检索
+- [x] 编写 core/langchain/llm\.py Ollama全局单例，新增超时、重试机制
 
-- 完善 utils/file\_parser\.py 支持PDF/TXT解析，新增文件损坏、空文件兜底
+- [x] 编写 core/langchain/retriever\.py 向量检索器，支持知识库隔离检索
 
-- 编写 utils/hash\_utils\.py 文件MD5去重工具，杜绝重复文档入库
+- [x] 完善 utils/file\_parser\.py 支持PDF/TXT解析，新增文件损坏、空文件兜底
 
-- 编写 utils/text\_utils\.py 文本清洗、Token截断工具，解决上下文溢出问题
+- [x] 编写 utils/hash\_utils\.py 文件MD5去重工具，杜绝重复文档入库
+
+- [x] 编写 utils/text\_utils\.py 文本清洗、Token截断工具，解决上下文溢出问题
 
 ### Day6｜文档管理模块全流程开发（分层规范\+去重\+状态管控）
 

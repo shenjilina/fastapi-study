@@ -1,4 +1,4 @@
-"""Day4 嵌入模型封装。"""
+"""嵌入模型封装。"""
 
 from __future__ import annotations
 
@@ -69,9 +69,7 @@ class SentenceTransformerEmbeddings(Embeddings):
         try:
             self.model = SentenceTransformer(model_name, local_files_only=True)
         except Exception as exc:  # pragma: no cover - 运行环境可能离线
-            raise EmbeddingInitializationError(
-                f"加载嵌入模型失败: {model_name}"
-            ) from exc
+            raise EmbeddingInitializationError(f"加载嵌入模型失败: {model_name}") from exc
 
     def embed_documents(self, texts: list[str]) -> list[list[float]]:
         embeddings = self.model.encode(texts, normalize_embeddings=True)

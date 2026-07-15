@@ -46,8 +46,20 @@ class Settings(BaseSettings):
     ollama_base_url: str = "http://localhost:11434"
     ollama_model: str = "qwen2.5:7b"
     ollama_request_timeout: int = 60
+    ollama_max_retries: int = 3
+    ollama_temperature: float = 0.7
     embedding_model_name: str = "sentence-transformers/all-MiniLM-L6-v2"
+
+    # 文件上传与解析配置
     max_upload_size_mb: int = 10
+    allowed_file_extensions: list[str] = Field(
+        default_factory=lambda: ["txt", "pdf"]
+    )
+
+    # 切片与检索参数
+    chunk_size: int = 500
+    chunk_overlap: int = 50
+    retrieval_top_k: int = 4
 
     @field_validator("cors_allow_origins", mode="before")
     @classmethod

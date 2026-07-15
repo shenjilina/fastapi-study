@@ -1,4 +1,4 @@
-"""Day4 Chroma 向量库封装。"""
+"""Chroma 向量库封装。"""
 
 from __future__ import annotations
 
