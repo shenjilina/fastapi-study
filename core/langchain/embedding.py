@@ -46,9 +46,13 @@ class HashFallbackEmbeddings(Embeddings):
         return [item / magnitude for item in vector]
 
     def embed_documents(self, texts: list[str]) -> list[list[float]]:
+        if not texts:
+            return []
         return [self._embed_text(text) for text in texts]
 
     def embed_query(self, text: str) -> list[float]:
+        if not text:
+            return [0.0] * self.dimensions
         return self._embed_text(text)
 
 

@@ -59,8 +59,9 @@ class ChromaStoreManager:
         if not self.persist_directory.exists():
             return None
 
+        # 同时使用时间戳和随机后缀，避免同一秒内重复调用导致路径冲突。
         backup_path = self.persist_directory.with_name(
-            f"{self.persist_directory.name}_broken_{datetime.now().strftime('%Y%m%d%H%M%S')}"
+            f"{self.persist_directory.name}_broken_{datetime.now().strftime('%Y%m%d%H%M%S')}_{uuid4().hex[:6]}"
         )
         move(str(self.persist_directory), str(backup_path))
         logger.warning("Broken chroma directory moved to backup path: %s", backup_path)
@@ -70,7 +71,9 @@ class ChromaStoreManager:
         """初始化向量库，失败时执行自动恢复。"""
         try:
             store = self._build_store()
-            # 主动访问 collection，尽早暴露底层异常。
+            # 主动访问底层 collection，尽早暴露异常。
+            # _collection 是 langchain_chroma.Chroma 暴露的 ChromaDB collection 对象，
+            # 虽然带下划线前缀，但这是 LangChain 官方集成中获取 count 的标准方式。
             _ = store._collection.count()
             logger.info(
                 "Chroma store ready. collection=%s persist_directory=%s",
@@ -106,6 +109,8 @@ class ChromaStoreManager:
         metadata_list = metadatas or [{} for _ in texts]
         if len(metadata_list) != len(texts):
             raise ChromaStoreOperationError("metadatas 数量必须与 texts 一致")
+        if len(document_ids) != len(texts):
+            raise ChromaStoreOperationError("ids 数量必须与 texts 一致")
 
         try:
             self._store.add_texts(texts=texts, metadatas=metadata_list, ids=document_ids)
@@ -121,6 +126,8 @@ class ChromaStoreManager:
         metadata_filter: dict | None = None,
     ) -> list[VectorSearchResult]:
         """执行相似度检索。"""
+        if k <= 0:
+            raise ChromaStoreOperationError("k 必须大于 0")
         try:
             documents = self._store.similarity_search(query=query, k=k, filter=metadata_filter)
             return [
@@ -141,7 +148,12 @@ class ChromaStoreManager:
         k: int = 4,
         metadata_filter: dict | None = None,
     ) -> list[VectorSearchResult]:
-        """执行带分数的相似度检索。"""
+        """执行带分数的相似度检索。
+
+        注意：返回的 score 是距离值，越小表示越相似，不是相似度分数。
+        """
+        if k <= 0:
+            raise ChromaStoreOperationError("k 必须大于 0")
         try:
             documents = self._store.similarity_search_with_score(
                 query=query,
