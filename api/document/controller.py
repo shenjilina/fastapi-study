@@ -1,11 +1,12 @@
 """知识库和文档模块控制器。"""
 
-from fastapi import APIRouter, Depends, Query, status
+from fastapi import APIRouter, Depends, File, Query, UploadFile, status
 from sqlalchemy.orm import Session
 
 from api.document import service
 from api.document.schema import (
     DocumentCreateRequest,
+    DocumentDeleteResponse,
     DocumentRead,
     DocumentStatusUpdateRequest,
     KnowledgeBaseCreateRequest,
@@ -94,3 +95,42 @@ def list_documents_by_knowledge_base(
         for item in service.list_documents_by_knowledge_base(db, knowledge_base_id)
     ]
     return success_response(documents, message="文档列表获取成功")
+
+
+@router.post(
+    "/knowledge-bases/documents/upload/{knowledge_base_id}",
+    status_code=status.HTTP_201_CREATED,
+)
+async def upload_document(
+    knowledge_base_id: int,
+    file: UploadFile = File(..., description="上传的文件，支持 txt / pdf"),
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    """文件上传接口：校验 -> 去重 -> 解析 -> 切片 -> 向量入库 -> 存元数据。"""
+    result = service.upload_document(db, knowledge_base_id, file)
+    document_data = DocumentRead.model_validate(result["document"]).model_dump(mode="json")
+    return success_response(
+        {
+            "document": document_data,
+            "vector_ids": result["vector_ids"],
+            "chunk_count": result["chunk_count"],
+        },
+        message="文档上传成功",
+    )
+
+
+@router.delete("/documents/{document_id}", status_code=status.HTTP_200_OK)
+def delete_document(
+    document_id: int,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    """删除文档接口：同时删除向量数据和数据库记录。"""
+    result = service.delete_document(db, document_id)
+    return success_response(
+        DocumentDeleteResponse(
+            document_id=result["document_id"],
+            filename=result["filename"],
+            deleted=result["deleted"],
+        ).model_dump(mode="json"),
+        message="文档删除成功",
+    )

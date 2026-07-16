@@ -119,3 +119,13 @@ def update_document_status(
     db.flush()
     db.refresh(document)
     return document
+
+
+def delete_document(db: Session, document_id: int) -> bool:
+    """按主键删除文档元数据，返回是否删除成功。"""
+    document = get_document_by_id(db, document_id)
+    if document is None:
+        return False
+    db.delete(document)
+    db.flush()
+    return True

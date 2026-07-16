@@ -94,6 +94,22 @@ class DocumentStatusUpdateRequest(BaseModel):
     chunk_count: int | None = Field(default=None, ge=0, description="切片数量")
 
 
+class DocumentUploadResponse(BaseModel):
+    """文档上传响应结构。"""
+
+    document: "DocumentRead"
+    vector_ids: list[str] = Field(default_factory=list, description="向量库中的 ID 列表")
+    chunk_count: int = Field(ge=0, description="实际切片数量")
+
+
+class DocumentDeleteResponse(BaseModel):
+    """文档删除响应结构。"""
+
+    document_id: int
+    filename: str
+    deleted: bool = True
+
+
 class DocumentRead(BaseModel):
     """文档响应结构。"""
 
@@ -109,3 +125,6 @@ class DocumentRead(BaseModel):
     parse_status: DocumentParseStatus
     created_at: datetime
     updated_at: datetime
+
+
+DocumentUploadResponse.model_rebuild()

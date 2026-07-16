@@ -198,3 +198,25 @@
 2026-07-15 22:34:25,708 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=4
 2026-07-15 22:34:25,710 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=4
 2026-07-15 22:34:25,711 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=2 top_k=4
+2026-07-16 17:21:16,627 | INFO | common.middleware | [request_id=e624730f98c34f86bbf5aacb60cf28b4] POST /api/v1/users completed in 118.27 ms
+2026-07-16 17:21:16,630 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/users "HTTP/1.1 201 Created"
+2026-07-16 17:21:16,693 | INFO | common.middleware | [request_id=38b6b53b6a464f00988743a41e3fb883] POST /api/v1/knowledge-bases completed in 61.89 ms
+2026-07-16 17:21:16,696 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases "HTTP/1.1 201 Created"
+2026-07-16 17:21:16,813 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\tmpm5p5ec7x.txt (size=384)
+2026-07-16 17:21:16,813 | INFO | utils.file_parser | TXT parsed successfully: 164 chars
+2026-07-16 17:22:26,177 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-07-16 17:22:26,901 | INFO | core.langchain.chroma_store | Chroma store ready. collection=rag_documents persist_directory=D:\www\jilin\python\fastapi-study\chroma
+2026-07-16 17:22:27,117 | INFO | api.document.service | Document uploaded: id=3 chunks=1 vectors=1
+2026-07-16 17:22:27,159 | INFO | common.middleware | [request_id=807cdb7a5df140d595b088cd75a1c6ff] POST /api/v1/knowledge-bases/3/documents/upload completed in 70459.63 ms
+2026-07-16 17:22:27,160 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases/3/documents/upload "HTTP/1.1 201 Created"
+2026-07-16 17:22:27,201 | INFO | common.middleware | [request_id=55a6c5b33357423fa475f343003a84c0] POST /api/v1/knowledge-bases/3/documents/upload completed in 37.39 ms
+2026-07-16 17:22:27,202 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases/3/documents/upload "HTTP/1.1 409 Conflict"
+2026-07-16 17:22:27,209 | INFO | common.middleware | [request_id=08563418871f4577b86718da924c9bdb] GET /api/v1/knowledge-bases/3/documents completed in 3.81 ms
+2026-07-16 17:22:27,211 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/knowledge-bases/3/documents "HTTP/1.1 200 OK"
+2026-07-16 17:22:27,298 | INFO | api.document.service | Vectors deleted: document_id=3 count=1
+2026-07-16 17:22:27,337 | INFO | common.middleware | [request_id=f51efc4872b14e48b642f8c71d92bd10] DELETE /api/v1/documents/3 completed in 124.43 ms
+2026-07-16 17:22:27,339 | INFO | httpx | HTTP Request: DELETE http://testserver/api/v1/documents/3 "HTTP/1.1 200 OK"
+2026-07-16 17:22:27,343 | INFO | common.middleware | [request_id=312eb4a56bd344b89fed6960b8e152e2] GET /api/v1/knowledge-bases/3/documents completed in 2.47 ms
+2026-07-16 17:22:27,345 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/knowledge-bases/3/documents "HTTP/1.1 200 OK"
+2026-07-16 17:22:27,351 | INFO | common.middleware | [request_id=744ab2825e4545b4bf2dbe39cb47ea43] POST /api/v1/knowledge-bases/3/documents/upload completed in 3.19 ms
+2026-07-16 17:22:27,352 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases/3/documents/upload "HTTP/1.1 400 Bad Request"
