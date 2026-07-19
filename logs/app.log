@@ -220,3 +220,9 @@
 2026-07-16 17:22:27,345 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/knowledge-bases/3/documents "HTTP/1.1 200 OK"
 2026-07-16 17:22:27,351 | INFO | common.middleware | [request_id=744ab2825e4545b4bf2dbe39cb47ea43] POST /api/v1/knowledge-bases/3/documents/upload completed in 3.19 ms
 2026-07-16 17:22:27,352 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases/3/documents/upload "HTTP/1.1 400 Bad Request"
+2026-07-17 23:25:03,644 | INFO | core.app | Application started. Database ready: True
+2026-07-17 23:30:47,089 | INFO | common.middleware | [request_id=2b0ee60a0abb431cb205bfb097ef63ed] GET /docs completed in 0.97 ms
+2026-07-17 23:30:52,424 | INFO | common.middleware | [request_id=35afbab1dae44286b91d4a2e46623106] GET /openapi.json completed in 103.99 ms
+2026-07-17 23:33:01,989 | INFO | common.middleware | [request_id=973d44025fe143a598b71f21eb10473d] GET / completed in 4.44 ms
+2026-07-17 23:33:02,557 | INFO | common.middleware | [request_id=f8eaa7534b4e4ec1b9599bd5fe171ff4] GET /favicon.ico completed in 1.21 ms
+2026-07-17 23:36:16,062 | INFO | core.app | Application shutdown complete.
