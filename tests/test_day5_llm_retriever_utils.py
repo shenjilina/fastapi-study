@@ -475,7 +475,8 @@ class TestKnowledgeBaseRetriever:
         retriever = KnowledgeBaseRetriever.__new__(KnowledgeBaseRetriever)
         retriever.default_top_k = 4
         result = retriever._build_metadata_filter(42)
-        assert result == {"knowledge_base_id": "42"}
+        # 保持原始类型（int），与文档入库时 metadata 类型一致
+        assert result == {"knowledge_base_id": 42}
 
     def test_build_metadata_filter_none(self) -> None:
         from core.langchain.retriever import KnowledgeBaseRetriever
@@ -523,7 +524,7 @@ class TestKnowledgeBaseRetriever:
 
         mock_store = MagicMock()
         mock_store.similarity_search.return_value = [
-            VectorSearchResult(page_content="result", metadata={"knowledge_base_id": "1"})
+            VectorSearchResult(page_content="result", metadata={"knowledge_base_id": 1})
         ]
 
         retriever = KnowledgeBaseRetriever(chroma_store=mock_store)
@@ -534,7 +535,7 @@ class TestKnowledgeBaseRetriever:
         mock_store.similarity_search.assert_called_once_with(
             query="query",
             k=4,
-            metadata_filter={"knowledge_base_id": "1"},
+            metadata_filter={"knowledge_base_id": 1},
         )
 
     def test_search_multi_knowledge_base(self) -> None:

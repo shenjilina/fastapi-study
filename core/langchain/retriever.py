@@ -29,10 +29,14 @@ class KnowledgeBaseRetriever:
         self.default_top_k = settings.retrieval_top_k
 
     def _build_metadata_filter(self, knowledge_base_id: int | str | None) -> dict | None:
-        """构建知识库隔离的 metadata 过滤条件。"""
+        """构建知识库隔离的 metadata 过滤条件。
+
+        保持 knowledge_base_id 的原始类型，与文档入库时写入的 metadata 类型一致，
+        避免 Chroma where 过滤因类型不匹配（int vs str）导致检索结果为空。
+        """
         if knowledge_base_id is None:
             return None
-        return {"knowledge_base_id": str(knowledge_base_id)}
+        return {"knowledge_base_id": knowledge_base_id}
 
     def _validate_top_k(self, top_k: int) -> int:
         """校验 top_k 参数范围。"""

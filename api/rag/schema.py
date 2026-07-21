@@ -1,6 +1,7 @@
 """RAG 问答模块 Schema。"""
 
 from datetime import datetime
+from typing import Any
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -55,3 +56,54 @@ class ConversationRead(BaseModel):
     source_document_ids: list[int]
     status: ConversationRecordStatus
     created_at: datetime
+
+
+class RAGQuestionRequest(BaseModel):
+    """RAG 问答请求体：用户提问 + 知识库 ID + 可选检索 TopK。"""
+
+    user_id: int = Field(gt=0, description="提问用户 ID")
+    knowledge_base_id: int = Field(gt=0, description="知识库 ID")
+    question: str = Field(min_length=1, max_length=2000, description="用户问题")
+    top_k: int | None = Field(
+        default=None,
+        ge=1,
+        le=20,
+        description="检索结果数量，不传则使用默认配置",
+    )
+
+    @field_validator("question", mode="before")
+    @classmethod
+    def _strip_question(cls, value: str) -> str:
+        text = strip_text(value)
+        if not text:
+            raise ValueError("问题不能为空")
+        return text
+
+
+class RAGSourceDocumentRead(BaseModel):
+    """RAG 问答命中的源文档信息，用于前端溯源展示。"""
+
+    page_content: str = Field(description="文档片段内容")
+    metadata: dict[str, Any] = Field(default_factory=dict, description="元数据")
+    score: float | None = Field(default=None, description="相似度分数（越小越相似）")
+
+
+class RAGAnswerRead(BaseModel):
+    """RAG 问答响应结构：包含回答、源文档、持久化的对话记录 ID。"""
+
+    question: str
+    answer: str
+    source_documents: list[RAGSourceDocumentRead] = Field(default_factory=list)
+    success: bool = Field(description="问答是否成功（True=正常生成，False=兜底回答）")
+    error: str | None = Field(default=None, description="错误信息，成功时为 null")
+    conversation_id: int | None = Field(
+        default=None,
+        description="持久化的对话记录 ID，保存失败时为 null",
+    )
+
+
+class ConversationDeleteResponse(BaseModel):
+    """问答记录删除响应。"""
+
+    conversation_id: int
+    deleted: bool
