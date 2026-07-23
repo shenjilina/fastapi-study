@@ -11,7 +11,7 @@ from sqlalchemy.orm import Session
 
 from api.document import crud as document_crud
 from api.rag import crud as rag_crud
-from api.rag.enums import ConversationRecordStatus
+from api.rag.enums import ConversationRecordStatus, KnowledgeBaseStatus
 from api.rag.schema import (
     ConversationCreateRequest,
     ConversationRead,
@@ -55,7 +55,10 @@ def build_conversation_read_model(conversation) -> ConversationRead:
 
 
 def _validate_question_access(db: Session, payload: RAGQuestionRequest | ConversationCreateRequest):
-    """校验用户存在性、知识库存在性以及用户对知识库的归属权。"""
+    """校验用户存在性、知识库存在性、归属权以及知识库状态。
+
+    Day8 新增：知识库处于 disabled 状态时拒绝问答，防止使用已下线的知识库。
+    """
     user = user_crud.get_user_by_id(db, payload.user_id)
     if user is None:
         raise AppException("用户不存在", status_code=404)
@@ -66,6 +69,9 @@ def _validate_question_access(db: Session, payload: RAGQuestionRequest | Convers
 
     if knowledge_base.owner_id != payload.user_id:
         raise AppException("该用户无权操作当前知识库", status_code=403)
+
+    if knowledge_base.status == KnowledgeBaseStatus.DISABLED:
+        raise AppException("知识库已禁用，无法进行问答", status_code=403)
 
     return knowledge_base
 
@@ -217,3 +223,9 @@ def delete_conversation(db: Session, conversation_id: int) -> dict:
         raise AppException("删除问答记录失败，请稍后重试", status_code=500) from exc
 
     return {"conversation_id": conversation_id, "deleted": True}
+
+
+def get_rag_health() -> dict:
+    """获取 RAG 链运行状态，用于运维监控。"""
+    rag_chain = get_rag_chain()
+    return rag_chain.health_check()

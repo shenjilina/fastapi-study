@@ -31,6 +31,13 @@ def ask_question(
     )
 
 
+@router.get("/rag/health", status_code=status.HTTP_200_OK)
+def rag_health_check() -> dict[str, object]:
+    """RAG 链健康检查接口：返回检索器、LLM、链参数状态。"""
+    health = service.get_rag_health()
+    return success_response(health, message="RAG 链状态获取成功")
+
+
 @router.post("/conversations", status_code=status.HTTP_201_CREATED)
 def create_conversation(
     payload: ConversationCreateRequest,

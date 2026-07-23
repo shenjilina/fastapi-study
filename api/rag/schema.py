@@ -107,3 +107,13 @@ class ConversationDeleteResponse(BaseModel):
 
     conversation_id: int
     deleted: bool
+
+
+class RAGHealthCheckRead(BaseModel):
+    """RAG 链健康检查响应结构。"""
+
+    chain: str = Field(description="链名称")
+    max_context_tokens: int = Field(description="上下文最大 Token 数")
+    default_top_k: int = Field(description="默认检索 TopK")
+    retriever: dict[str, Any] = Field(default_factory=dict, description="检索器状态")
+    llm: dict[str, Any] = Field(default_factory=dict, description="LLM 状态")
