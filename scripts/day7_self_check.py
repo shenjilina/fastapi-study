@@ -64,7 +64,7 @@ def _ask(user_id: int, kb_id: int, question: str, top_k: int | None = None) -> d
     payload = {"user_id": user_id, "knowledge_base_id": kb_id, "question": question}
     if top_k is not None:
         payload["top_k"] = top_k
-    resp = client.post("/api/v1/rag/ask", json=payload)
+    resp = client.post("/api/v1/conversations/ask", json=payload)
     assert resp.status_code == 200, f"问答接口失败: {resp.json()}"
     return resp.json()["data"]
 
@@ -128,14 +128,14 @@ def main() -> None:
     print(f"GET ONE OK: status={conv['status']}")
 
     # 4. 查询知识库对话记录列表
-    list_kb_resp = client.get(f"/api/v1/knowledge-bases/{kb_id}/conversations")
+    list_kb_resp = client.get("/api/v1/conversations", params={"knowledge_base_id": kb_id})
     assert list_kb_resp.status_code == 200
     kb_convs = list_kb_resp.json()["data"]
     assert len(kb_convs) >= 1
     print(f"LIST BY KB OK: count={len(kb_convs)}")
 
     # 5. 查询用户对话记录列表
-    list_user_resp = client.get(f"/api/v1/users/{user_id}/conversations")
+    list_user_resp = client.get("/api/v1/conversations", params={"user_id": user_id})
     assert list_user_resp.status_code == 200
     user_convs = list_user_resp.json()["data"]
     assert len(user_convs) >= 1
@@ -155,7 +155,7 @@ def main() -> None:
     # 8. 权限隔离：其他用户对非自己的知识库提问应被 403 拦截
     other_user_id = _create_user(suffix + "_other")
     ask_resp = client.post(
-        "/api/v1/rag/ask",
+        "/api/v1/conversations/ask",
         json={
             "user_id": other_user_id,
             "knowledge_base_id": kb_id,
@@ -167,7 +167,7 @@ def main() -> None:
 
     # 9. 不存在的知识库提问应被 404 拦截
     ask_resp2 = client.post(
-        "/api/v1/rag/ask",
+        "/api/v1/conversations/ask",
         json={
             "user_id": user_id,
             "knowledge_base_id": 999999,
@@ -197,7 +197,7 @@ def main() -> None:
 
     # 12. 输入参数校验：空问题应被 422 拦截
     ask_resp3 = client.post(
-        "/api/v1/rag/ask",
+        "/api/v1/conversations/ask",
         json={"user_id": user_id, "knowledge_base_id": kb_id, "question": ""},
     )
     assert ask_resp3.status_code == 422, f"空问题应 422: {ask_resp3.json()}"

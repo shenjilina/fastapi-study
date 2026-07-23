@@ -12,7 +12,7 @@ from api.rag.enums import ConversationRecordStatus
 from core.db import Base
 
 if TYPE_CHECKING:
-    from api.document.model import KnowledgeBase
+    from api.knowledge.model import KnowledgeBase
     from api.user.model import User
 
 

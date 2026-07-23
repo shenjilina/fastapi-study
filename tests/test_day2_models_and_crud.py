@@ -3,15 +3,19 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from api.document.crud import (
     create_document,
-    create_knowledge_base,
     list_documents_by_knowledge_base,
-    list_knowledge_bases_by_owner,
     update_document_status,
 )
 from api.document.enums import DocumentParseStatus
-from api.document.model import Document, KnowledgeBase
+from api.document.model import Document
+from api.knowledge.crud import (
+    create_knowledge_base,
+    list_knowledge_bases_by_owner,
+)
+from api.knowledge.enums import KnowledgeBaseStatus
+from api.knowledge.model import KnowledgeBase
 from api.rag.crud import create_conversation_record, list_conversations_by_knowledge_base
-from api.rag.enums import ConversationRecordStatus, KnowledgeBaseStatus
+from api.rag.enums import ConversationRecordStatus
 from api.rag.model import ConversationRecord
 from api.user.crud import create_user, get_user_by_username, list_users
 from api.user.model import User

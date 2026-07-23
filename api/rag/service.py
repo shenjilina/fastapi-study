@@ -9,9 +9,10 @@
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
-from api.document import crud as document_crud
+from api.knowledge import crud as knowledge_crud
+from api.knowledge.enums import KnowledgeBaseStatus
 from api.rag import crud as rag_crud
-from api.rag.enums import ConversationRecordStatus, KnowledgeBaseStatus
+from api.rag.enums import ConversationRecordStatus
 from api.rag.schema import (
     ConversationCreateRequest,
     ConversationRead,
@@ -63,7 +64,7 @@ def _validate_question_access(db: Session, payload: RAGQuestionRequest | Convers
     if user is None:
         raise AppException("用户不存在", status_code=404)
 
-    knowledge_base = document_crud.get_knowledge_base_by_id(db, payload.knowledge_base_id)
+    knowledge_base = knowledge_crud.get_knowledge_base_by_id(db, payload.knowledge_base_id)
     if knowledge_base is None:
         raise AppException("知识库不存在", status_code=404)
 
@@ -191,7 +192,7 @@ def get_conversation(db: Session, conversation_id: int) -> ConversationRead:
 
 def list_conversations_by_knowledge_base(db: Session, knowledge_base_id: int) -> list[ConversationRead]:
     """查询知识库下的问答记录。"""
-    knowledge_base = document_crud.get_knowledge_base_by_id(db, knowledge_base_id)
+    knowledge_base = knowledge_crud.get_knowledge_base_by_id(db, knowledge_base_id)
     if knowledge_base is None:
         raise AppException("知识库不存在", status_code=404)
 

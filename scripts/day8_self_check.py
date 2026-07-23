@@ -62,7 +62,7 @@ def _ask(user_id: int, kb_id: int, question: str, top_k: int | None = None) -> d
     payload = {"user_id": user_id, "knowledge_base_id": kb_id, "question": question}
     if top_k is not None:
         payload["top_k"] = top_k
-    resp = client.post("/api/v1/rag/ask", json=payload)
+    resp = client.post("/api/v1/conversations/ask", json=payload)
     return resp
 
 
@@ -188,8 +188,8 @@ def main() -> None:
     # 场景 6：禁用知识库拦截(403)
     # ================================================================
     from core.db import SessionLocal
-    from api.document.model import KnowledgeBase
-    from api.rag.enums import KnowledgeBaseStatus
+    from api.knowledge.model import KnowledgeBase
+    from api.knowledge.enums import KnowledgeBaseStatus
 
     # 直接通过 ORM 将知识库状态改为 disabled
     db_session = SessionLocal()
@@ -247,14 +247,14 @@ def main() -> None:
     # 场景 10：对话记录完整 CRUD 闭环
     # ================================================================
     # 列表查询 - 按知识库
-    list_kb_resp = client.get(f"/api/v1/knowledge-bases/{kb_id}/conversations")
+    list_kb_resp = client.get("/api/v1/conversations", params={"knowledge_base_id": kb_id})
     assert list_kb_resp.status_code == 200
     kb_convs = list_kb_resp.json()["data"]
     assert len(kb_convs) >= 1
     print(f"[10] LIST BY KB OK: count={len(kb_convs)}")
 
     # 列表查询 - 按用户
-    list_user_resp = client.get(f"/api/v1/users/{user_id}/conversations")
+    list_user_resp = client.get("/api/v1/conversations", params={"user_id": user_id})
     assert list_user_resp.status_code == 200
     user_convs = list_user_resp.json()["data"]
     assert len(user_convs) >= 1

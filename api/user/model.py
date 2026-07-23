@@ -11,7 +11,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from core.db import Base
 
 if TYPE_CHECKING:
-    from api.document.model import KnowledgeBase
+    from api.knowledge.model import KnowledgeBase
     from api.rag.model import ConversationRecord
 
 

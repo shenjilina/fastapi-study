@@ -2,8 +2,9 @@
 
 from uuid import uuid4
 
-from api.document.crud import create_document, create_knowledge_base, update_document_status
+from api.document.crud import create_document, update_document_status
 from api.document.enums import DocumentParseStatus
+from api.knowledge.crud import create_knowledge_base
 from api.rag.crud import create_conversation_record
 from api.user.crud import create_user
 from core.db import SessionLocal, create_all_tables, load_all_models

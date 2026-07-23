@@ -1,4 +1,10 @@
-"""知识库和文档模块业务服务。"""
+"""文档管理模块业务服务。
+
+职责：
+- 组装文档业务流程：文件校验 -> MD5 去重 -> 文本解析 -> 智能切片 -> 向量入库 -> 数据库存元数据。
+- 文档删除：向量 + DB 联动清理。
+- 知库存在性校验通过 knowledge 模块 CRUD 完成，不直接操作知识库表。
+"""
 
 import shutil
 import tempfile
@@ -13,9 +19,8 @@ from api.document.enums import DocumentParseStatus
 from api.document.schema import (
     DocumentCreateRequest,
     DocumentStatusUpdateRequest,
-    KnowledgeBaseCreateRequest,
 )
-from api.user import crud as user_crud
+from api.knowledge import crud as knowledge_crud
 from config.log_config import get_logger
 from config.settings import get_settings
 from core.exceptions import AppException
@@ -25,46 +30,9 @@ from utils import file_parser, hash_utils, text_utils
 logger = get_logger(__name__)
 
 
-def create_knowledge_base(db: Session, payload: KnowledgeBaseCreateRequest):
-    """创建知识库。"""
-    owner = user_crud.get_user_by_id(db, payload.owner_id)
-    if owner is None:
-        raise AppException("所属用户不存在", status_code=404)
-
-    try:
-        knowledge_base = document_crud.create_knowledge_base(
-            db,
-            owner_id=payload.owner_id,
-            name=payload.name,
-            description=payload.description,
-            status=payload.status,
-        )
-        db.commit()
-        return knowledge_base
-    except SQLAlchemyError as exc:
-        db.rollback()
-        raise AppException("创建知识库失败，请稍后重试", status_code=500) from exc
-
-
-def get_knowledge_base_detail(db: Session, knowledge_base_id: int):
-    """查询知识库详情。"""
-    knowledge_base = document_crud.get_knowledge_base_by_id(db, knowledge_base_id)
-    if knowledge_base is None:
-        raise AppException("知识库不存在", status_code=404)
-    return knowledge_base
-
-
-def list_knowledge_bases(db: Session, owner_id: int):
-    """按用户查询知识库列表。"""
-    owner = user_crud.get_user_by_id(db, owner_id)
-    if owner is None:
-        raise AppException("所属用户不存在", status_code=404)
-    return document_crud.list_knowledge_bases_by_owner(db, owner_id)
-
-
 def create_document(db: Session, payload: DocumentCreateRequest):
     """创建文档元数据，并做知识库归属和重复性校验。"""
-    knowledge_base = document_crud.get_knowledge_base_by_id(db, payload.knowledge_base_id)
+    knowledge_base = knowledge_crud.get_knowledge_base_by_id(db, payload.knowledge_base_id)
     if knowledge_base is None:
         raise AppException("所属知识库不存在", status_code=404)
 
@@ -96,7 +64,7 @@ def create_document(db: Session, payload: DocumentCreateRequest):
 
 def list_documents_by_knowledge_base(db: Session, knowledge_base_id: int):
     """查询知识库下的文档列表。"""
-    knowledge_base = document_crud.get_knowledge_base_by_id(db, knowledge_base_id)
+    knowledge_base = knowledge_crud.get_knowledge_base_by_id(db, knowledge_base_id)
     if knowledge_base is None:
         raise AppException("知识库不存在", status_code=404)
     return document_crud.list_documents_by_knowledge_base(db, knowledge_base_id)
@@ -136,7 +104,7 @@ def upload_document(db: Session, knowledge_base_id: int, file: UploadFile) -> di
     settings = get_settings()
 
     # 1. 验证知识库存在
-    knowledge_base = document_crud.get_knowledge_base_by_id(db, knowledge_base_id)
+    knowledge_base = knowledge_crud.get_knowledge_base_by_id(db, knowledge_base_id)
     if knowledge_base is None:
         raise AppException("所属知识库不存在", status_code=404)
 

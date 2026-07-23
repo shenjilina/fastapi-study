@@ -1,0 +1,54 @@
+"""知识库模块控制器。
+
+职责：仅处理路由接收、参数校验、统一响应、依赖注入，无任何业务、DB、RAG 逻辑。
+路由规范：统一使用 prefix="/knowledge-bases"，与 user 模块 prefix="/users" 风格一致。
+"""
+
+from fastapi import APIRouter, Depends, Query, status
+from sqlalchemy.orm import Session
+
+from api.knowledge import service
+from api.knowledge.schema import KnowledgeBaseCreateRequest, KnowledgeBaseRead
+from common.response import success_response
+from core.db import get_db
+
+router = APIRouter(prefix="/knowledge-bases", tags=["knowledge"])
+
+
+@router.post("", status_code=status.HTTP_201_CREATED)
+def create_knowledge_base(
+    payload: KnowledgeBaseCreateRequest,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    """创建知识库接口。"""
+    knowledge_base = service.create_knowledge_base(db, payload)
+    return success_response(
+        knowledge_base.model_dump(mode="json"),
+        message="知识库创建成功",
+    )
+
+
+@router.get("", status_code=status.HTTP_200_OK)
+def list_knowledge_bases(
+    owner_id: int = Query(gt=0, description="用户 ID"),
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    """按用户查询知识库列表接口。"""
+    knowledge_bases = [
+        item.model_dump(mode="json")
+        for item in service.list_knowledge_bases(db, owner_id)
+    ]
+    return success_response(knowledge_bases, message="知识库列表获取成功")
+
+
+@router.get("/{knowledge_base_id}", status_code=status.HTTP_200_OK)
+def get_knowledge_base_detail(
+    knowledge_base_id: int,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    """查询知识库详情接口。"""
+    knowledge_base = service.get_knowledge_base_detail(db, knowledge_base_id)
+    return success_response(
+        knowledge_base.model_dump(mode="json"),
+        message="知识库详情获取成功",
+    )
