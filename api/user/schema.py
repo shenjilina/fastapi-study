@@ -39,6 +39,29 @@ class UserCreateRequest(BaseModel):
         return normalized
 
 
+class LoginRequest(BaseModel):
+    """登录请求体。"""
+
+    username: str = Field(min_length=1, max_length=50, description="用户名")
+    password: str = Field(min_length=1, max_length=128, description="用户密码")
+
+    @field_validator("username", "password", mode="before")
+    @classmethod
+    def _strip_required_text(cls, value: str) -> str:
+        text = strip_text(value)
+        if not text:
+            raise ValueError("字段不能为空")
+        return text
+
+
+class LoginResponse(BaseModel):
+    """登录成功响应结构。"""
+
+    user_id: int
+    username: str
+    email: str
+
+
 class UserRead(BaseModel):
     """用户响应结构。"""
 

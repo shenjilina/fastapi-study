@@ -4,9 +4,9 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from api.user import crud
-from api.user.schema import UserCreateRequest
+from api.user.schema import LoginRequest, UserCreateRequest
 from core.exceptions import AppException
-from core.security import hash_password
+from core.security import hash_password, verify_password
 
 
 def create_user(db: Session, payload: UserCreateRequest):
@@ -30,6 +30,21 @@ def create_user(db: Session, payload: UserCreateRequest):
     except SQLAlchemyError as exc:
         db.rollback()
         raise AppException("创建用户失败，请稍后重试", status_code=500) from exc
+
+
+def login(db: Session, payload: LoginRequest):
+    """用户登录：校验用户名、密码及启用状态。
+
+    用户名不存在与密码错误返回同一错误信息，避免账号枚举。
+    """
+    user = crud.get_user_by_username(db, payload.username)
+    if user is None or not verify_password(payload.password, user.hashed_password):
+        raise AppException("用户名或密码错误", status_code=401)
+
+    if not user.is_active:
+        raise AppException("用户已被禁用", status_code=403)
+
+    return user
 
 
 def get_user_detail(db: Session, user_id: int):

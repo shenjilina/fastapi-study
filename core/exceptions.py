@@ -5,6 +5,7 @@ import logging
 from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from common.response import error_response
 from core.constants import (
@@ -15,6 +16,32 @@ from core.constants import (
 )
 
 logger = logging.getLogger(__name__)
+
+
+# 常见 HTTP 状态码对应的统一中文文案，未命中时使用通用文案。
+_HTTP_STATUS_MESSAGES: dict[int, str] = {
+    404: "请求的资源不存在",
+    405: "请求方法不被允许",
+    408: "请求超时",
+    413: "请求体过大",
+    415: "不支持的媒体类型",
+}
+
+
+def _build_error_json_response(
+    *,
+    status_code: int,
+    message: str,
+    code: int,
+    request_id: str | None,
+    data: object | None = None,
+) -> JSONResponse:
+    """构造统一格式的错误响应，并统一携带 request_id 响应头。"""
+    payload = error_response(message, code=code, data=data)
+    response = JSONResponse(status_code=status_code, content=payload)
+    if request_id:
+        response.headers[REQUEST_ID_HEADER] = request_id
+    return response
 
 
 class AppException(Exception):
@@ -55,42 +82,53 @@ def register_exception_handlers(app: FastAPI) -> None:
     @app.exception_handler(AppException)
     async def handle_app_exception(request: Request, exc: AppException) -> JSONResponse:
         request_id = getattr(request.state, "request_id", None)
-        payload = error_response(
-            exc.message,
+        return _build_error_json_response(
+            status_code=exc.status_code,
+            message=exc.message,
             code=exc.code,
+            request_id=request_id,
             data={"detail": exc.data, "request_id": request_id},
         )
-        return JSONResponse(status_code=exc.status_code, content=payload)
+
+    @app.exception_handler(StarletteHTTPException)
+    async def handle_http_exception(request: Request, exc: StarletteHTTPException) -> JSONResponse:
+        """兜底框架层 HTTP 异常（如未知路由 404、方法不允许 405），对齐统一响应格式。"""
+        request_id = getattr(request.state, "request_id", None)
+        # 优先使用统一中文文案，未命中状态码映射时回退到框架原始 detail。
+        message = (
+            _HTTP_STATUS_MESSAGES.get(exc.status_code)
+            or (str(exc.detail) if exc.detail else "请求处理失败")
+        )
+        return _build_error_json_response(
+            status_code=exc.status_code,
+            message=message,
+            code=DEFAULT_ERROR_CODE,
+            request_id=request_id,
+            data={"detail": exc.detail, "request_id": request_id},
+        )
 
     @app.exception_handler(RequestValidationError)
     async def handle_validation_error(request: Request, exc: RequestValidationError) -> JSONResponse:
         request_id = getattr(request.state, "request_id", None)
-        payload = error_response(
-            "请求参数校验失败",
+        return _build_error_json_response(
+            status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
+            message="请求参数校验失败",
             code=VALIDATION_ERROR_CODE,
+            request_id=request_id,
             data={
                 "errors": _format_validation_errors(exc),
                 "request_id": request_id,
             },
-        )
-        return JSONResponse(
-            status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
-            content=payload,
         )
 
     @app.exception_handler(Exception)
     async def handle_unexpected_error(request: Request, exc: Exception) -> JSONResponse:
         request_id = getattr(request.state, "request_id", None)
         logger.exception("Unhandled exception [request_id=%s]: %s", request_id, exc)
-        payload = error_response(
-            "服务器内部错误",
+        return _build_error_json_response(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            message="服务器内部错误",
             code=INTERNAL_ERROR_CODE,
+            request_id=request_id,
             data={"request_id": request_id},
         )
-        response = JSONResponse(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            content=payload,
-        )
-        if request_id:
-            response.headers[REQUEST_ID_HEADER] = request_id
-        return response

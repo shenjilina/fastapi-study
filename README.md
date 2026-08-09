@@ -16,10 +16,12 @@ This repository follows the Day 1 bootstrap plan from `plan.md`.
 ```bash
 .venv/Scripts/Activate.ps1  
 uv sync
+# 运行项目
 uv run main.py
 ```
 
-``` 
+```bash
+# chroma 服务
 uv run chroma run --path ./chroma --host 0.0.0.0 --port 8000
 ```
 

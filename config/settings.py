@@ -56,10 +56,12 @@ class Settings(BaseSettings):
         default_factory=lambda: ["txt", "pdf"]
     )
 
-    # 切片与检索参数
-    chunk_size: int = 500
-    chunk_overlap: int = 50
-    retrieval_top_k: int = 4
+    # 切片与检索参数（Day10 调优：小切片提升命中精度，高重叠保证语义连续）
+    chunk_size: int = 400
+    chunk_overlap: int = 80
+    retrieval_top_k: int = 5
+    # 检索距离阈值（L2 距离，越小越相似）：超过阈值的结果视为低相关并过滤，<= 0 表示不过滤。
+    retrieval_score_threshold: float = 1.2
 
     @field_validator("cors_allow_origins", mode="before")
     @classmethod

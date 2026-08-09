@@ -909,3 +909,558 @@
 2026-07-23 13:51:48,214 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 200 OK"
 2026-07-23 13:51:48,219 | INFO | common.middleware | [request_id=76fb6a6ce50d4309b62c9ad3df8b9367] POST /api/v1/conversations/ask completed in 1.79 ms
 2026-07-23 13:51:48,220 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 422 Unprocessable Entity"
+2026-08-06 10:53:25,635 | INFO | core.app | Application started. Database ready: True
+2026-08-06 10:53:26,427 | INFO | common.middleware | [request_id=0ed709cb1e6a4fb38f4a65f7dcc1b42a] GET / completed in 10.32 ms
+2026-08-06 10:53:26,707 | INFO | common.middleware | [request_id=2126a7b4eb884d289ad2a8f1d61573ac] GET /favicon.ico completed in 0.68 ms
+2026-08-06 11:28:12,524 | INFO | common.middleware | [request_id=de8651c8dfb64dab87e1b5599ba0638e] GET /docs completed in 0.60 ms
+2026-08-06 11:28:13,833 | INFO | common.middleware | [request_id=ab13d88189034f74963e3c57444064d2] GET /openapi.json completed in 27.90 ms
+2026-08-08 16:41:21,592 | INFO | core.app | Application started. Database ready: True
+2026-08-08 16:45:43,066 | INFO | common.middleware | [request_id=de74aad2e5c443cf996b506322405fa3] GET / completed in 23.28 ms
+2026-08-08 16:45:43,329 | INFO | common.middleware | [request_id=01fccab70f114e8b9720de9d19e73c7b] GET /favicon.ico completed in 0.99 ms
+2026-08-08 16:45:48,131 | INFO | common.middleware | [request_id=2f34cd49cef74a64b8071e0c39e31db3] GET /docs completed in 0.59 ms
+2026-08-08 16:45:49,318 | INFO | common.middleware | [request_id=6094b6a7d47c4e87b5c567c5219074af] GET /openapi.json completed in 49.09 ms
+2026-08-08 16:48:18,778 | INFO | core.app | Application shutdown complete.
+2026-08-08 16:48:28,258 | INFO | core.app | Application started. Database ready: True
+2026-08-08 16:48:31,785 | INFO | core.app | Application shutdown complete.
+2026-08-08 16:48:39,143 | INFO | core.app | Application started. Database ready: True
+2026-08-08 16:48:44,197 | INFO | core.app | Application shutdown complete.
+2026-08-08 16:48:49,308 | INFO | core.app | Application started. Database ready: True
+2026-08-08 16:48:58,496 | INFO | core.app | Application shutdown complete.
+2026-08-08 16:49:02,800 | INFO | core.app | Application started. Database ready: True
+2026-08-08 16:49:10,456 | INFO | core.app | Application shutdown complete.
+2026-08-08 16:49:14,779 | INFO | core.app | Application started. Database ready: True
+2026-08-08 16:50:23,898 | INFO | common.middleware | [request_id=eb934143919b4e2cbba14f9836586f8f] POST /api/v1/users completed in 15.70 ms
+2026-08-08 16:50:47,782 | INFO | common.middleware | [request_id=8f0068a69fa04a28a6ae525477adaa6a] POST /api/v1/users completed in 17.04 ms
+2026-08-08 16:51:20,535 | INFO | common.middleware | [request_id=4f129868876740cb8278739fb79e629b] POST /api/v1/users completed in 67.81 ms
+2026-08-08 16:51:20,537 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/users "HTTP/1.1 201 Created"
+2026-08-08 16:51:20,570 | INFO | common.middleware | [request_id=ace17819a5014d5aaa0a28ad2758f243] POST /api/v1/login completed in 32.11 ms
+2026-08-08 16:51:20,570 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/login "HTTP/1.1 200 OK"
+2026-08-08 16:51:20,599 | INFO | common.middleware | [request_id=65c8f9fd00e2474bb4abbc96ed9dfae1] POST /api/v1/login completed in 28.35 ms
+2026-08-08 16:51:20,599 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/login "HTTP/1.1 401 Unauthorized"
+2026-08-08 16:51:20,610 | INFO | common.middleware | [request_id=a21b6c07a6e1420f924f0d706dd4edb7] POST /api/v1/login completed in 2.92 ms
+2026-08-08 16:51:20,610 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/login "HTTP/1.1 401 Unauthorized"
+2026-08-08 16:52:58,665 | INFO | core.app | Application shutdown complete.
+2026-08-08 16:53:08,136 | INFO | core.app | Application started. Database ready: True
+2026-08-08 16:55:16,373 | INFO | core.app | Application shutdown complete.
+2026-08-08 16:55:24,857 | INFO | core.app | Application started. Database ready: True
+2026-08-08 16:55:45,079 | INFO | core.app | Application shutdown complete.
+2026-08-08 16:55:53,407 | INFO | core.app | Application started. Database ready: True
+2026-08-08 16:56:10,040 | INFO | core.app | Application shutdown complete.
+2026-08-08 16:56:17,182 | INFO | core.app | Application started. Database ready: True
+2026-08-08 16:56:37,642 | INFO | core.app | Application shutdown complete.
+2026-08-08 16:56:44,742 | INFO | core.app | Application started. Database ready: True
+2026-08-08 16:58:46,356 | INFO | core.app | Application shutdown complete.
+2026-08-08 16:58:55,248 | INFO | core.app | Application started. Database ready: True
+2026-08-08 16:59:24,666 | INFO | common.middleware | [request_id=bb1847e60def43a69b7b3b723bec9a1a] GET /api/v1/not-exists-route completed in 15.04 ms
+2026-08-08 16:59:24,671 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/not-exists-route "HTTP/1.1 404 Not Found"
+2026-08-08 16:59:37,242 | INFO | core.app | Application shutdown complete.
+2026-08-08 16:59:44,395 | INFO | core.app | Application started. Database ready: True
+2026-08-08 16:59:57,243 | INFO | common.middleware | [request_id=0adf51f6a57f4518b46bd5f5be72cd25] GET /api/v1/not-exists-route completed in 12.30 ms
+2026-08-08 16:59:57,245 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/not-exists-route "HTTP/1.1 404 Not Found"
+2026-08-08 16:59:57,247 | INFO | common.middleware | [request_id=d623979eb52d4b9588a7f373513c061e] DELETE /api/v1/users completed in 0.49 ms
+2026-08-08 16:59:57,247 | INFO | httpx | HTTP Request: DELETE http://testserver/api/v1/users "HTTP/1.1 405 Method Not Allowed"
+2026-08-08 16:59:57,252 | INFO | common.middleware | [request_id=a2c8599f2af843279d0372bf5c39caff] POST /api/v1/users completed in 2.15 ms
+2026-08-08 16:59:57,254 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/users "HTTP/1.1 422 Unprocessable Entity"
+2026-08-08 16:59:57,341 | INFO | common.middleware | [request_id=e591b50fcc684ad9aa7183e70ce4a47d] POST /api/v1/users completed in 85.13 ms
+2026-08-08 16:59:57,345 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/users "HTTP/1.1 201 Created"
+2026-08-08 16:59:57,380 | INFO | common.middleware | [request_id=a3cdc87b7c694b9a9f9738d98f3e6a46] POST /api/v1/knowledge-bases completed in 30.31 ms
+2026-08-08 16:59:57,382 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases "HTTP/1.1 201 Created"
+2026-08-08 16:59:57,429 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\tmpryrl777i.txt (size=216)
+2026-08-08 16:59:57,430 | INFO | utils.file_parser | TXT parsed successfully: 100 chars
+2026-08-08 17:00:14,772 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-08-08 17:00:16,247 | INFO | core.langchain.chroma_store | Chroma store ready. collection=rag_documents persist_directory=D:\www\jilin\python\fastapi-study\chroma
+2026-08-08 17:00:16,303 | INFO | api.document.service | Document uploaded: id=13 chunks=1 vectors=1
+2026-08-08 17:00:16,305 | INFO | common.middleware | [request_id=7bd30ca8e2004a6098d97e5936fe4d64] POST /api/v1/knowledge-bases/documents/upload/23 completed in 18919.45 ms
+2026-08-08 17:00:16,308 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases/documents/upload/23 "HTTP/1.1 201 Created"
+2026-08-08 17:00:16,315 | INFO | common.middleware | [request_id=a94a441e51124c7f8ca554d7a1a2dc3b] POST /api/v1/knowledge-bases/documents/upload/23 completed in 5.85 ms
+2026-08-08 17:00:16,315 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases/documents/upload/23 "HTTP/1.1 422 Unprocessable Entity"
+2026-08-08 17:00:16,327 | INFO | common.middleware | [request_id=b27fb69ad8644f40bc44a7c14c721d0d] POST /api/v1/knowledge-bases/documents/upload/23 completed in 4.92 ms
+2026-08-08 17:00:16,327 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases/documents/upload/23 "HTTP/1.1 400 Bad Request"
+2026-08-08 17:00:16,362 | INFO | common.middleware | [request_id=db830e99a78b4ea78a3f3a4429afe11b] POST /api/v1/knowledge-bases/documents/upload/23 completed in 22.09 ms
+2026-08-08 17:00:16,362 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases/documents/upload/23 "HTTP/1.1 413 Request Entity Too Large"
+2026-08-08 17:00:16,379 | INFO | common.middleware | [request_id=dd7c51b2d8c342e2a572156006639d3c] POST /api/v1/knowledge-bases/documents/upload/23 completed in 10.13 ms
+2026-08-08 17:00:16,379 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases/documents/upload/23 "HTTP/1.1 409 Conflict"
+2026-08-08 17:00:16,423 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\tmp3urqwu62.txt (size=1140)
+2026-08-08 17:00:16,423 | INFO | utils.file_parser | TXT parsed successfully: 500 chars
+2026-08-08 17:00:16,452 | WARNING | api.document.service | Failed to persist document status: id=14 err=simulated DB failure
+2026-08-08 17:00:16,479 | WARNING | api.document.service | Rolled back 1 vectors after processing failure.
+2026-08-08 17:00:16,505 | WARNING | api.document.service | Rolled back 1 vectors after processing failure.
+2026-08-08 17:00:16,520 | INFO | common.middleware | [request_id=c620bbcc0bd24097a5759b58e312a97d] POST /api/v1/knowledge-bases/documents/upload/23 completed in 132.52 ms
+2026-08-08 17:00:16,523 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases/documents/upload/23 "HTTP/1.1 500 Internal Server Error"
+2026-08-08 17:00:16,533 | INFO | common.middleware | [request_id=fe27cebd0a2549df99f9a90cefa91f2a] GET /api/v1/knowledge-bases/23/documents completed in 6.68 ms
+2026-08-08 17:00:16,533 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/knowledge-bases/23/documents "HTTP/1.1 200 OK"
+2026-08-08 17:00:16,548 | INFO | core.langchain.retriever | Retrieving documents: query_len=12 kb_id=23 top_k=4
+2026-08-08 17:00:20,081 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:00:20,081 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3):  (status code: 502)
+2026-08-08 17:00:24,557 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:00:24,557 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3):  (status code: 502)
+2026-08-08 17:00:29,832 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:00:29,832 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3):  (status code: 502)
+2026-08-08 17:00:29,832 | ERROR | core.langchain.rag_chain | RAG LLM invocation failed: LLM 调用在 3 次重试后仍失败:  (status code: 502)
+2026-08-08 17:00:29,832 | INFO | core.langchain.rag_chain | RAG chain done: query_len=12 kb_id=23 docs=1 success=False
+2026-08-08 17:00:29,854 | INFO | common.middleware | [request_id=bbb04f66b7be487f898acf1cd5b5de02] POST /api/v1/conversations/ask completed in 13312.36 ms
+2026-08-08 17:00:29,856 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 200 OK"
+2026-08-08 17:00:29,862 | INFO | common.middleware | [request_id=d857fd88ff994db8bce409ff6714dab8] GET /health completed in 1.15 ms
+2026-08-08 17:00:29,862 | INFO | httpx | HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2026-08-08 17:00:29,862 | INFO | common.middleware | [request_id=759835bedeef48909f2ecbfa88abf529] GET /api/v1/rag/health completed in 4.65 ms
+2026-08-08 17:00:29,872 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/rag/health "HTTP/1.1 200 OK"
+2026-08-08 17:00:29,919 | INFO | common.middleware | [request_id=8ed262c4f5644bd0a5375edac0cf00b6] POST /api/v1/login completed in 43.52 ms
+2026-08-08 17:00:29,919 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/login "HTTP/1.1 200 OK"
+2026-08-08 17:00:29,958 | INFO | common.middleware | [request_id=914a5f95fe0f4b0986bd5fa67c4a6188] POST /api/v1/login completed in 32.00 ms
+2026-08-08 17:00:29,958 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/login "HTTP/1.1 401 Unauthorized"
+2026-08-08 17:00:30,007 | INFO | api.document.service | Vectors deleted: document_id=13 count=1
+2026-08-08 17:00:30,022 | INFO | common.middleware | [request_id=1f9e289a339f4805b67f9a5a8a04c59d] DELETE /api/v1/documents/13 completed in 58.10 ms
+2026-08-08 17:00:30,024 | INFO | httpx | HTTP Request: DELETE http://testserver/api/v1/documents/13 "HTTP/1.1 200 OK"
+2026-08-08 17:00:30,032 | INFO | common.middleware | [request_id=43ee3d31f55043e88d77f339ee96e794] DELETE /api/v1/documents/13 completed in 3.62 ms
+2026-08-08 17:00:30,032 | INFO | httpx | HTTP Request: DELETE http://testserver/api/v1/documents/13 "HTTP/1.1 404 Not Found"
+2026-08-08 17:00:43,500 | INFO | core.app | Application shutdown complete.
+2026-08-08 17:00:50,848 | INFO | core.app | Application started. Database ready: True
+2026-08-08 17:01:04,339 | INFO | core.app | Application shutdown complete.
+2026-08-08 17:01:11,608 | INFO | core.app | Application started. Database ready: True
+2026-08-08 17:01:29,150 | INFO | common.middleware | [request_id=e20d2bb7d8404dfab9183ff355642950] GET /api/v1/not-exists-route completed in 13.90 ms
+2026-08-08 17:01:29,156 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/not-exists-route "HTTP/1.1 404 Not Found"
+2026-08-08 17:01:29,159 | INFO | common.middleware | [request_id=aea77aa5af244d109b04939d3c11f4bb] DELETE /api/v1/users completed in 0.60 ms
+2026-08-08 17:01:29,161 | INFO | httpx | HTTP Request: DELETE http://testserver/api/v1/users "HTTP/1.1 405 Method Not Allowed"
+2026-08-08 17:01:29,168 | INFO | common.middleware | [request_id=a76fc9b91357479b9dd5c282b71e0eba] POST /api/v1/users completed in 4.46 ms
+2026-08-08 17:01:29,168 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/users "HTTP/1.1 422 Unprocessable Entity"
+2026-08-08 17:01:29,258 | INFO | common.middleware | [request_id=313e57761170401291cc5635398af40f] POST /api/v1/users completed in 85.39 ms
+2026-08-08 17:01:29,260 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/users "HTTP/1.1 201 Created"
+2026-08-08 17:01:29,283 | INFO | common.middleware | [request_id=3365c0e073b14716a684b48d925845c8] POST /api/v1/knowledge-bases completed in 19.73 ms
+2026-08-08 17:01:29,284 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases "HTTP/1.1 201 Created"
+2026-08-08 17:01:29,311 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\tmp8_k9_9a4.txt (size=216)
+2026-08-08 17:01:29,311 | INFO | utils.file_parser | TXT parsed successfully: 100 chars
+2026-08-08 17:01:32,922 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-08-08 17:01:33,116 | INFO | core.langchain.chroma_store | Chroma store ready. collection=rag_documents persist_directory=D:\www\jilin\python\fastapi-study\chroma
+2026-08-08 17:01:33,160 | INFO | api.document.service | Document uploaded: id=15 chunks=1 vectors=1
+2026-08-08 17:01:33,162 | INFO | common.middleware | [request_id=117d9706a2b747699151ad476530327b] POST /api/v1/knowledge-bases/documents/upload/24 completed in 3874.77 ms
+2026-08-08 17:01:33,165 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases/documents/upload/24 "HTTP/1.1 201 Created"
+2026-08-08 17:01:33,172 | INFO | common.middleware | [request_id=d70fac93ee944bd9a0aff2c667634c02] POST /api/v1/knowledge-bases/documents/upload/24 completed in 5.02 ms
+2026-08-08 17:01:33,174 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases/documents/upload/24 "HTTP/1.1 422 Unprocessable Entity"
+2026-08-08 17:01:33,181 | INFO | common.middleware | [request_id=074945cab33f424bbf5c051a01ac863b] POST /api/v1/knowledge-bases/documents/upload/24 completed in 3.88 ms
+2026-08-08 17:01:33,181 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases/documents/upload/24 "HTTP/1.1 400 Bad Request"
+2026-08-08 17:01:33,205 | INFO | common.middleware | [request_id=cd446b045b384e24a7c3c2b7ac9dd916] POST /api/v1/knowledge-bases/documents/upload/24 completed in 19.02 ms
+2026-08-08 17:01:33,205 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases/documents/upload/24 "HTTP/1.1 413 Request Entity Too Large"
+2026-08-08 17:01:33,223 | INFO | common.middleware | [request_id=2c37d2be59bb42e68738f37e923cfef2] POST /api/v1/knowledge-bases/documents/upload/24 completed in 10.05 ms
+2026-08-08 17:01:33,223 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases/documents/upload/24 "HTTP/1.1 409 Conflict"
+2026-08-08 17:01:33,259 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\tmpklkekdgt.txt (size=1140)
+2026-08-08 17:01:33,259 | INFO | utils.file_parser | TXT parsed successfully: 500 chars
+2026-08-08 17:01:33,290 | WARNING | api.document.service | Failed to persist document status: id=16 err=simulated DB failure
+2026-08-08 17:01:33,316 | WARNING | api.document.service | Rolled back 1 vectors after processing failure.
+2026-08-08 17:01:33,332 | INFO | common.middleware | [request_id=e81faded75a544c58eaab1b4e6ecee16] POST /api/v1/knowledge-bases/documents/upload/24 completed in 102.92 ms
+2026-08-08 17:01:33,334 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases/documents/upload/24 "HTTP/1.1 500 Internal Server Error"
+2026-08-08 17:01:33,346 | INFO | common.middleware | [request_id=70059d43ecc149c6afea25611c428e83] GET /api/v1/knowledge-bases/24/documents completed in 7.44 ms
+2026-08-08 17:01:33,347 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/knowledge-bases/24/documents "HTTP/1.1 200 OK"
+2026-08-08 17:01:33,356 | INFO | core.langchain.retriever | Retrieving documents: query_len=12 kb_id=24 top_k=4
+2026-08-08 17:01:37,118 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:01:37,120 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3):  (status code: 502)
+2026-08-08 17:01:42,256 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:01:42,256 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3):  (status code: 502)
+2026-08-08 17:01:47,891 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:01:47,891 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3):  (status code: 502)
+2026-08-08 17:01:47,891 | ERROR | core.langchain.rag_chain | RAG LLM invocation failed: LLM 调用在 3 次重试后仍失败:  (status code: 502)
+2026-08-08 17:01:47,894 | INFO | core.langchain.rag_chain | RAG chain done: query_len=12 kb_id=24 docs=1 success=False
+2026-08-08 17:01:47,916 | INFO | common.middleware | [request_id=db94d4aee6ba4955a0735573e387a82a] POST /api/v1/conversations/ask completed in 14562.98 ms
+2026-08-08 17:01:47,919 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 200 OK"
+2026-08-08 17:01:47,921 | INFO | common.middleware | [request_id=82b527bb081e42828b25cd0ac710e465] GET /health completed in 1.38 ms
+2026-08-08 17:01:47,921 | INFO | httpx | HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2026-08-08 17:01:47,931 | INFO | common.middleware | [request_id=dbb66d6d73c34780b437251a32161676] GET /api/v1/rag/health completed in 3.68 ms
+2026-08-08 17:01:47,931 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/rag/health "HTTP/1.1 200 OK"
+2026-08-08 17:01:47,963 | INFO | common.middleware | [request_id=832bc1337179491eae0e7324f1742b1f] POST /api/v1/login completed in 32.14 ms
+2026-08-08 17:01:47,974 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/login "HTTP/1.1 200 OK"
+2026-08-08 17:01:48,006 | INFO | common.middleware | [request_id=027b4e8d3ec4438384f66d588cab6109] POST /api/v1/login completed in 28.85 ms
+2026-08-08 17:01:48,006 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/login "HTTP/1.1 401 Unauthorized"
+2026-08-08 17:01:48,044 | INFO | api.document.service | Vectors deleted: document_id=15 count=1
+2026-08-08 17:01:48,061 | INFO | common.middleware | [request_id=5a279b8dd6c84767b2e9cd01c3617293] DELETE /api/v1/documents/15 completed in 48.85 ms
+2026-08-08 17:01:48,063 | INFO | httpx | HTTP Request: DELETE http://testserver/api/v1/documents/15 "HTTP/1.1 200 OK"
+2026-08-08 17:01:48,067 | INFO | common.middleware | [request_id=0179ea19ba994794a8d524cc4a7fe23c] DELETE /api/v1/documents/15 completed in 2.53 ms
+2026-08-08 17:01:48,069 | INFO | httpx | HTTP Request: DELETE http://testserver/api/v1/documents/15 "HTTP/1.1 404 Not Found"
+2026-08-08 17:01:57,574 | INFO | common.middleware | [request_id=295cb05b4f84491b8fd9f14715ea3414] GET /health completed in 17.61 ms
+2026-08-08 17:01:57,574 | INFO | httpx | HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2026-08-08 17:01:57,718 | INFO | utils.hash_utils | Duplicate file detected: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-0\test_is_duplicate_file_true0\dup.txt (md5=9a0364b9e99bb480dd25e1f0284c8555)
+2026-08-08 17:01:57,743 | INFO | utils.hash_utils | Duplicate text detected (md5=24f1b0a79473250c195c7fb84e393392)
+2026-08-08 17:01:57,761 | INFO | utils.text_utils | Text truncated: original_tokens=500 max_tokens=10 chars 2000->39
+2026-08-08 17:01:57,763 | INFO | utils.text_utils | Text truncated: original_tokens=12 max_tokens=5 chars 48->15
+2026-08-08 17:01:57,763 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-08 17:01:57,765 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-08 17:01:57,776 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-0\test_parse_txt_utf80\test.txt (size=13)
+2026-08-08 17:01:57,795 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-08 17:01:57,795 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-0\test_parse_txt_chinese0\chinese.txt (size=18)
+2026-08-08 17:01:57,822 | INFO | utils.file_parser | TXT parsed successfully: 6 chars
+2026-08-08 17:01:57,824 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-0\test_parse_txt_gbk0\gbk.txt (size=8)
+2026-08-08 17:01:57,853 | INFO | utils.file_parser | TXT parsed successfully: 4 chars
+2026-08-08 17:01:57,861 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-0\test_parse_txt_whitespace_only0\whitespace.txt (size=8)
+2026-08-08 17:01:58,150 | INFO | utils.file_parser | Parsing PDF file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-0\test_parse_pdf_basic0\test.pdf (size=431)
+2026-08-08 17:01:58,181 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-0\test_parse_file_txt_dispatch0\test.txt (size=13)
+2026-08-08 17:01:58,201 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-08 17:01:58,207 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): Ollama not running
+2026-08-08 17:01:58,207 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3): Ollama not running
+2026-08-08 17:01:58,207 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3): Ollama not running
+2026-08-08 17:01:58,207 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): fail
+2026-08-08 17:01:58,221 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-08-08 17:01:58,374 | INFO | core.langchain.chroma_store | Chroma store ready. collection=rag_documents persist_directory=D:\www\jilin\python\fastapi-study\chroma
+2026-08-08 17:01:58,380 | WARNING | core.langchain.retriever | top_k=100 exceeds max 20, clamped to max
+2026-08-08 17:01:58,380 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=4
+2026-08-08 17:01:58,383 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=4
+2026-08-08 17:01:58,383 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=2 top_k=4
+2026-08-08 17:02:22,459 | INFO | common.middleware | [request_id=fc87d5240f2e425496dad8563d6f2d14] POST /api/v1/users completed in 73.34 ms
+2026-08-08 17:02:22,461 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/users "HTTP/1.1 201 Created"
+2026-08-08 17:02:22,479 | INFO | common.middleware | [request_id=6fb1425ae88442e68500b7fdf09a91a1] POST /api/v1/knowledge-bases completed in 15.25 ms
+2026-08-08 17:02:22,480 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases "HTTP/1.1 201 Created"
+2026-08-08 17:02:22,511 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\tmpqz6ed3n3.txt (size=384)
+2026-08-08 17:02:22,511 | INFO | utils.file_parser | TXT parsed successfully: 164 chars
+2026-08-08 17:02:24,719 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-08-08 17:02:24,825 | INFO | core.langchain.chroma_store | Chroma store ready. collection=rag_documents persist_directory=D:\www\jilin\python\fastapi-study\chroma
+2026-08-08 17:02:24,863 | INFO | api.document.service | Document uploaded: id=17 chunks=1 vectors=1
+2026-08-08 17:02:24,864 | INFO | common.middleware | [request_id=f8f14c39c2564112aaf129c2d4cc83ac] POST /api/v1/knowledge-bases/documents/upload/25 completed in 2382.40 ms
+2026-08-08 17:02:24,865 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases/documents/upload/25 "HTTP/1.1 201 Created"
+2026-08-08 17:02:24,872 | INFO | core.langchain.retriever | Retrieving documents: query_len=12 kb_id=25 top_k=4
+2026-08-08 17:02:28,528 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:02:28,530 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3):  (status code: 502)
+2026-08-08 17:02:33,788 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:02:33,789 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3):  (status code: 502)
+2026-08-08 17:02:39,662 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:02:39,663 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3):  (status code: 502)
+2026-08-08 17:02:39,663 | ERROR | core.langchain.rag_chain | RAG LLM invocation failed: LLM 调用在 3 次重试后仍失败:  (status code: 502)
+2026-08-08 17:02:39,663 | INFO | core.langchain.rag_chain | RAG chain done: query_len=12 kb_id=25 docs=1 success=False
+2026-08-08 17:02:39,676 | INFO | common.middleware | [request_id=11ce8513891d4833bcce43e0d924b648] POST /api/v1/conversations/ask completed in 14809.37 ms
+2026-08-08 17:02:39,678 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 200 OK"
+2026-08-08 17:02:39,682 | INFO | common.middleware | [request_id=7a46756a6adc4303bf713a2fb9fa401b] GET /api/v1/conversations/31 completed in 2.34 ms
+2026-08-08 17:02:39,683 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/conversations/31 "HTTP/1.1 200 OK"
+2026-08-08 17:02:39,697 | INFO | common.middleware | [request_id=e8520d476a8943c2ae1128130aeee28f] POST /api/v1/knowledge-bases completed in 12.62 ms
+2026-08-08 17:02:39,699 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases "HTTP/1.1 201 Created"
+2026-08-08 17:02:39,702 | INFO | core.langchain.retriever | Retrieving documents: query_len=10 kb_id=26 top_k=4
+2026-08-08 17:02:39,703 | INFO | core.langchain.rag_chain | RAG chain done: query_len=10 kb_id=26 docs=0 success=True
+2026-08-08 17:02:39,713 | INFO | common.middleware | [request_id=57cd593cca7c46d59e415caf4ed6b421] POST /api/v1/conversations/ask completed in 12.86 ms
+2026-08-08 17:02:39,714 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 200 OK"
+2026-08-08 17:02:39,717 | INFO | common.middleware | [request_id=d9e8e941b7f04ad1a5846a9c6a652cab] POST /api/v1/conversations/ask completed in 1.17 ms
+2026-08-08 17:02:39,717 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 422 Unprocessable Entity"
+2026-08-08 17:02:39,720 | INFO | common.middleware | [request_id=90ed1f50a3fa4cfb95ca7d39de0a0c97] POST /api/v1/conversations/ask completed in 1.03 ms
+2026-08-08 17:02:39,721 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 422 Unprocessable Entity"
+2026-08-08 17:02:39,723 | INFO | core.langchain.retriever | Retrieving documents: query_len=1439 kb_id=25 top_k=4
+2026-08-08 17:02:42,468 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:02:42,468 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3):  (status code: 502)
+2026-08-08 17:02:47,100 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:02:47,100 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3):  (status code: 502)
+2026-08-08 17:02:52,857 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:02:52,857 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3):  (status code: 502)
+2026-08-08 17:02:52,857 | ERROR | core.langchain.rag_chain | RAG LLM invocation failed: LLM 调用在 3 次重试后仍失败:  (status code: 502)
+2026-08-08 17:02:52,857 | INFO | core.langchain.rag_chain | RAG chain done: query_len=1439 kb_id=25 docs=1 success=False
+2026-08-08 17:02:52,906 | INFO | common.middleware | [request_id=3e55029a666b453ba5aa3a6f2bbe7552] POST /api/v1/conversations/ask completed in 13183.75 ms
+2026-08-08 17:02:52,908 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 200 OK"
+2026-08-08 17:02:52,915 | INFO | common.middleware | [request_id=38649c5f49554cf49f4fc29c5cefab4f] POST /api/v1/conversations/ask completed in 2.16 ms
+2026-08-08 17:02:52,917 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 422 Unprocessable Entity"
+2026-08-08 17:02:52,917 | INFO | core.langchain.retriever | Retrieving documents: query_len=13 kb_id=25 top_k=4
+2026-08-08 17:02:55,272 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:02:55,272 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3):  (status code: 502)
+2026-08-08 17:03:00,230 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:03:00,230 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3):  (status code: 502)
+2026-08-08 17:03:04,957 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:03:04,957 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3):  (status code: 502)
+2026-08-08 17:03:04,957 | ERROR | core.langchain.rag_chain | RAG LLM invocation failed: LLM 调用在 3 次重试后仍失败:  (status code: 502)
+2026-08-08 17:03:04,957 | INFO | core.langchain.rag_chain | RAG chain done: query_len=13 kb_id=25 docs=1 success=False
+2026-08-08 17:03:05,006 | INFO | common.middleware | [request_id=70ef60002de64b9a9dc94e22b41e61c8] POST /api/v1/conversations/ask completed in 12087.00 ms
+2026-08-08 17:03:05,009 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 200 OK"
+2026-08-08 17:03:05,036 | INFO | common.middleware | [request_id=767ee0f492274c8eafc7f13f00e5894d] POST /api/v1/conversations/ask completed in 7.25 ms
+2026-08-08 17:03:05,038 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 403 Forbidden"
+2026-08-08 17:03:05,121 | INFO | common.middleware | [request_id=b9357c50252047d3a4bc933447a5f8f9] POST /api/v1/users completed in 60.11 ms
+2026-08-08 17:03:05,124 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/users "HTTP/1.1 201 Created"
+2026-08-08 17:03:05,132 | INFO | common.middleware | [request_id=34067a6ed0254250a0ffab2946c5478a] POST /api/v1/conversations/ask completed in 7.51 ms
+2026-08-08 17:03:05,132 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 403 Forbidden"
+2026-08-08 17:03:05,146 | INFO | common.middleware | [request_id=06f9201474d04c50b78de89b9dfd3a5b] POST /api/v1/conversations/ask completed in 6.23 ms
+2026-08-08 17:03:05,148 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 404 Not Found"
+2026-08-08 17:03:05,151 | INFO | common.middleware | [request_id=4ae1586f919b4751838dc38363af5fa8] GET /api/v1/rag/health completed in 5.83 ms
+2026-08-08 17:03:05,163 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/rag/health "HTTP/1.1 200 OK"
+2026-08-08 17:03:05,165 | INFO | common.middleware | [request_id=81c59685af1648b7a85e11bc938315de] GET /api/v1/conversations completed in 6.33 ms
+2026-08-08 17:03:05,178 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/conversations?knowledge_base_id=25 "HTTP/1.1 200 OK"
+2026-08-08 17:03:05,187 | INFO | common.middleware | [request_id=53e3facce0054123856294ce0e559c0f] GET /api/v1/conversations completed in 5.96 ms
+2026-08-08 17:03:05,192 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/conversations?user_id=24 "HTTP/1.1 200 OK"
+2026-08-08 17:03:05,203 | INFO | common.middleware | [request_id=6dcba0fb6e8e43c5a8899ea75dca8c6e] GET /api/v1/conversations/31 completed in 6.08 ms
+2026-08-08 17:03:05,203 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/conversations/31 "HTTP/1.1 200 OK"
+2026-08-08 17:03:05,232 | INFO | common.middleware | [request_id=c59f58a5307441daac6f3a637b54b135] DELETE /api/v1/conversations/31 completed in 20.52 ms
+2026-08-08 17:03:05,235 | INFO | httpx | HTTP Request: DELETE http://testserver/api/v1/conversations/31 "HTTP/1.1 200 OK"
+2026-08-08 17:03:05,243 | INFO | common.middleware | [request_id=e199e54a557e4299988bddbc19b6b822] GET /api/v1/conversations/31 completed in 4.52 ms
+2026-08-08 17:03:05,246 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/conversations/31 "HTTP/1.1 404 Not Found"
+2026-08-08 17:03:05,246 | INFO | common.middleware | [request_id=0495cebba78641f486dc18083b8f6402] DELETE /api/v1/conversations/31 completed in 4.28 ms
+2026-08-08 17:03:05,258 | INFO | httpx | HTTP Request: DELETE http://testserver/api/v1/conversations/31 "HTTP/1.1 404 Not Found"
+2026-08-08 17:03:05,269 | INFO | core.langchain.retriever | Retrieving documents: query_len=14 kb_id=25 top_k=2
+2026-08-08 17:03:07,168 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:03:07,168 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3):  (status code: 502)
+2026-08-08 17:03:11,754 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:03:11,754 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3):  (status code: 502)
+2026-08-08 17:03:17,315 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:03:17,315 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3):  (status code: 502)
+2026-08-08 17:03:17,315 | ERROR | core.langchain.rag_chain | RAG LLM invocation failed: LLM 调用在 3 次重试后仍失败:  (status code: 502)
+2026-08-08 17:03:17,315 | INFO | core.langchain.rag_chain | RAG chain done: query_len=14 kb_id=25 docs=1 success=False
+2026-08-08 17:03:17,354 | INFO | common.middleware | [request_id=848d5806c32c44cca67af83aa253e8bb] POST /api/v1/conversations/ask completed in 12091.30 ms
+2026-08-08 17:03:17,355 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 200 OK"
+2026-08-08 17:03:17,358 | INFO | common.middleware | [request_id=15607321474446a6b3cb6cec743a5ce1] POST /api/v1/conversations/ask completed in 1.28 ms
+2026-08-08 17:03:17,359 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 422 Unprocessable Entity"
+2026-08-08 17:05:58,875 | INFO | core.app | Application shutdown complete.
+2026-08-08 17:06:07,953 | INFO | core.app | Application started. Database ready: True
+2026-08-08 17:08:09,239 | INFO | core.app | Application shutdown complete.
+2026-08-08 17:08:16,453 | INFO | core.app | Application started. Database ready: True
+2026-08-08 17:09:00,171 | INFO | core.app | Application shutdown complete.
+2026-08-08 17:09:07,248 | INFO | core.app | Application started. Database ready: True
+2026-08-08 17:09:09,527 | INFO | core.app | Application shutdown complete.
+2026-08-08 17:09:16,258 | INFO | core.app | Application started. Database ready: True
+2026-08-08 17:10:27,609 | INFO | core.app | Application shutdown complete.
+2026-08-08 17:10:32,225 | INFO | core.app | Application started. Database ready: True
+2026-08-08 17:10:52,008 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-08-08 17:10:52,206 | INFO | core.langchain.chroma_store | Chroma store ready. collection=rag_documents persist_directory=D:\www\jilin\python\fastapi-study\chroma
+2026-08-08 17:10:56,141 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:10:56,142 | WARNING | core.langchain.llm | Ollama health check failed:  (status code: 502)
+2026-08-08 17:10:56,149 | INFO | common.middleware | [request_id=4aeabe5dbcf440708bdd1e9f5e7e9299] GET /api/v1/rag/health completed in 4164.17 ms
+2026-08-08 17:10:56,149 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/rag/health "HTTP/1.1 200 OK"
+2026-08-08 17:10:56,246 | INFO | common.middleware | [request_id=df2d91026a524831bea106b0c7a4916c] POST /api/v1/users completed in 89.21 ms
+2026-08-08 17:10:56,249 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/users "HTTP/1.1 201 Created"
+2026-08-08 17:10:56,280 | INFO | common.middleware | [request_id=21068229253a401fbfa9303bb29b227c] POST /api/v1/knowledge-bases completed in 27.39 ms
+2026-08-08 17:10:56,283 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases "HTTP/1.1 201 Created"
+2026-08-08 17:10:56,330 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\tmpb3nyx6qm.txt (size=216)
+2026-08-08 17:10:56,331 | INFO | utils.file_parser | TXT parsed successfully: 100 chars
+2026-08-08 17:10:56,384 | INFO | api.document.service | Document uploaded: id=18 chunks=1 vectors=1
+2026-08-08 17:10:56,386 | INFO | common.middleware | [request_id=3c999cce83984a4e896480668c0f4b0a] POST /api/v1/knowledge-bases/documents/upload/27 completed in 98.45 ms
+2026-08-08 17:10:56,387 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases/documents/upload/27 "HTTP/1.1 201 Created"
+2026-08-08 17:10:56,389 | INFO | core.langchain.rag_chain | Retrieval dedup removed 1 duplicate chunks.
+2026-08-08 17:10:56,389 | INFO | core.langchain.rag_chain | Score threshold 1.20 filtered 1 low-relevance chunks.
+2026-08-08 17:10:56,389 | INFO | core.langchain.rag_chain | All chunks exceed score threshold 1.20, keep best one (score=1.3000).
+2026-08-08 17:12:00,105 | INFO | core.app | Application shutdown complete.
+2026-08-08 17:12:07,049 | INFO | core.app | Application started. Database ready: True
+2026-08-08 17:13:51,194 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-08-08 17:13:51,332 | INFO | core.langchain.chroma_store | Chroma store ready. collection=rag_documents persist_directory=D:\www\jilin\python\fastapi-study\chroma
+2026-08-08 17:13:53,256 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:13:53,256 | WARNING | core.langchain.llm | Ollama health check failed:  (status code: 502)
+2026-08-08 17:13:53,260 | INFO | common.middleware | [request_id=aed1f6e38d064ab38fe99a46d8bf338f] GET /api/v1/rag/health completed in 2072.90 ms
+2026-08-08 17:13:53,260 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/rag/health "HTTP/1.1 200 OK"
+2026-08-08 17:13:53,305 | INFO | common.middleware | [request_id=8ec4bfa4d17341c49e49bea62b88f856] POST /api/v1/users completed in 40.87 ms
+2026-08-08 17:13:53,306 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/users "HTTP/1.1 201 Created"
+2026-08-08 17:13:53,326 | INFO | common.middleware | [request_id=b9f7e91ee3b440f8938c499cc4f66984] POST /api/v1/knowledge-bases completed in 16.99 ms
+2026-08-08 17:13:53,327 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases "HTTP/1.1 201 Created"
+2026-08-08 17:13:53,344 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\tmptnxq2_xf.txt (size=216)
+2026-08-08 17:13:53,344 | INFO | utils.file_parser | TXT parsed successfully: 100 chars
+2026-08-08 17:13:53,375 | INFO | api.document.service | Document uploaded: id=19 chunks=1 vectors=1
+2026-08-08 17:13:53,376 | INFO | common.middleware | [request_id=a308e8e6916d451a8ba6cf987a167863] POST /api/v1/knowledge-bases/documents/upload/28 completed in 46.79 ms
+2026-08-08 17:13:53,377 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases/documents/upload/28 "HTTP/1.1 201 Created"
+2026-08-08 17:13:53,377 | INFO | core.langchain.rag_chain | Retrieval dedup removed 1 duplicate chunks.
+2026-08-08 17:13:53,377 | INFO | core.langchain.rag_chain | Score threshold 1.20 filtered 1 low-relevance chunks.
+2026-08-08 17:13:53,377 | INFO | core.langchain.rag_chain | All chunks exceed score threshold 1.20, keep best one (score=1.3000).
+2026-08-08 17:13:53,666 | INFO | core.langchain.rag_chain | All chunks exceed score threshold 1.20, keep best one (score=1.6254).
+2026-08-08 17:13:56,300 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:13:56,300 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3):  (status code: 502)
+2026-08-08 17:14:00,613 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:14:00,613 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3):  (status code: 502)
+2026-08-08 17:14:05,760 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:14:05,760 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3):  (status code: 502)
+2026-08-08 17:14:05,760 | ERROR | core.langchain.rag_chain | RAG LLM invocation failed: LLM 调用在 3 次重试后仍失败:  (status code: 502)
+2026-08-08 17:14:05,760 | INFO | core.langchain.rag_chain | RAG chain done: query_len=12 kb_id=28 docs=1 success=False
+2026-08-08 17:14:05,803 | INFO | common.middleware | [request_id=db5eb21c1df94e538843118595ef5664] POST /api/v1/conversations/ask completed in 12139.16 ms
+2026-08-08 17:14:05,804 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 200 OK"
+2026-08-08 17:14:32,891 | INFO | common.middleware | [request_id=76988ce6923245b38e73c8c7830a98dd] GET /health completed in 13.30 ms
+2026-08-08 17:14:32,907 | INFO | httpx | HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2026-08-08 17:14:33,083 | INFO | utils.hash_utils | Duplicate file detected: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-1\test_is_duplicate_file_true0\dup.txt (md5=9a0364b9e99bb480dd25e1f0284c8555)
+2026-08-08 17:14:33,100 | INFO | utils.hash_utils | Duplicate text detected (md5=24f1b0a79473250c195c7fb84e393392)
+2026-08-08 17:14:33,126 | INFO | utils.text_utils | Text truncated: original_tokens=500 max_tokens=10 chars 2000->39
+2026-08-08 17:14:33,126 | INFO | utils.text_utils | Text truncated: original_tokens=12 max_tokens=5 chars 48->15
+2026-08-08 17:14:33,126 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-08 17:14:33,126 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-08 17:14:33,126 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-1\test_parse_txt_utf80\test.txt (size=13)
+2026-08-08 17:14:33,142 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-08 17:14:33,148 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-1\test_parse_txt_chinese0\chinese.txt (size=18)
+2026-08-08 17:14:33,154 | INFO | utils.file_parser | TXT parsed successfully: 6 chars
+2026-08-08 17:14:33,160 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-1\test_parse_txt_gbk0\gbk.txt (size=8)
+2026-08-08 17:14:33,160 | INFO | utils.file_parser | TXT parsed successfully: 4 chars
+2026-08-08 17:14:33,174 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-1\test_parse_txt_whitespace_only0\whitespace.txt (size=8)
+2026-08-08 17:14:33,525 | INFO | utils.file_parser | Parsing PDF file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-1\test_parse_pdf_basic0\test.pdf (size=431)
+2026-08-08 17:14:33,530 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-1\test_parse_file_txt_dispatch0\test.txt (size=13)
+2026-08-08 17:14:33,530 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-08 17:14:33,545 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): Ollama not running
+2026-08-08 17:14:33,545 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3): Ollama not running
+2026-08-08 17:14:33,545 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3): Ollama not running
+2026-08-08 17:14:33,545 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): fail
+2026-08-08 17:14:33,545 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-08-08 17:14:33,703 | INFO | core.langchain.chroma_store | Chroma store ready. collection=rag_documents persist_directory=D:\www\jilin\python\fastapi-study\chroma
+2026-08-08 17:14:33,711 | WARNING | core.langchain.retriever | top_k=100 exceeds max 20, clamped to max
+2026-08-08 17:14:33,716 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
+2026-08-08 17:14:33,933 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
+2026-08-08 17:14:33,933 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=2 top_k=5
+2026-08-08 17:14:41,554 | INFO | common.middleware | [request_id=29861a6eaec34306a521aacf5fde6366] GET /api/v1/not-exists-route completed in 14.70 ms
+2026-08-08 17:14:41,558 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/not-exists-route "HTTP/1.1 404 Not Found"
+2026-08-08 17:14:41,560 | INFO | common.middleware | [request_id=5931879e16a441f281f822e7d222f70b] DELETE /api/v1/users completed in 0.49 ms
+2026-08-08 17:14:41,562 | INFO | httpx | HTTP Request: DELETE http://testserver/api/v1/users "HTTP/1.1 405 Method Not Allowed"
+2026-08-08 17:14:41,565 | INFO | common.middleware | [request_id=ae739deb9f06424e846db601fd78ad54] POST /api/v1/users completed in 3.35 ms
+2026-08-08 17:14:41,565 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/users "HTTP/1.1 422 Unprocessable Entity"
+2026-08-08 17:14:41,661 | INFO | common.middleware | [request_id=c9e40dd79e474e53a3f847640545c55f] POST /api/v1/users completed in 90.29 ms
+2026-08-08 17:14:41,662 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/users "HTTP/1.1 201 Created"
+2026-08-08 17:14:41,698 | INFO | common.middleware | [request_id=5fa6e481da1542f7904d224f2df4956d] POST /api/v1/knowledge-bases completed in 27.67 ms
+2026-08-08 17:14:41,701 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases "HTTP/1.1 201 Created"
+2026-08-08 17:14:41,730 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\tmpaq12y14r.txt (size=216)
+2026-08-08 17:14:41,730 | INFO | utils.file_parser | TXT parsed successfully: 100 chars
+2026-08-08 17:14:45,446 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-08-08 17:14:45,582 | INFO | core.langchain.chroma_store | Chroma store ready. collection=rag_documents persist_directory=D:\www\jilin\python\fastapi-study\chroma
+2026-08-08 17:14:45,634 | INFO | api.document.service | Document uploaded: id=20 chunks=1 vectors=1
+2026-08-08 17:14:45,636 | INFO | common.middleware | [request_id=ea462064789746eb82a8668d3f80ea61] POST /api/v1/knowledge-bases/documents/upload/29 completed in 3931.85 ms
+2026-08-08 17:14:45,640 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases/documents/upload/29 "HTTP/1.1 201 Created"
+2026-08-08 17:14:45,646 | INFO | common.middleware | [request_id=d2dbc6f6a68b47499707102afee70df6] POST /api/v1/knowledge-bases/documents/upload/29 completed in 5.57 ms
+2026-08-08 17:14:45,646 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases/documents/upload/29 "HTTP/1.1 422 Unprocessable Entity"
+2026-08-08 17:14:45,659 | INFO | common.middleware | [request_id=d6186456c8784dbc834f90b5d0c5b460] POST /api/v1/knowledge-bases/documents/upload/29 completed in 4.89 ms
+2026-08-08 17:14:45,659 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases/documents/upload/29 "HTTP/1.1 400 Bad Request"
+2026-08-08 17:14:45,680 | INFO | common.middleware | [request_id=058f4ca05b7d45ed95bbdacc1b6b68d8] POST /api/v1/knowledge-bases/documents/upload/29 completed in 16.40 ms
+2026-08-08 17:14:45,686 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases/documents/upload/29 "HTTP/1.1 413 Request Entity Too Large"
+2026-08-08 17:14:45,698 | INFO | common.middleware | [request_id=9fa64b2a3d6343c3b01fc30006503b1d] POST /api/v1/knowledge-bases/documents/upload/29 completed in 7.53 ms
+2026-08-08 17:14:45,698 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases/documents/upload/29 "HTTP/1.1 409 Conflict"
+2026-08-08 17:14:45,729 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\tmpmunbsrax.txt (size=1140)
+2026-08-08 17:14:45,729 | INFO | utils.file_parser | TXT parsed successfully: 500 chars
+2026-08-08 17:14:45,758 | WARNING | api.document.service | Failed to persist document status: id=21 err=simulated DB failure
+2026-08-08 17:14:45,782 | WARNING | api.document.service | Rolled back 2 vectors after processing failure.
+2026-08-08 17:14:45,800 | INFO | common.middleware | [request_id=76dad41d095c4c7ca5b6f46200bd540e] POST /api/v1/knowledge-bases/documents/upload/29 completed in 96.32 ms
+2026-08-08 17:14:45,801 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases/documents/upload/29 "HTTP/1.1 500 Internal Server Error"
+2026-08-08 17:14:45,810 | INFO | common.middleware | [request_id=0d673d3d4ea94992929bbe135a6b6b5a] GET /api/v1/knowledge-bases/29/documents completed in 5.14 ms
+2026-08-08 17:14:45,812 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/knowledge-bases/29/documents "HTTP/1.1 200 OK"
+2026-08-08 17:14:45,821 | INFO | core.langchain.rag_chain | All chunks exceed score threshold 1.20, keep best one (score=1.6254).
+2026-08-08 17:14:48,384 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:14:48,384 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3):  (status code: 502)
+2026-08-08 17:14:53,010 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:14:53,011 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3):  (status code: 502)
+2026-08-08 17:14:58,338 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:14:58,338 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3):  (status code: 502)
+2026-08-08 17:14:58,338 | ERROR | core.langchain.rag_chain | RAG LLM invocation failed: LLM 调用在 3 次重试后仍失败:  (status code: 502)
+2026-08-08 17:14:58,338 | INFO | core.langchain.rag_chain | RAG chain done: query_len=12 kb_id=29 docs=1 success=False
+2026-08-08 17:14:58,381 | INFO | common.middleware | [request_id=bdbcbc347edb4cb6b126cb4b08a73e16] POST /api/v1/conversations/ask completed in 12566.50 ms
+2026-08-08 17:14:58,383 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 200 OK"
+2026-08-08 17:14:58,385 | INFO | common.middleware | [request_id=f58520e7de1e4a0bb20797adbc0746df] GET /health completed in 0.61 ms
+2026-08-08 17:14:58,386 | INFO | httpx | HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2026-08-08 17:14:58,388 | INFO | common.middleware | [request_id=5f3fb83d12474be9a57b0b98b85a97ae] GET /api/v1/rag/health completed in 1.42 ms
+2026-08-08 17:14:58,390 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/rag/health "HTTP/1.1 200 OK"
+2026-08-08 17:14:58,408 | INFO | common.middleware | [request_id=3ea459bb2faa4ca88ee3ff7b558eae6d] POST /api/v1/login completed in 22.04 ms
+2026-08-08 17:14:58,408 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/login "HTTP/1.1 200 OK"
+2026-08-08 17:14:58,431 | INFO | common.middleware | [request_id=37838358bea94da8964bbf30f64e1c78] POST /api/v1/login completed in 22.76 ms
+2026-08-08 17:14:58,440 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/login "HTTP/1.1 401 Unauthorized"
+2026-08-08 17:14:58,463 | INFO | api.document.service | Vectors deleted: document_id=20 count=1
+2026-08-08 17:14:58,476 | INFO | common.middleware | [request_id=c7f5974aa56e43e2a14811b7e4114177] DELETE /api/v1/documents/20 completed in 33.41 ms
+2026-08-08 17:14:58,477 | INFO | httpx | HTTP Request: DELETE http://testserver/api/v1/documents/20 "HTTP/1.1 200 OK"
+2026-08-08 17:14:58,481 | INFO | common.middleware | [request_id=3ea66553995c49e0a7462492c42f1643] DELETE /api/v1/documents/20 completed in 1.70 ms
+2026-08-08 17:14:58,481 | INFO | httpx | HTTP Request: DELETE http://testserver/api/v1/documents/20 "HTTP/1.1 404 Not Found"
+2026-08-08 17:15:03,167 | INFO | common.middleware | [request_id=fd88d84e0a544d87b0f3fd1738d949e3] POST /api/v1/users completed in 73.03 ms
+2026-08-08 17:15:03,168 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/users "HTTP/1.1 201 Created"
+2026-08-08 17:15:03,186 | INFO | common.middleware | [request_id=e5013c0e35bc423ba597481e8254ca22] POST /api/v1/knowledge-bases completed in 15.99 ms
+2026-08-08 17:15:03,187 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases "HTTP/1.1 201 Created"
+2026-08-08 17:15:03,211 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\tmpo0undebp.txt (size=384)
+2026-08-08 17:15:03,212 | INFO | utils.file_parser | TXT parsed successfully: 164 chars
+2026-08-08 17:15:05,245 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-08-08 17:15:05,349 | INFO | core.langchain.chroma_store | Chroma store ready. collection=rag_documents persist_directory=D:\www\jilin\python\fastapi-study\chroma
+2026-08-08 17:15:05,386 | INFO | api.document.service | Document uploaded: id=22 chunks=1 vectors=1
+2026-08-08 17:15:05,386 | INFO | common.middleware | [request_id=81579d8b66864cfd80ad50a134cf3e83] POST /api/v1/knowledge-bases/documents/upload/30 completed in 2197.53 ms
+2026-08-08 17:15:05,388 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases/documents/upload/30 "HTTP/1.1 201 Created"
+2026-08-08 17:15:05,396 | INFO | core.langchain.rag_chain | All chunks exceed score threshold 1.20, keep best one (score=1.8854).
+2026-08-08 17:15:07,497 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:15:07,497 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3):  (status code: 502)
+2026-08-08 17:15:11,598 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:15:11,598 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3):  (status code: 502)
+2026-08-08 17:15:17,220 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:15:17,220 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3):  (status code: 502)
+2026-08-08 17:15:17,220 | ERROR | core.langchain.rag_chain | RAG LLM invocation failed: LLM 调用在 3 次重试后仍失败:  (status code: 502)
+2026-08-08 17:15:17,220 | INFO | core.langchain.rag_chain | RAG chain done: query_len=12 kb_id=30 docs=1 success=False
+2026-08-08 17:15:17,272 | INFO | common.middleware | [request_id=0f8b04ffb275470b8244ec410d0833a7] POST /api/v1/conversations/ask completed in 11882.45 ms
+2026-08-08 17:15:17,275 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 200 OK"
+2026-08-08 17:15:17,281 | INFO | common.middleware | [request_id=acc569ca8920487084f733e564878c76] GET /api/v1/conversations/38 completed in 5.89 ms
+2026-08-08 17:15:17,281 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/conversations/38 "HTTP/1.1 200 OK"
+2026-08-08 17:15:17,313 | INFO | common.middleware | [request_id=3fdad8d2f1bc409e8ce45d611e1d263a] POST /api/v1/knowledge-bases completed in 21.71 ms
+2026-08-08 17:15:17,316 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/knowledge-bases "HTTP/1.1 201 Created"
+2026-08-08 17:15:17,325 | INFO | core.langchain.rag_chain | RAG chain done: query_len=10 kb_id=31 docs=0 success=True
+2026-08-08 17:15:17,342 | INFO | common.middleware | [request_id=deed8aa7dd794076ba75e258924dec8c] POST /api/v1/conversations/ask completed in 23.08 ms
+2026-08-08 17:15:17,345 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 200 OK"
+2026-08-08 17:15:17,351 | INFO | common.middleware | [request_id=385f0801e10544baa744881283140614] POST /api/v1/conversations/ask completed in 3.15 ms
+2026-08-08 17:15:17,353 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 422 Unprocessable Entity"
+2026-08-08 17:15:17,358 | INFO | common.middleware | [request_id=236d064aff884743b67f0fd96ff98553] POST /api/v1/conversations/ask completed in 3.34 ms
+2026-08-08 17:15:17,361 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 422 Unprocessable Entity"
+2026-08-08 17:15:20,374 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:15:20,375 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3):  (status code: 502)
+2026-08-08 17:15:25,211 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:15:25,211 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3):  (status code: 502)
+2026-08-08 17:15:30,930 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:15:30,931 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3):  (status code: 502)
+2026-08-08 17:15:30,931 | ERROR | core.langchain.rag_chain | RAG LLM invocation failed: LLM 调用在 3 次重试后仍失败:  (status code: 502)
+2026-08-08 17:15:30,931 | INFO | core.langchain.rag_chain | RAG chain done: query_len=1439 kb_id=30 docs=1 success=False
+2026-08-08 17:15:30,979 | INFO | common.middleware | [request_id=21b56aa8df5042fd8cd3ba17c66f79c6] POST /api/v1/conversations/ask completed in 13614.34 ms
+2026-08-08 17:15:30,982 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 200 OK"
+2026-08-08 17:15:30,987 | INFO | common.middleware | [request_id=9d2996c374754b3b8c9c8f713bae3ef6] POST /api/v1/conversations/ask completed in 3.15 ms
+2026-08-08 17:15:30,991 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 422 Unprocessable Entity"
+2026-08-08 17:15:30,998 | INFO | core.langchain.rag_chain | All chunks exceed score threshold 1.20, keep best one (score=1.9103).
+2026-08-08 17:15:33,664 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:15:33,665 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3):  (status code: 502)
+2026-08-08 17:15:38,004 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:15:38,005 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3):  (status code: 502)
+2026-08-08 17:15:43,436 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:15:43,436 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3):  (status code: 502)
+2026-08-08 17:15:43,438 | ERROR | core.langchain.rag_chain | RAG LLM invocation failed: LLM 调用在 3 次重试后仍失败:  (status code: 502)
+2026-08-08 17:15:43,438 | INFO | core.langchain.rag_chain | RAG chain done: query_len=13 kb_id=30 docs=1 success=False
+2026-08-08 17:15:43,485 | INFO | common.middleware | [request_id=5a572b45d4e44c5f8d8c3e17ff865fc1] POST /api/v1/conversations/ask completed in 12490.35 ms
+2026-08-08 17:15:43,490 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 200 OK"
+2026-08-08 17:15:43,518 | INFO | common.middleware | [request_id=e10754e920ff4a69a527d359697a51a3] POST /api/v1/conversations/ask completed in 5.49 ms
+2026-08-08 17:15:43,518 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 403 Forbidden"
+2026-08-08 17:15:43,602 | INFO | common.middleware | [request_id=90541b3488c5422396fa64a7626536b9] POST /api/v1/users completed in 62.54 ms
+2026-08-08 17:15:43,605 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/users "HTTP/1.1 201 Created"
+2026-08-08 17:15:43,616 | INFO | common.middleware | [request_id=02846bef83574b848938c134ab10111c] POST /api/v1/conversations/ask completed in 7.09 ms
+2026-08-08 17:15:43,619 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 403 Forbidden"
+2026-08-08 17:15:43,630 | INFO | common.middleware | [request_id=78c9adb4481e49e5a566ff4703aa69bb] POST /api/v1/conversations/ask completed in 6.13 ms
+2026-08-08 17:15:43,633 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 404 Not Found"
+2026-08-08 17:15:43,637 | INFO | common.middleware | [request_id=7fcdee965a524a07bb0ceacf4cf2f0a0] GET /api/v1/rag/health completed in 5.98 ms
+2026-08-08 17:15:43,642 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/rag/health "HTTP/1.1 200 OK"
+2026-08-08 17:15:43,653 | INFO | common.middleware | [request_id=412606e927914dccbe9f20a1d07ad374] GET /api/v1/conversations completed in 6.51 ms
+2026-08-08 17:15:43,656 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/conversations?knowledge_base_id=30 "HTTP/1.1 200 OK"
+2026-08-08 17:15:43,667 | INFO | common.middleware | [request_id=c8a95586dc7c4c899a5cc51aba65f87b] GET /api/v1/conversations completed in 5.99 ms
+2026-08-08 17:15:43,668 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/conversations?user_id=29 "HTTP/1.1 200 OK"
+2026-08-08 17:15:43,676 | INFO | common.middleware | [request_id=f853b64512124bc680e3b9e117abcfa3] GET /api/v1/conversations/38 completed in 4.37 ms
+2026-08-08 17:15:43,676 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/conversations/38 "HTTP/1.1 200 OK"
+2026-08-08 17:15:43,702 | INFO | common.middleware | [request_id=79eacfd3ece74727a19328065959e2bb] DELETE /api/v1/conversations/38 completed in 18.57 ms
+2026-08-08 17:15:43,702 | INFO | httpx | HTTP Request: DELETE http://testserver/api/v1/conversations/38 "HTTP/1.1 200 OK"
+2026-08-08 17:15:43,709 | INFO | common.middleware | [request_id=8c5f6cad49f24bf0a3d2decb0884d8d8] GET /api/v1/conversations/38 completed in 4.88 ms
+2026-08-08 17:15:43,709 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/conversations/38 "HTTP/1.1 404 Not Found"
+2026-08-08 17:15:43,728 | INFO | common.middleware | [request_id=ecc4ee87ca694a4d8bc15093454d90be] DELETE /api/v1/conversations/38 completed in 7.45 ms
+2026-08-08 17:15:43,728 | INFO | httpx | HTTP Request: DELETE http://testserver/api/v1/conversations/38 "HTTP/1.1 404 Not Found"
+2026-08-08 17:15:43,738 | INFO | core.langchain.rag_chain | All chunks exceed score threshold 1.20, keep best one (score=2.3689).
+2026-08-08 17:15:47,192 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:15:47,192 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3):  (status code: 502)
+2026-08-08 17:15:52,228 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:15:52,229 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3):  (status code: 502)
+2026-08-08 17:15:56,821 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 502 Bad Gateway"
+2026-08-08 17:15:56,823 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3):  (status code: 502)
+2026-08-08 17:15:56,823 | ERROR | core.langchain.rag_chain | RAG LLM invocation failed: LLM 调用在 3 次重试后仍失败:  (status code: 502)
+2026-08-08 17:15:56,823 | INFO | core.langchain.rag_chain | RAG chain done: query_len=14 kb_id=30 docs=1 success=False
+2026-08-08 17:15:56,868 | INFO | common.middleware | [request_id=37e681a9793c49e1a44623fab6fda626] POST /api/v1/conversations/ask completed in 13134.74 ms
+2026-08-08 17:15:56,871 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 200 OK"
+2026-08-08 17:15:56,878 | INFO | common.middleware | [request_id=fd93e7d9d25543029a47f3db673a4e1e] POST /api/v1/conversations/ask completed in 3.83 ms
+2026-08-08 17:15:56,881 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 422 Unprocessable Entity"
+2026-08-08 17:16:38,225 | INFO | core.app | Application shutdown complete.
+2026-08-08 17:16:44,462 | INFO | core.app | Application started. Database ready: True
+2026-08-08 17:16:57,982 | INFO | common.middleware | [request_id=85cd53883af64344bd4e0893c1af5ccc] GET /health completed in 12.35 ms
+2026-08-08 17:16:57,984 | INFO | httpx | HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2026-08-08 17:16:58,081 | INFO | utils.hash_utils | Duplicate file detected: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-2\test_is_duplicate_file_true0\dup.txt (md5=9a0364b9e99bb480dd25e1f0284c8555)
+2026-08-08 17:16:58,097 | INFO | utils.hash_utils | Duplicate text detected (md5=24f1b0a79473250c195c7fb84e393392)
+2026-08-08 17:16:58,113 | INFO | utils.text_utils | Text truncated: original_tokens=500 max_tokens=10 chars 2000->39
+2026-08-08 17:16:58,122 | INFO | utils.text_utils | Text truncated: original_tokens=12 max_tokens=5 chars 48->15
+2026-08-08 17:16:58,122 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-08 17:16:58,130 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-08 17:16:58,140 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-2\test_parse_txt_utf80\test.txt (size=13)
+2026-08-08 17:16:58,151 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-08 17:16:58,159 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-2\test_parse_txt_chinese0\chinese.txt (size=18)
+2026-08-08 17:16:58,161 | INFO | utils.file_parser | TXT parsed successfully: 6 chars
+2026-08-08 17:16:58,167 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-2\test_parse_txt_gbk0\gbk.txt (size=8)
+2026-08-08 17:16:58,177 | INFO | utils.file_parser | TXT parsed successfully: 4 chars
+2026-08-08 17:16:58,187 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-2\test_parse_txt_whitespace_only0\whitespace.txt (size=8)
+2026-08-08 17:16:58,262 | INFO | utils.file_parser | Parsing PDF file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-2\test_parse_pdf_basic0\test.pdf (size=431)
+2026-08-08 17:16:58,274 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-2\test_parse_file_txt_dispatch0\test.txt (size=13)
+2026-08-08 17:16:58,274 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-08 17:16:58,282 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): Ollama not running
+2026-08-08 17:16:58,282 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3): Ollama not running
+2026-08-08 17:16:58,282 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3): Ollama not running
+2026-08-08 17:16:58,290 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): fail
+2026-08-08 17:16:58,290 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-08-08 17:16:58,439 | INFO | core.langchain.chroma_store | Chroma store ready. collection=rag_documents persist_directory=D:\www\jilin\python\fastapi-study\chroma
+2026-08-08 17:16:58,447 | WARNING | core.langchain.retriever | top_k=100 exceeds max 20, clamped to max
+2026-08-08 17:16:58,449 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
+2026-08-08 17:16:58,449 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
+2026-08-08 17:16:58,449 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=2 top_k=5
+2026-08-08 18:21:43,590 | INFO | core.app | Application shutdown complete.
+2026-08-08 18:21:47,969 | INFO | core.app | Application started. Database ready: True
+2026-08-08 18:21:48,080 | INFO | core.app | Application shutdown complete.
+2026-08-08 18:43:48,468 | INFO | core.app | Application started. Database ready: True

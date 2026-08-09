@@ -30,6 +30,39 @@ from utils import file_parser, hash_utils, text_utils
 logger = get_logger(__name__)
 
 
+def _rollback_vectors(vector_ids: list[str]) -> None:
+    """回滚已写入的向量数据，失败仅告警不阻断主流程。"""
+    if not vector_ids:
+        return
+    try:
+        get_chroma_store().delete_by_ids(vector_ids)
+        logger.warning("Rolled back %d vectors after processing failure.", len(vector_ids))
+    except Exception as rollback_exc:  # 回滚失败不应掩盖原始错误。
+        logger.warning("Failed to rollback vectors: %s", rollback_exc)
+
+
+def _commit_document_status(
+    db: Session,
+    *,
+    document_id: int,
+    parse_status: DocumentParseStatus,
+    chunk_count: int | None = None,
+) -> None:
+    """提交文档解析状态，失败时回滚事务并抛出统一业务异常。"""
+    try:
+        document_crud.update_document_status(
+            db,
+            document_id=document_id,
+            parse_status=parse_status,
+            chunk_count=chunk_count,
+        )
+        db.commit()
+    except SQLAlchemyError as exc:
+        db.rollback()
+        logger.warning("Failed to persist document status: id=%d err=%s", document_id, exc)
+        raise AppException("文档状态更新失败，请稍后重试", status_code=500) from exc
+
+
 def create_document(db: Session, payload: DocumentCreateRequest):
     """创建文档元数据，并做知识库归属和重复性校验。"""
     knowledge_base = knowledge_crud.get_knowledge_base_by_id(db, payload.knowledge_base_id)
@@ -152,20 +185,26 @@ def upload_document(db: Session, knowledge_base_id: int, file: UploadFile) -> di
         if existing is not None:
             raise AppException("当前知识库中已存在相同文件", status_code=409)
 
-        # 7. 创建文档记录（PENDING 状态）
-        document = document_crud.create_document(
-            db,
-            knowledge_base_id=knowledge_base_id,
-            filename=filename,
-            file_type=file_ext,
-            file_size=actual_size,
-            file_md5=file_md5,
-            chunk_count=0,
-            parse_status=DocumentParseStatus.PENDING,
-        )
-        db.commit()
+        # 7. 创建文档记录（PENDING 状态），失败时回滚事务。
+        try:
+            document = document_crud.create_document(
+                db,
+                knowledge_base_id=knowledge_base_id,
+                filename=filename,
+                file_type=file_ext,
+                file_size=actual_size,
+                file_md5=file_md5,
+                chunk_count=0,
+                parse_status=DocumentParseStatus.PENDING,
+            )
+            db.commit()
+        except SQLAlchemyError as exc:
+            db.rollback()
+            raise AppException("创建文档记录失败，请稍后重试", status_code=500) from exc
 
         # 8. 文本解析 -> 切片 -> 向量入库
+        # vector_ids 提前声明，便于后续失败时回滚已写入的向量。
+        vector_ids: list[str] = []
         try:
             raw_text = file_parser.parse_file(tmp_path)
             cleaned_text = text_utils.clean_text(raw_text)
@@ -198,14 +237,20 @@ def upload_document(db: Session, knowledge_base_id: int, file: UploadFile) -> di
             ]
             vector_ids = chroma_store.add_texts(chunks, metadatas=metadatas)
 
-            # 11. 更新文档状态为成功
-            document_crud.update_document_status(
-                db,
-                document_id=document.id,
-                parse_status=DocumentParseStatus.SUCCESS,
-                chunk_count=len(chunks),
-            )
-            db.commit()
+            # 11. 更新文档状态为成功，落库失败时回滚已写入的向量，避免无主垃圾向量。
+            # 失败后直接标记 FAILED 并抛出，避免进入外层分支重复回滚。
+            try:
+                _commit_document_status(
+                    db,
+                    document_id=document.id,
+                    parse_status=DocumentParseStatus.SUCCESS,
+                    chunk_count=len(chunks),
+                )
+            except AppException:
+                # 此处仅回滚向量并清空引用，FAILED 标记由外层分支统一执行一次。
+                _rollback_vectors(vector_ids)
+                vector_ids = []
+                raise
 
             logger.info(
                 "Document uploaded: id=%d chunks=%d vectors=%d",
@@ -220,23 +265,23 @@ def upload_document(db: Session, knowledge_base_id: int, file: UploadFile) -> di
             }
 
         except AppException:
-            # 业务异常：标记失败后向上抛
-            document_crud.update_document_status(
+            # 业务异常：标记失败后向上抛，已写入的向量同步回滚。
+            _rollback_vectors(vector_ids)
+            _commit_document_status(
                 db,
                 document_id=document.id,
                 parse_status=DocumentParseStatus.FAILED,
             )
-            db.commit()
             raise
         except Exception as exc:
-            # 未知异常：标记失败并记录
+            # 未知异常：回滚向量、标记失败并记录。
             logger.exception("Document processing failed: id=%d err=%s", document.id, exc)
-            document_crud.update_document_status(
+            _rollback_vectors(vector_ids)
+            _commit_document_status(
                 db,
                 document_id=document.id,
                 parse_status=DocumentParseStatus.FAILED,
             )
-            db.commit()
             raise AppException(f"文档处理失败: {exc}", status_code=500) from exc
 
     finally:

@@ -25,14 +25,19 @@ from utils.text_utils import truncate_by_tokens
 logger = get_logger(__name__)
 
 
-# 企业级系统 Prompt：约束模型仅在检索上下文内作答，拒绝臆测与越界回答。
-SYSTEM_PROMPT_TEMPLATE = """你是一个专业的知识库问答助手。请严格遵循以下规则：
+# 企业级系统 Prompt（Day10 升级）：强化引用规范、答案结构与无关问题拒绝能力。
+SYSTEM_PROMPT_TEMPLATE = """你是企业知识库专属问答助手。请严格遵循以下规则：
 
-1. 仅根据下方【检索资料】回答用户问题，禁止编造、臆测信息。
-2. 如果【检索资料】不足以回答问题，请明确回复："当前知识库中未找到相关资料，无法回答该问题。"
-3. 回答需条理清晰，关键信息可分点说明。
-4. 如引用资料中的原文，请保持准确，不擅自增删语义。
-5. 不回答与知识库内容无关的问题，礼貌引导用户回归主题。
+【回答依据】
+1. 仅根据下方【检索资料】回答，禁止编造、臆测或使用资料外的知识。
+2. 资料不足以回答时，必须回复："当前知识库中未找到相关资料，无法回答该问题。"
+3. 与知识库内容无关的问题（闲聊、无关领域提问），礼貌拒绝并引导用户提问知识库相关内容。
+
+【回答格式】
+4. 回答分点组织，先给结论，再展开关键信息。
+5. 引用资料原文时在句末标注来源序号，如 [1]、[2]，序号对应【检索资料】编号。
+6. 引用必须准确，不擅自增删语义；多个资料冲突时如实说明差异。
+7. 使用与用户提问相同的语言回答，保持专业、简洁。
 
 【检索资料】
 {context}
@@ -100,15 +105,20 @@ class StandardRAGChain:
         self._retriever = retriever or get_retriever()
         self._llm_client = llm_client or get_llm_client()
         settings = get_settings()
-        # 上下文最大 Token 数，防止 LLM 输入超限。
+        # 上下文最大 Token 数，防 LLM 输入超限。
         self.max_context_tokens: int = DEFAULT_MAX_CONTEXT_TOKENS
         # 默认检索 TopK，可通过 ask() 参数覆盖。
         self.default_top_k: int = settings.retrieval_top_k
-
+        # Day10：检索距离阈值，超过阈值的结果视为低相关并过滤（<= 0 不过滤）。
+        self.score_threshold: float = settings.retrieval_score_threshold
+    
     def _retrieve(self, query: str, knowledge_base_id: int | str | None, top_k: int) -> list[Any]:
-        """执行知识库隔离检索，异常时返回空列表而非抛出。"""
+        """执行知识库隔离检索，异常时返回空列表而非抛出。
+    
+        Day10 优化：改用带分数检索，支持距离阈值过滤与近似切片去重。
+        """
         try:
-            return self._retriever.search(
+            results = self._retriever.search_with_score(
                 query=query,
                 knowledge_base_id=knowledge_base_id,
                 top_k=top_k,
@@ -119,6 +129,59 @@ class StandardRAGChain:
         except Exception as exc:  # pragma: no cover - 兜底防御
             logger.exception("Unexpected retrieval error: %s", exc)
             return []
+    
+        return self._filter_low_relevance(self._deduplicate_documents(results))
+    
+    def _deduplicate_documents(self, documents: list[Any]) -> list[Any]:
+        """去除内容重复的检索结果，避免高重叠切片占用上下文预算。
+    
+        以归一化后的内容前 64 字符作为指纹，保留首次出现（分数更优）的切片。
+        """
+        seen_fingerprints: list[str] = []
+        unique_documents: list[Any] = []
+        for doc in documents:
+            content = str(getattr(doc, "page_content", doc))
+            fingerprint = "".join(content.split())[:64]
+            if fingerprint in seen_fingerprints:
+                continue
+            seen_fingerprints.append(fingerprint)
+            unique_documents.append(doc)
+    
+        removed = len(documents) - len(unique_documents)
+        if removed:
+            logger.info("Retrieval dedup removed %d duplicate chunks.", removed)
+        return unique_documents
+    
+    def _filter_low_relevance(self, documents: list[Any]) -> list[Any]:
+        """按距离阈值过滤低相关检索结果（score 为 L2 距离，越小越相似）。
+    
+        无分数的结果不参与过滤；阈值 <= 0 时整体不过滤。
+        全部被过滤时保留最优一条，避免误杀导致的体验退化。
+        """
+        if self.score_threshold <= 0 or not documents:
+            return documents
+    
+        kept = [
+            doc for doc in documents
+            if getattr(doc, "score", None) is None or doc.score <= self.score_threshold
+        ]
+        if kept:
+            if len(kept) < len(documents):
+                logger.info(
+                    "Score threshold %.2f filtered %d low-relevance chunks.",
+                    self.score_threshold,
+                    len(documents) - len(kept),
+                )
+            return kept
+    
+        # 全部超阈值：保留距离最小的一条，并提示可能存在低质量检索。
+        best = min(documents, key=lambda doc: doc.score)
+        logger.info(
+            "All chunks exceed score threshold %.2f, keep best one (score=%.4f).",
+            self.score_threshold,
+            best.score,
+        )
+        return [best]
 
     def _format_context(self, documents: list[Any]) -> str:
         """把检索结果拼接为带序号的上下文文本，并按 Token 截断。"""
@@ -229,6 +292,7 @@ class StandardRAGChain:
             "chain": "StandardRAGChain",
             "max_context_tokens": self.max_context_tokens,
             "default_top_k": self.default_top_k,
+            "score_threshold": self.score_threshold,
             "retriever": self._retriever.health_check(),
             "llm": self._llm_client.health_check(),
         }

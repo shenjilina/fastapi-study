@@ -4,11 +4,25 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
 from api.user import service
-from api.user.schema import UserCreateRequest, UserRead
+from api.user.schema import LoginRequest, LoginResponse, UserCreateRequest, UserRead
 from common.response import success_response
 from core.db import get_db
 
 router = APIRouter(prefix="/users", tags=["users"])
+auth_router = APIRouter(tags=["auth"])
+
+
+@auth_router.post("/login", status_code=status.HTTP_200_OK)
+def login(
+    payload: LoginRequest,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    """用户登录接口：校验用户名与密码。"""
+    user = service.login(db, payload)
+    return success_response(
+        LoginResponse(user_id=user.id, username=user.username, email=user.email).model_dump(mode="json"),
+        message="登录成功",
+    )
 
 
 @router.post("", status_code=status.HTTP_201_CREATED)

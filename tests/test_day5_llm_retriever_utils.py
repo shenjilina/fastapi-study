@@ -519,6 +519,7 @@ class TestKnowledgeBaseRetriever:
             retriever.search("")
 
     def test_search_with_knowledge_base_id_calls_store(self) -> None:
+        from config.settings import get_settings
         from core.langchain.chroma_store import VectorSearchResult
         from core.langchain.retriever import KnowledgeBaseRetriever
 
@@ -532,9 +533,10 @@ class TestKnowledgeBaseRetriever:
 
         assert len(results) == 1
         assert results[0].page_content == "result"
+        # k 跟随配置的默认 top_k（Day10 调优后为 5），避免硬编码随参数变更失效。
         mock_store.similarity_search.assert_called_once_with(
             query="query",
-            k=4,
+            k=get_settings().retrieval_top_k,
             metadata_filter={"knowledge_base_id": 1},
         )
 
