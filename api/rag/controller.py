@@ -10,6 +10,7 @@
 """
 
 from fastapi import APIRouter, Depends, Query, status
+from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 
 from api.rag import service
@@ -18,6 +19,7 @@ from api.rag.schema import (
     ConversationDeleteResponse,
     RAGQuestionRequest,
 )
+from common.dependencies import get_optional_current_user
 from common.response import success_response
 from core.db import get_db
 from core.exceptions import AppException
@@ -33,12 +35,40 @@ health_router = APIRouter(tags=["rag"])
 def ask_question(
     payload: RAGQuestionRequest,
     db: Session = Depends(get_db),
+    current_user=Depends(get_optional_current_user),
 ) -> dict[str, object]:
-    """RAG 问答接口：知识库隔离检索 -> 上下文拼接 -> LLM 生成 -> 持久化问答记录。"""
-    answer = service.ask_question(db, payload)
+    """RAG 问答接口：知识库隔离检索 -> 上下文拼接 -> LLM 生成 -> 持久化问答记录。
+
+    Day12：可选 JWT 鉴权，携带令牌时强制校验提问身份与会话记忆隔离。
+    """
+    answer = service.ask_question(db, payload, current_user)
     return success_response(
         answer.model_dump(mode="json"),
         message="问答完成",
+    )
+
+
+@router.post("/ask/stream", status_code=status.HTTP_200_OK)
+def ask_question_stream(
+    payload: RAGQuestionRequest,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_optional_current_user),
+) -> StreamingResponse:
+    """流式 RAG 问答接口（SSE 打字机效果）。
+
+    事件序列：sources -> chunk* -> (error?) -> done（携带 conversation_id）。
+    校验失败在流开始前同步抛出，由全局异常处理器输出统一 JSON。
+    """
+    event_stream = service.ask_question_stream(db, payload, current_user)
+    return StreamingResponse(
+        event_stream,
+        media_type="text/event-stream; charset=utf-8",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            # 禁用 Nginx 等反向代理的响应缓冲，保证逐块实时推送。
+            "X-Accel-Buffering": "no",
+        },
     )
 
 
@@ -53,9 +83,10 @@ def rag_health_check() -> dict[str, object]:
 def create_conversation(
     payload: ConversationCreateRequest,
     db: Session = Depends(get_db),
+    current_user=Depends(get_optional_current_user),
 ) -> dict[str, object]:
     """创建问答记录接口。"""
-    conversation = service.create_conversation(db, payload)
+    conversation = service.create_conversation(db, payload, current_user)
     return success_response(
         conversation.model_dump(mode="json"),
         message="问答记录创建成功",

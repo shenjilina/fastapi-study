@@ -4,9 +4,9 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from api.user import crud
-from api.user.schema import LoginRequest, UserCreateRequest
+from api.user.schema import LoginRequest, LoginResponse, UserCreateRequest
 from core.exceptions import AppException
-from core.security import hash_password, verify_password
+from core.security import create_access_token, get_token_ttl_seconds, hash_password, verify_password
 
 
 def create_user(db: Session, payload: UserCreateRequest):
@@ -45,6 +45,19 @@ def login(db: Session, payload: LoginRequest):
         raise AppException("用户已被禁用", status_code=403)
 
     return user
+
+
+def build_login_response(user) -> LoginResponse:
+    """登录成功后签发 JWT 并组装统一响应。"""
+    access_token = create_access_token(user_id=user.id, username=user.username)
+    return LoginResponse(
+        user_id=user.id,
+        username=user.username,
+        email=user.email,
+        access_token=access_token,
+        token_type="bearer",
+        expires_in=get_token_ttl_seconds(),
+    )
 
 
 def get_user_detail(db: Session, user_id: int):

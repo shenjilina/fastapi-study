@@ -30,6 +30,8 @@ class ConversationRecord(Base):
     question: Mapped[str] = mapped_column(Text())
     answer: Mapped[str] = mapped_column(Text())
     source_document_ids: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    # 多轮会话标识（Day12）：同一 session_id 的连续问答共享对话记忆，空表示单轮。
+    session_id: Mapped[str | None] = mapped_column(String(64), index=True, nullable=True)
     status: Mapped[ConversationRecordStatus] = mapped_column(
         Enum(ConversationRecordStatus),
         default=ConversationRecordStatus.GENERATED,

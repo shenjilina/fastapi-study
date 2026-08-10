@@ -369,31 +369,46 @@ uv run ruff check
 
 - [x] 对比优化前后问答效果，固化最优参数（scripts/day10_self_check.py 含独立临时向量库对比实验）
 
-### Day11｜LangChain流式问答开发（商用打字机效果）
+### Day11｜LangChain流式问答开发（商用打字机效果）（已完成）
 
 **核心目标**：提升前端交互体验，实现流式实时问答
 
-- 在core/langchain封装流式RAG问答链，复用底层Prompt与检索逻辑
+**完成状态**：已完成流式 RAG 问答全链路：core/langchain 封装流式能力（OllamaLLMClient.stream\_with\_messages 首块前重试/中途失败即断 + StandardRAGChain.ask\_stream 复用非流式检索、去重、阈值过滤与 Prompt）、FastAPI SSE 端点 POST /conversations/ask/stream（text/event-stream + UTF-8 + no-cache + X-Accel-Buffering 禁代理缓冲）、标准化事件序列 sources -> chunk\* -> (error?) -> done（done 恒为最后事件并携带 conversation\_id）、流结束后对话记录落库（成功 GENERATED / 失败 FAILED 均可追溯，落库失败不阻断流）、校验失败在流开始前同步拦截（404/403/422 统一 JSON）、SSE 载荷 ensure\_ascii=False 中文直出无转义乱码，8 项 Day11 自检 + 67 项单元测试 + Day8 回归全部通过。
 
-- 适配FastAPI SSE流式响应规范
+**开发过程遇到的问题与解决方案**：
+- 问题1：流式场景下 LLM 无法对已发送内容整体重试 -> stream\_with\_messages 区分首块前失败（按指数退避重试）与中途失败（立即抛出 LLMInvocationError，由 rag\_chain 补发 error + done 事件兜底）
+- 问题2：流式对话记录异步入库时机难以把控 -> done 事件不直接转发，先落库再携带 conversation\_id 收尾；落库失败仅告警返回 null 不阻断流
+- 问题3：离线环境 Ollama 不可用导致自检不确定 -> 自检脚本用打桩 LLM 流确定性地验证打字机序列与异常兜底，另设不打桩的真实链路场景仅断言流协议稳定收尾
 
-- 解决流式场景下对话记录异步入库、异常兜底问题
+- [x] 在core/langchain封装流式RAG问答链，复用底层Prompt与检索逻辑（ask\_stream + stream\_with\_messages）
 
-- 测试流式输出稳定、无卡顿、无乱码
+- [x] 适配FastAPI SSE流式响应规范（StreamingResponse + UTF-8 + 禁缓存/禁缓冲响应头）
 
-### Day12｜多轮对话记忆 \+ 用户权限体系落地
+- [x] 解决流式场景下对话记录异步入库、异常兜底问题（done 前落库 + error 事件 + FAILED 状态可追溯）
+
+- [x] 测试流式输出稳定、无卡顿、无乱码（scripts/day11\_self\_check.py 8 项场景全通过）
+
+### Day12｜多轮对话记忆 \+ 用户权限体系落地（已完成）
 
 **核心目标**：实现上下文连续问答、用户知识库隔离、基础权限管控
 
-- 接入LangChain对话记忆组件，实现多轮上下文关联问答
+**完成状态**：已完成多轮对话记忆（问答请求新增 conversation\_session\_id 会话标识，问答记录表新增 session\_id 列并附 alembic 迁移，按 user+知识库+session 三元组加载最近 N 轮历史，以 LangChain Human/AI 消息对插入 System 与当前提问之间，窗口轮数读配置 conversation\_memory\_rounds=4 防上下文过载，仅取 GENERATED 记录入记忆）与用户权限体系（PyJWT 登录签发 access\_token/expires\_in、core/security 统一签发与解析、common/dependencies 封装 get\_current\_user 必选 / get\_optional\_current\_user 可选双形态鉴权依赖、GET /users/me 鉴权端点、令牌态下水平越权拦截：冒用他人 user\_id 403、他人知识库 403、会话记忆不跨用户泄漏），问答/流式/创建记录接口均接入可选鉴权并保持无令牌向后兼容，8 项 Day12 自检 + 67 项单元测试全部通过。
 
-- 优化记忆窗口，防止上下文过载
+**开发过程遇到的问题与解决方案**：
+- 问题1：现有数据库由 create\_all\_tables 建立、无 alembic\_version 记录，直接 upgrade 报“table users already exists” -> 先 alembic stamp 20260713\_0001 对齐基线，再 upgrade 应用 Day12 迁移
+- 问题2：/users/me 路径会被 /{user\_id} 整型参数路由拦截产生 422 -> /me 路由先于 /{user\_id} 注册
+- 问题3：问答接口既有大量无令牌自检/回归脚本 -> 鉴权采用可选形态（HTTPBearer auto\_error=False），携带令牌时严格校验并强制请求体 user\_id 与令牌身份一致，未携带时兼容旧调用
+- 问题4：common 层若静态导入 api.user.crud 会形成 common→api 反向依赖 -> 鉴权依赖内部对用户查询采用函数内延迟导入，保持分层方向
 
-- 完善用户模块分层代码，实现注册、登录基础能力
+- [x] 接入LangChain对话记忆组件，实现多轮上下文关联问答（chat\_history 消息对注入 rag\_chain ask/ask\_stream）
 
-- 封装JWT鉴权全局依赖，实现接口权限管控、用户知识库隔离
+- [x] 优化记忆窗口，防止上下文过载（conversation\_memory\_rounds 配置化轮数截断 + 失败记录不入记忆）
 
-- 测试：不同用户数据完全隔离、多轮对话上下文连贯
+- [x] 完善用户模块分层代码，实现注册、登录基础能力（登录签发 JWT，LoginResponse 携带令牌与有效期）
+
+- [x] 封装JWT鉴权全局依赖，实现接口权限管控、用户知识库隔离（必选/可选双形态依赖 + /users/me + 越权 403 拦截）
+
+- [x] 测试：不同用户数据完全隔离、多轮对话上下文连贯（scripts/day12\_self\_check.py 8 项场景全通过）
 
 ### Day13｜工程化完善：日志 \+ 多环境配置 \+ 初始化脚本
 

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import time
+from collections.abc import Iterator
 from functools import lru_cache
 from typing import Any
 
@@ -117,6 +118,51 @@ class OllamaLLMClient:
         if not messages:
             raise LLMInvocationError("messages 不能为空")
         return self._retry_invoke(messages)
+
+    def stream_with_messages(self, messages: list[Any]) -> Iterator[str]:
+        """流式调用 LLM，逐块产出回答文本（打字机效果）。
+
+        流式输出无法对已发送内容重试：首块产出前失败按重试退避重试，
+        产出中途失败则立即抛出 LLMInvocationError，由调用方兜底。
+
+        Args:
+            messages: LangChain 消息对象列表。
+
+        Yields:
+            LLM 逐块生成的文本片段。
+
+        Raises:
+            LLMInvocationError: messages 为空或重试耗尽/中途失败时抛出。
+        """
+        if not messages:
+            raise LLMInvocationError("messages 不能为空")
+
+        started = False
+        for attempt in range(1, self.max_retries + 1):
+            try:
+                for piece in self.llm.stream(messages):
+                    content = getattr(piece, "content", None)
+                    if content:
+                        started = True
+                        yield str(content)
+                self._available = True
+                return
+            except Exception as exc:
+                if started:
+                    # 已输出部分内容，无法整体重试，交由上层做异常兜底。
+                    self._available = False
+                    raise LLMInvocationError(f"LLM 流式输出中断: {exc}") from exc
+                logger.warning(
+                    "LLM stream failed (attempt %d/%d): %s",
+                    attempt,
+                    self.max_retries,
+                    exc,
+                )
+                if attempt < self.max_retries:
+                    time.sleep(LLM_RETRY_BACKOFF_BASE ** attempt)
+
+        self._available = False
+        raise LLMInvocationError(f"LLM 流式调用在 {self.max_retries} 次重试后仍失败")
 
     def health_check(self) -> dict[str, object]:
         """检查 Ollama 服务可用性，返回状态信息。"""

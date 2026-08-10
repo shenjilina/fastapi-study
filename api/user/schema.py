@@ -55,11 +55,14 @@ class LoginRequest(BaseModel):
 
 
 class LoginResponse(BaseModel):
-    """登录成功响应结构。"""
+    """登录成功响应结构，携带 JWT 访问令牌。"""
 
     user_id: int
     username: str
     email: str
+    access_token: str = Field(description="JWT 访问令牌")
+    token_type: str = Field(default="bearer", description="令牌类型")
+    expires_in: int = Field(description="令牌有效期（秒）")
 
 
 class UserRead(BaseModel):

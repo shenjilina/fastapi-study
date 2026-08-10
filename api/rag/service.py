@@ -2,9 +2,15 @@
 
 职责：
 - 组装 RAG 问答流程：校验 -> 调用 rag_chain 生成 -> 持久化问答记录。
+- Day12 多轮对话记忆：按会话标识加载最近 N 轮历史问答，窗口截断防上下文过载。
+- 提供流式问答（SSE）编排：校验前置、事件转发、生成完成后落库、done 收尾。
 - 提供对话记录的查询、删除能力。
 - 所有底层能力均通过 core/langchain 封装调用，禁止在此实例化 LangChain 对象。
 """
+
+import json
+from collections.abc import Iterator
+from typing import TYPE_CHECKING
 
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
@@ -21,9 +27,14 @@ from api.rag.schema import (
     RAGSourceDocumentRead,
 )
 from api.user import crud as user_crud
+from common.dependencies import ensure_resource_owner
 from config.log_config import get_logger
+from config.settings import get_settings
 from core.exceptions import AppException
 from core.langchain.rag_chain import RAGChainError, get_rag_chain
+
+if TYPE_CHECKING:
+    from api.user.model import User
 
 logger = get_logger(__name__)
 
@@ -50,6 +61,7 @@ def build_conversation_read_model(conversation) -> ConversationRead:
         question=conversation.question,
         answer=conversation.answer,
         source_document_ids=_parse_source_document_ids(conversation.source_document_ids),
+        session_id=conversation.session_id,
         status=conversation.status,
         created_at=conversation.created_at,
     )
@@ -94,12 +106,47 @@ def _extract_document_ids(source_documents: list) -> list[int]:
     return document_ids
 
 
-def ask_question(db: Session, payload: RAGQuestionRequest) -> RAGAnswerRead:
+def _load_chat_history(db: Session, payload: RAGQuestionRequest) -> list[tuple[str, str]]:
+    """加载多轮对话记忆：仅当请求携带会话标识时生效。
+
+    记忆窗口优化：
+    - 轮数上限读配置 conversation_memory_rounds，防止历史消息淹没检索上下文；
+    - 严格限定 user + 知识库 + session 三元组，记忆不跨用户/知识库泄漏；
+    - 仅取成功生成的记录，兜底失败回答不入上下文。
+    """
+    session_id = payload.conversation_session_id
+    if not session_id:
+        return []
+
+    memory_rounds = get_settings().conversation_memory_rounds
+    if memory_rounds <= 0:
+        return []
+
+    records = rag_crud.list_recent_conversations_by_session(
+        db,
+        user_id=payload.user_id,
+        knowledge_base_id=payload.knowledge_base_id,
+        session_id=session_id,
+        limit=memory_rounds,
+    )
+    return [(record.question, record.answer) for record in records]
+
+
+def ask_question(
+    db: Session,
+    payload: RAGQuestionRequest,
+    current_user: "User | None" = None,
+) -> RAGAnswerRead:
     """执行 RAG 问答：校验 -> 调用 rag_chain 生成 -> 持久化问答记录。
 
     即使 LLM 兜底返回失败回答，也会以 FAILED 状态落库，保证可追溯。
+    Day12：携带会话标识时加载多轮记忆；令牌态下拦截冒用他人身份提问。
     """
+    ensure_resource_owner(payload.user_id, current_user, action="提问")
     _validate_question_access(db, payload)
+
+    # 多轮对话记忆：按会话窗口加载历史问答对。
+    chat_history = _load_chat_history(db, payload)
 
     # 调用底层 RAG 链生成回答（内部已含检索异常、LLM 异常兜底）。
     rag_chain = get_rag_chain()
@@ -108,6 +155,7 @@ def ask_question(db: Session, payload: RAGQuestionRequest) -> RAGAnswerRead:
             payload.question,
             knowledge_base_id=payload.knowledge_base_id,
             top_k=payload.top_k,
+            chat_history=chat_history or None,
         )
     except RAGChainError as exc:
         # 输入参数级错误，直接返回 400。
@@ -133,6 +181,7 @@ def ask_question(db: Session, payload: RAGQuestionRequest) -> RAGAnswerRead:
             question=rag_answer.question,
             answer=rag_answer.answer,
             source_document_ids=source_document_ids_str,
+            session_id=payload.conversation_session_id,
             status=record_status,
         )
         db.commit()
@@ -159,8 +208,161 @@ def ask_question(db: Session, payload: RAGQuestionRequest) -> RAGAnswerRead:
     )
 
 
-def create_conversation(db: Session, payload: ConversationCreateRequest) -> ConversationRead:
+def _sse_line(payload: dict) -> str:
+    """把事件字典编码为 SSE data 行（UTF-8 中文直出，避免 Unicode 转义乱码观感）。"""
+    return f"data: {json.dumps(payload, ensure_ascii=False)}\n\n"
+
+
+def _persist_stream_conversation(
+    db: Session,
+    payload: RAGQuestionRequest,
+    *,
+    answer: str,
+    source_documents: list,
+    success: bool,
+) -> int | None:
+    """流式问答结束后持久化对话记录，失败仅告警不阻断流（返回 None）。"""
+    source_document_ids = _extract_document_ids(source_documents)
+    ids_str = ",".join(str(item) for item in source_document_ids) or None
+    record_status = (
+        ConversationRecordStatus.GENERATED if success else ConversationRecordStatus.FAILED
+    )
+    try:
+        conversation = rag_crud.create_conversation_record(
+            db,
+            user_id=payload.user_id,
+            knowledge_base_id=payload.knowledge_base_id,
+            question=payload.question,
+            answer=answer,
+            source_document_ids=ids_str,
+            session_id=payload.conversation_session_id,
+            status=record_status,
+        )
+        db.commit()
+        return conversation.id
+    except SQLAlchemyError as exc:
+        db.rollback()
+        logger.exception("Failed to persist stream conversation record: %s", exc)
+        return None
+
+
+def ask_question_stream(
+    db: Session,
+    payload: RAGQuestionRequest,
+    current_user: "User | None" = None,
+) -> Iterator[str]:
+    """流式 RAG 问答：同步校验通过后返回 SSE 事件流生成器。
+
+    校验异常在此同步抛出（响应尚未开始，全局处理器输出统一 JSON）；
+    事件流顺序：sources -> chunk* -> (error?) -> done（携带 conversation_id）。
+    对话记录在生成完成后、done 事件前落库，落库失败不阻断流。
+    Day12：同步阶段预加载多轮记忆，避免生成器内再读库的时序问题。
+    """
+    ensure_resource_owner(payload.user_id, current_user, action="提问")
+    _validate_question_access(db, payload)
+    chat_history = _load_chat_history(db, payload)
+    return _stream_sse_events(db, payload, chat_history)
+
+
+def _stream_sse_events(
+    db: Session,
+    payload: RAGQuestionRequest,
+    chat_history: list[tuple[str, str]] | None = None,
+) -> Iterator[str]:
+    """消费底层 RAG 链流式事件，转发为 SSE 数据行并收尾落库。"""
+    rag_chain = get_rag_chain()
+
+    source_documents: list = []
+    final_answer = ""
+    final_success = False
+    final_error: str | None = "未知错误"
+
+    try:
+        for event in rag_chain.ask_stream(
+            payload.question,
+            knowledge_base_id=payload.knowledge_base_id,
+            top_k=payload.top_k,
+            chat_history=chat_history or None,
+        ):
+            event_type = event.get("type")
+            if event_type == "sources":
+                source_documents = event.get("source_documents", [])
+                yield _sse_line(
+                    {
+                        "event": "sources",
+                        "source_documents": [doc.to_dict() for doc in source_documents],
+                    }
+                )
+            elif event_type == "chunk":
+                yield _sse_line({"event": "chunk", "content": event.get("content", "")})
+            elif event_type == "error":
+                yield _sse_line(
+                    {
+                        "event": "error",
+                        "message": event.get("message"),
+                        "error": event.get("error"),
+                    }
+                )
+            elif event_type == "done":
+                # done 不直接转发：先落库再携带 conversation_id 收尾。
+                final_answer = event.get("answer", "")
+                final_success = event.get("success", False)
+                final_error = event.get("error")
+    except RAGChainError as exc:
+        # 底层输入级异常（防御分支）：补发 error + done 后正常结束流。
+        logger.warning("RAG stream chain error: %s", exc)
+        yield _sse_line({"event": "error", "message": str(exc), "error": str(exc)})
+        yield _sse_line(
+            {
+                "event": "done",
+                "answer": "",
+                "success": False,
+                "error": str(exc),
+                "conversation_id": None,
+            }
+        )
+        return
+    except Exception as exc:  # 兜底防御：流内任何未知异常不让连接裸断
+        logger.exception("Unexpected RAG stream failure: %s", exc)
+        yield _sse_line(
+            {"event": "error", "message": "问答服务暂时不可用，请稍后重试。", "error": str(exc)}
+        )
+        yield _sse_line(
+            {
+                "event": "done",
+                "answer": "",
+                "success": False,
+                "error": str(exc),
+                "conversation_id": None,
+            }
+        )
+        return
+
+    conversation_id = _persist_stream_conversation(
+        db,
+        payload,
+        answer=final_answer,
+        source_documents=source_documents,
+        success=final_success,
+    )
+    yield _sse_line(
+        {
+            "event": "done",
+            "answer": final_answer,
+            "success": final_success,
+            "error": final_error,
+            "conversation_id": conversation_id,
+        }
+    )
+
+
+def create_conversation(
+    db: Session,
+    payload: ConversationCreateRequest,
+    current_user: "User | None" = None,
+) -> ConversationRead:
     """创建问答记录。"""
+    ensure_resource_owner(payload.user_id, current_user, action="创建问答记录")
     _validate_question_access(db, payload)
 
     source_document_ids = ",".join(str(item) for item in payload.source_document_ids)
@@ -173,6 +375,7 @@ def create_conversation(db: Session, payload: ConversationCreateRequest) -> Conv
             question=payload.question,
             answer=payload.answer,
             source_document_ids=source_document_ids or None,
+            session_id=payload.session_id,
             status=payload.status,
         )
         db.commit()

@@ -20,6 +20,11 @@ class ConversationCreateRequest(BaseModel):
         default_factory=list,
         description="命中的文档 ID 列表",
     )
+    session_id: str | None = Field(
+        default=None,
+        max_length=64,
+        description="多轮会话标识，空表示单轮记录",
+    )
     status: ConversationRecordStatus = Field(
         default=ConversationRecordStatus.GENERATED,
         description="问答记录状态",
@@ -54,12 +59,13 @@ class ConversationRead(BaseModel):
     question: str
     answer: str
     source_document_ids: list[int]
+    session_id: str | None = None
     status: ConversationRecordStatus
     created_at: datetime
 
 
 class RAGQuestionRequest(BaseModel):
-    """RAG 问答请求体：用户提问 + 知识库 ID + 可选检索 TopK。"""
+    """RAG 问答请求体：用户提问 + 知识库 ID + 可选检索 TopK + 可选多轮会话标识。"""
 
     user_id: int = Field(gt=0, description="提问用户 ID")
     knowledge_base_id: int = Field(gt=0, description="知识库 ID")
@@ -70,6 +76,11 @@ class RAGQuestionRequest(BaseModel):
         le=20,
         description="检索结果数量，不传则使用默认配置",
     )
+    conversation_session_id: str | None = Field(
+        default=None,
+        max_length=64,
+        description="多轮会话标识，传入后携带该会话最近历史问答作为上下文",
+    )
 
     @field_validator("question", mode="before")
     @classmethod
@@ -78,6 +89,12 @@ class RAGQuestionRequest(BaseModel):
         if not text:
             raise ValueError("问题不能为空")
         return text
+
+    @field_validator("conversation_session_id", mode="before")
+    @classmethod
+    def _normalize_session_id(cls, value: str | None) -> str | None:
+        text = strip_text(value)
+        return text or None
 
 
 class RAGSourceDocumentRead(BaseModel):

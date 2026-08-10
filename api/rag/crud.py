@@ -15,15 +15,17 @@ def create_conversation_record(
     question: str,
     answer: str,
     source_document_ids: str | None = None,
+    session_id: str | None = None,
     status: ConversationRecordStatus = ConversationRecordStatus.GENERATED,
 ) -> ConversationRecord:
-    """创建一条问答记录。"""
+    """创建一条问答记录，session_id 用于标记多轮会话归属。"""
     conversation = ConversationRecord(
         user_id=user_id,
         knowledge_base_id=knowledge_base_id,
         question=question,
         answer=answer,
         source_document_ids=source_document_ids,
+        session_id=session_id,
         status=status,
     )
     db.add(conversation)
@@ -58,6 +60,36 @@ def list_conversations_by_user(db: Session, user_id: int) -> list[ConversationRe
         .order_by(ConversationRecord.id.asc())
     )
     return list(db.scalars(statement))
+
+
+def list_recent_conversations_by_session(
+    db: Session,
+    *,
+    user_id: int,
+    knowledge_base_id: int,
+    session_id: str,
+    limit: int,
+) -> list[ConversationRecord]:
+    """查询某会话最近 limit 条成功问答记录，按时间正序返回。
+
+    严格限定 user_id + knowledge_base_id + session_id 三元组，
+    保证多轮记忆不跨用户、不跨知识库泄漏。
+    仅取 GENERATED 记录：兜底失败回答无参考价值且会污染上下文。
+    """
+    statement = (
+        select(ConversationRecord)
+        .where(
+            ConversationRecord.user_id == user_id,
+            ConversationRecord.knowledge_base_id == knowledge_base_id,
+            ConversationRecord.session_id == session_id,
+            ConversationRecord.status == ConversationRecordStatus.GENERATED,
+        )
+        .order_by(ConversationRecord.id.desc())
+        .limit(limit)
+    )
+    records = list(db.scalars(statement))
+    records.reverse()
+    return records
 
 
 def delete_conversation(db: Session, conversation_id: int) -> bool:

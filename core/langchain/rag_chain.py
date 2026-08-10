@@ -11,9 +11,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from functools import lru_cache
-from typing import Any
+from typing import Any, Iterator
 
-from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 
 from config.log_config import get_logger
 from config.settings import get_settings
@@ -197,12 +197,33 @@ class StandardRAGChain:
         # 按 Token 截断，防止上下文溢出 LLM 输入窗口。
         return truncate_by_tokens(joined, self.max_context_tokens)
 
-    def _build_messages(self, query: str, context: str) -> list[Any]:
-        """构造 LangChain 消息列表（System + Human）。"""
-        system_content = SYSTEM_PROMPT_TEMPLATE.format(context=context or "（无）")
-        return [SystemMessage(content=system_content), HumanMessage(content=query)]
+    def _build_messages(
+        self,
+        query: str,
+        context: str,
+        chat_history: list[tuple[str, str]] | None = None,
+    ) -> list[Any]:
+        """构造 LangChain 消息列表（System + 历史多轮 + Human）。
 
-    def _generate_answer(self, query: str, context: str) -> tuple[str, str | None]:
+        Day12：chat_history 为 [(历史问题, 历史回答), ...] 正序列表，
+        以 Human/AI 消息对形式插入系统提示与当前提问之间，窗口截断由 service 层负责。
+        """
+        system_content = SYSTEM_PROMPT_TEMPLATE.format(context=context or "（无）")
+        messages: list[Any] = [SystemMessage(content=system_content)]
+        for history_question, history_answer in chat_history or []:
+            if not history_question or not history_answer:
+                continue
+            messages.append(HumanMessage(content=history_question))
+            messages.append(AIMessage(content=history_answer))
+        messages.append(HumanMessage(content=query))
+        return messages
+
+    def _generate_answer(
+        self,
+        query: str,
+        context: str,
+        chat_history: list[tuple[str, str]] | None = None,
+    ) -> tuple[str, str | None]:
         """调用 LLM 生成回答，异常时返回兜底文案。
 
         Returns:
@@ -212,7 +233,7 @@ class StandardRAGChain:
         if not context:
             return NO_CONTEXT_FALLBACK_ANSWER, None
 
-        messages = self._build_messages(query, context)
+        messages = self._build_messages(query, context, chat_history)
         try:
             answer = self._llm_client.invoke_with_messages(messages)
             if not answer or not answer.strip():
@@ -231,6 +252,7 @@ class StandardRAGChain:
         *,
         knowledge_base_id: int | str | None = None,
         top_k: int | None = None,
+        chat_history: list[tuple[str, str]] | None = None,
     ) -> RAGAnswer:
         """执行完整 RAG 问答流程。
 
@@ -238,6 +260,7 @@ class StandardRAGChain:
             query: 用户问题文本。
             knowledge_base_id: 知识库 ID，为 None 时检索全局（不推荐生产使用）。
             top_k: 检索结果数量，为 None 时使用默认配置。
+            chat_history: 历史问答对列表（正序），用于多轮上下文关联问答。
 
         Returns:
             RAGAnswer 结构化结果，包含回答、源文档、成功标志与错误信息。
@@ -257,7 +280,7 @@ class StandardRAGChain:
         context = self._format_context(documents)
 
         # 3. LLM 生成（含兜底）
-        answer, error = self._generate_answer(query, context)
+        answer, error = self._generate_answer(query, context, chat_history)
 
         # 4. 整理源文档信息，供溯源展示
         source_documents = [
@@ -285,6 +308,126 @@ class StandardRAGChain:
             success=success,
             error=error,
         )
+
+    def ask_stream(
+        self,
+        query: str,
+        *,
+        knowledge_base_id: int | str | None = None,
+        top_k: int | None = None,
+        chat_history: list[tuple[str, str]] | None = None,
+    ) -> Iterator[dict[str, Any]]:
+        """流式执行 RAG 问答，逐事件产出结果（Day11 打字机效果）。
+
+        复用非流式链路的检索、去重、阈值过滤、上下文拼接与 Prompt 逻辑，
+        Day12 起同样支持 chat_history 多轮上下文。
+        事件序列：sources -> chunk* -> done，LLM 异常时追加 error 事件，
+        done 始终作为最后一个事件，保证调用方可稳定收尾。
+
+        Args:
+            query: 用户问题文本。
+            knowledge_base_id: 知识库 ID，为 None 时检索全局（不推荐生产使用）。
+            top_k: 检索结果数量，为 None 时使用默认配置。
+            chat_history: 历史问答对列表（正序），用于多轮上下文关联问答。
+
+        Yields:
+            事件字典：
+            - {"type": "sources", "source_documents": [...]} 检索命中源文档
+            - {"type": "chunk", "content": "..."} 文本增量
+            - {"type": "error", "message": "...", "error": "..."} LLM 异常兜底
+            - {"type": "done", "answer": "...", "success": bool, "error": str | None}
+
+        Raises:
+            RAGChainError: 查询文本为空时抛出。
+        """
+        if not query or not query.strip():
+            raise RAGChainError("query 不能为空")
+
+        effective_top_k = top_k or self.default_top_k
+
+        # 1. 知识库隔离检索（复用非流式链路的去重与阈值过滤）
+        documents = self._retrieve(query, knowledge_base_id, effective_top_k)
+        context = self._format_context(documents)
+
+        source_documents = [
+            RAGSourceDocument(
+                page_content=str(getattr(doc, "page_content", doc)),
+                metadata=dict(getattr(doc, "metadata", {}) or {}),
+                score=getattr(doc, "score", None),
+            )
+            for doc in documents
+        ]
+        yield {"type": "sources", "source_documents": source_documents}
+
+        # 2. 无检索结果：兜底文案也以流式推送，保证前端打字机体验一致。
+        if not context:
+            yield {"type": "chunk", "content": NO_CONTEXT_FALLBACK_ANSWER}
+            yield {
+                "type": "done",
+                "answer": NO_CONTEXT_FALLBACK_ANSWER,
+                "success": True,
+                "error": None,
+            }
+            logger.info("RAG stream done (no context): kb_id=%s", knowledge_base_id)
+            return
+
+        # 3. LLM 流式生成
+        messages = self._build_messages(query, context, chat_history)
+        chunks: list[str] = []
+        try:
+            for delta in self._llm_client.stream_with_messages(messages):
+                chunks.append(delta)
+                yield {"type": "chunk", "content": delta}
+        except LLMInvocationError as exc:
+            logger.error("RAG stream LLM failed: %s", exc)
+            partial = "".join(chunks).strip()
+            yield {
+                "type": "error",
+                "message": LLM_ERROR_FALLBACK_ANSWER,
+                "error": str(exc),
+            }
+            yield {
+                "type": "done",
+                "answer": partial or LLM_ERROR_FALLBACK_ANSWER,
+                "success": False,
+                "error": str(exc),
+            }
+            return
+        except Exception as exc:  # pragma: no cover - 兜底防御
+            logger.exception("Unexpected RAG stream error: %s", exc)
+            yield {
+                "type": "error",
+                "message": LLM_ERROR_FALLBACK_ANSWER,
+                "error": str(exc),
+            }
+            yield {
+                "type": "done",
+                "answer": "".join(chunks).strip() or LLM_ERROR_FALLBACK_ANSWER,
+                "success": False,
+                "error": str(exc),
+            }
+            return
+
+        answer = "".join(chunks).strip()
+        if not answer:
+            # LLM 返回空内容：以兜底文案收尾，标记失败便于追溯。
+            yield {"type": "chunk", "content": NO_CONTEXT_FALLBACK_ANSWER}
+            yield {
+                "type": "done",
+                "answer": NO_CONTEXT_FALLBACK_ANSWER,
+                "success": False,
+                "error": "empty_llm_response",
+            }
+            return
+
+        logger.info(
+            "RAG stream done: query_len=%d kb_id=%s docs=%d chunks=%d",
+            len(query),
+            knowledge_base_id,
+            len(source_documents),
+            len(chunks),
+        )
+        yield {"type": "done", "answer": answer, "success": True, "error": None}
 
     def health_check(self) -> dict[str, Any]:
         """返回 RAG 链运行状态，便于调试和监控。"""
