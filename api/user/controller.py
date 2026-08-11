@@ -2,6 +2,7 @@
 
 Day12：登录接口签发 JWT；新增 /users/me 鉴权端点（必选令牌）。
 路由顺序注意：/me 必须先于 /{user_id} 注册，避免路径被整型参数路由拦截。
+鉴权策略：auth_router 为免鉴权白名单（登录 + 注册），注册接口路径保持 /users 不变。
 """
 
 from fastapi import APIRouter, Depends, status
@@ -30,12 +31,12 @@ def login(
     )
 
 
-@router.post("", status_code=status.HTTP_201_CREATED)
+@auth_router.post("/users", status_code=status.HTTP_201_CREATED)
 def create_user(
     payload: UserCreateRequest,
     db: Session = Depends(get_db),
 ) -> dict[str, object]:
-    """创建用户接口。"""
+    """创建用户（注册）接口：注册时用户尚无令牌，需匿名可访问。"""
     user = service.create_user(db, payload)
     return success_response(
         UserRead.model_validate(user).model_dump(mode="json"),

@@ -19,7 +19,7 @@ from api.rag.schema import (
     ConversationDeleteResponse,
     RAGQuestionRequest,
 )
-from common.dependencies import get_optional_current_user
+from common.dependencies import get_current_user
 from common.response import success_response
 from core.db import get_db
 from core.exceptions import AppException
@@ -35,11 +35,11 @@ health_router = APIRouter(tags=["rag"])
 def ask_question(
     payload: RAGQuestionRequest,
     db: Session = Depends(get_db),
-    current_user=Depends(get_optional_current_user),
+    current_user=Depends(get_current_user),
 ) -> dict[str, object]:
     """RAG 问答接口：知识库隔离检索 -> 上下文拼接 -> LLM 生成 -> 持久化问答记录。
 
-    Day12：可选 JWT 鉴权，携带令牌时强制校验提问身份与会话记忆隔离。
+    Day12：必选 JWT 鉴权，强制校验提问身份与会话记忆隔离。
     """
     answer = service.ask_question(db, payload, current_user)
     return success_response(
@@ -52,7 +52,7 @@ def ask_question(
 def ask_question_stream(
     payload: RAGQuestionRequest,
     db: Session = Depends(get_db),
-    current_user=Depends(get_optional_current_user),
+    current_user=Depends(get_current_user),
 ) -> StreamingResponse:
     """流式 RAG 问答接口（SSE 打字机效果）。
 
@@ -83,7 +83,7 @@ def rag_health_check() -> dict[str, object]:
 def create_conversation(
     payload: ConversationCreateRequest,
     db: Session = Depends(get_db),
-    current_user=Depends(get_optional_current_user),
+    current_user=Depends(get_current_user),
 ) -> dict[str, object]:
     """创建问答记录接口。"""
     conversation = service.create_conversation(db, payload, current_user)

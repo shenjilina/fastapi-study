@@ -1842,3 +1842,75 @@
 2026-08-10 16:39:39,804 | INFO | common.middleware | [request_id=a8f420e4db7f4c9eb069e7da1c11c232] GET /openapi.json completed in 30.76 ms
 2026-08-10 18:58:21,527 | INFO | core.app | Application shutdown complete.
 2026-08-10 18:58:27,768 | INFO | core.app | Application started. Database ready: True
+2026-08-11 22:43:09,048 | INFO | core.app | Application started. Database ready: True
+2026-08-11 22:43:14,021 | INFO | common.middleware | [request_id=540d3826b3c44d6fac9157e1bf3b78e5] GET / completed in 31.51 ms
+2026-08-11 22:43:14,285 | INFO | common.middleware | [request_id=240a63d2f11f4a6da1213e867a731ecc] GET /favicon.ico completed in 0.62 ms
+2026-08-11 22:43:20,746 | INFO | common.middleware | [request_id=5b4a88bb0de94dd9b9dd4c77ffdf3297] GET /docs completed in 0.40 ms
+2026-08-11 22:43:24,405 | INFO | common.middleware | [request_id=9ef99d1ed2104d1abc47558db6c2755b] GET /openapi.json completed in 62.86 ms
+2026-08-11 22:43:53,948 | INFO | common.middleware | [request_id=b5a706191a1d46cd8800ce6844007664] POST /api/v1/login completed in 76.07 ms
+2026-08-11 22:44:01,743 | INFO | common.middleware | [request_id=21f786195e9f4401a5e853fde1a4497d] POST /api/v1/login completed in 56.94 ms
+2026-08-11 22:47:19,149 | INFO | core.app | Application shutdown complete.
+2026-08-11 22:47:23,338 | INFO | core.app | Application started. Database ready: True
+2026-08-11 22:47:54,539 | INFO | core.app | Application shutdown complete.
+2026-08-11 22:47:58,570 | INFO | core.app | Application started. Database ready: True
+2026-08-11 22:48:13,643 | INFO | core.app | Application shutdown complete.
+2026-08-11 22:48:17,682 | INFO | core.app | Application started. Database ready: True
+2026-08-11 22:48:38,024 | INFO | common.middleware | [request_id=d07cb53869364c7ca9fe8179e23f1752] GET /health completed in 15.75 ms
+2026-08-11 22:48:38,026 | INFO | httpx | HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2026-08-11 22:48:38,097 | INFO | utils.hash_utils | Duplicate file detected: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-0\test_is_duplicate_file_true0\dup.txt (md5=9a0364b9e99bb480dd25e1f0284c8555)
+2026-08-11 22:48:38,109 | INFO | utils.hash_utils | Duplicate text detected (md5=24f1b0a79473250c195c7fb84e393392)
+2026-08-11 22:48:38,120 | INFO | utils.text_utils | Text truncated: original_tokens=500 max_tokens=10 chars 2000->39
+2026-08-11 22:48:38,122 | INFO | utils.text_utils | Text truncated: original_tokens=12 max_tokens=5 chars 48->15
+2026-08-11 22:48:38,124 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-11 22:48:38,125 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-11 22:48:38,131 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-0\test_parse_txt_utf80\test.txt (size=13)
+2026-08-11 22:48:38,138 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-11 22:48:38,141 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-0\test_parse_txt_chinese0\chinese.txt (size=18)
+2026-08-11 22:48:38,146 | INFO | utils.file_parser | TXT parsed successfully: 6 chars
+2026-08-11 22:48:38,149 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-0\test_parse_txt_gbk0\gbk.txt (size=8)
+2026-08-11 22:48:38,156 | INFO | utils.file_parser | TXT parsed successfully: 4 chars
+2026-08-11 22:48:38,160 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-0\test_parse_txt_whitespace_only0\whitespace.txt (size=8)
+2026-08-11 22:48:38,242 | INFO | utils.file_parser | Parsing PDF file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-0\test_parse_pdf_basic0\test.pdf (size=431)
+2026-08-11 22:48:38,256 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-0\test_parse_file_txt_dispatch0\test.txt (size=13)
+2026-08-11 22:48:38,263 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-11 22:48:38,273 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): Ollama not running
+2026-08-11 22:48:38,274 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3): Ollama not running
+2026-08-11 22:48:38,274 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3): Ollama not running
+2026-08-11 22:48:38,275 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): fail
+2026-08-11 22:48:38,276 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-08-11 22:48:38,372 | INFO | core.langchain.chroma_store | Chroma store ready. collection=rag_documents persist_directory=D:\www\jilin\python\fastapi-study\chroma
+2026-08-11 22:48:38,376 | WARNING | core.langchain.retriever | top_k=100 exceeds max 20, clamped to max
+2026-08-11 22:48:38,379 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
+2026-08-11 22:48:38,380 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
+2026-08-11 22:48:38,380 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=2 top_k=5
+2026-08-11 22:49:11,590 | INFO | core.app | Application shutdown complete.
+2026-08-11 22:49:15,839 | INFO | core.app | Application started. Database ready: True
+2026-08-11 22:49:15,951 | INFO | core.app | Application shutdown complete.
+2026-08-11 22:49:20,168 | INFO | core.app | Application started. Database ready: True
+2026-08-11 22:49:33,865 | INFO | common.middleware | [request_id=6a8e1881fc924d42ac6c9451f299e5a7] POST /api/v1/conversations/ask completed in 16.49 ms
+2026-08-11 22:49:33,866 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/conversations/ask "HTTP/1.1 401 Unauthorized"
+2026-08-11 22:49:33,887 | INFO | common.middleware | [request_id=eb9bcefc1c8f47c5a516ac2b0ee4f9a2] GET /api/v1/conversations completed in 1.58 ms
+2026-08-11 22:49:33,888 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/conversations?user_id=1 "HTTP/1.1 401 Unauthorized"
+2026-08-11 22:49:33,890 | INFO | common.middleware | [request_id=528ea0ac65d0418db8037a6fd97ee840] GET /api/v1/knowledge-bases completed in 1.29 ms
+2026-08-11 22:49:33,891 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/knowledge-bases?owner_id=1 "HTTP/1.1 401 Unauthorized"
+2026-08-11 22:49:33,894 | INFO | common.middleware | [request_id=a3b9e76607ad4d109993fcdf3a350c9e] GET /api/v1/users/me completed in 1.41 ms
+2026-08-11 22:49:33,895 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/users/me "HTTP/1.1 401 Unauthorized"
+2026-08-11 22:49:33,897 | INFO | common.middleware | [request_id=a144e52f4cab4ee18d7903ffaa1b4d8b] GET /api/v1/users completed in 1.16 ms
+2026-08-11 22:49:33,898 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/users "HTTP/1.1 401 Unauthorized"
+2026-08-11 22:49:33,901 | INFO | common.middleware | [request_id=a2470649f47b45e6869509bf8a614ca4] GET /api/v1/rag/health completed in 1.76 ms
+2026-08-11 22:49:33,902 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/rag/health "HTTP/1.1 401 Unauthorized"
+2026-08-11 22:49:33,904 | INFO | common.middleware | [request_id=36631a952d524d7b8fde4bf9a49ae857] GET /api/v1/users/me completed in 1.28 ms
+2026-08-11 22:49:33,905 | INFO | httpx | HTTP Request: GET http://testserver/api/v1/users/me "HTTP/1.1 401 Unauthorized"
+2026-08-11 22:49:33,909 | INFO | common.middleware | [request_id=4b4dc5832e924e8dba69fbf3054aaa95] POST /api/v1/login completed in 3.31 ms
+2026-08-11 22:49:33,910 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/login "HTTP/1.1 422 Unprocessable Entity"
+2026-08-11 22:49:33,914 | INFO | common.middleware | [request_id=9adb9a2afed14d4fb08404d8aef54691] POST /api/v1/users completed in 1.18 ms
+2026-08-11 22:49:33,914 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/users "HTTP/1.1 422 Unprocessable Entity"
+2026-08-11 22:49:33,916 | INFO | common.middleware | [request_id=c825e10d134a47a9a077496c6365b1dd] GET /health completed in 0.36 ms
+2026-08-11 22:49:33,917 | INFO | httpx | HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2026-08-11 22:49:37,958 | INFO | core.app | Application shutdown complete.
+2026-08-11 22:49:42,228 | INFO | core.app | Application started. Database ready: True
+2026-08-11 22:50:52,128 | INFO | core.app | Application shutdown complete.
+2026-08-11 22:50:56,278 | INFO | core.app | Application started. Database ready: True
+2026-08-11 22:51:24,108 | INFO | core.app | Application shutdown complete.
+2026-08-11 22:51:28,257 | INFO | core.app | Application started. Database ready: True
+2026-08-11 22:51:43,829 | INFO | core.app | Application shutdown complete.
