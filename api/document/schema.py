@@ -1,11 +1,9 @@
 """文档模块 Schema。"""
 
-from datetime import datetime
-
 from pydantic import ConfigDict, Field, field_validator
 
 from api.document.enums import DocumentParseStatus
-from common.base_model import ApiBaseModel
+from common.base_model import ApiBaseModel, ApiDateTime
 from common.dependencies import strip_text
 
 
@@ -90,8 +88,8 @@ class DocumentRead(ApiBaseModel):
     file_md5: str
     chunk_count: int
     parse_status: DocumentParseStatus
-    created_at: datetime
-    updated_at: datetime
+    created_at: ApiDateTime
+    updated_at: ApiDateTime
 
 
 DocumentUploadResponse.model_rebuild()

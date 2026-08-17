@@ -18,8 +18,10 @@ Field(validation_alias=..., serialization_alias=...) 单独覆盖全局别名。
 from __future__ import annotations
 
 import re
+from datetime import datetime
+from typing import Annotated, Any
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, BeforeValidator, ConfigDict, PlainSerializer
 
 # userId -> user_id：小写/数字与大写交界处插入下划线
 _SNAKE_CASE_RE = re.compile(r"(?<=[a-z0-9])(?=[A-Z])")
@@ -53,6 +55,43 @@ def to_snake(name: str) -> str:
     text = _ACRONYM_BOUNDARY_RE.sub("_", name)
     text = _SNAKE_CASE_RE.sub("_", text)
     return text.lower()
+
+
+# ============================================================
+# 统一日期时间格式：接口层一律 YYYY-MM-DD HH:mm:ss，不输出 ISO 格式
+# ============================================================
+DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+
+
+def format_api_datetime(value: datetime) -> str:
+    """datetime -> 'YYYY-MM-DD HH:mm:ss'。"""
+    return value.strftime(DATETIME_FORMAT)
+
+
+def parse_api_datetime(value: Any) -> Any:
+    """入参预解析：优先按统一格式解析，失败时回退给 Pydantic 默认解析器。
+
+    仅处理字符串入参；datetime 对象（如 ORM 属性）直接透传，
+    不影响 from_attributes 的 ORM 转换链路。
+    """
+    if isinstance(value, str):
+        try:
+            return datetime.strptime(value.strip(), DATETIME_FORMAT)
+        except ValueError:
+            return value  # 兼容 ISO 等其他格式，交给 Pydantic 默认解析
+    return value
+
+
+# 接口层统一的 datetime 类型：所有 schema 的时间字段用它替代裸 datetime。
+# - 序列化：JSON 模式下输出 'YYYY-MM-DD HH:mm:ss'；Python 模式保留 datetime 对象，
+#   不影响内部读写与 ORM 存储；
+# - 反序列化：优先按统一格式解析，其他格式回退 Pydantic 默认解析。
+# 定义集中于基类模块，各模型只需替换类型注解，无需重复配置序列化器。
+ApiDateTime = Annotated[
+    datetime,
+    BeforeValidator(parse_api_datetime),
+    PlainSerializer(format_api_datetime, return_type=str, when_used="json"),
+]
 
 
 class ApiBaseModel(BaseModel):

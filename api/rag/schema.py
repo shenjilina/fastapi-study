@@ -1,12 +1,11 @@
 """RAG 问答模块 Schema。"""
 
-from datetime import datetime
 from typing import Any
 
 from pydantic import AliasChoices, Field, field_validator, model_validator
 
 from api.rag.enums import ConversationRecordStatus
-from common.base_model import ApiBaseModel
+from common.base_model import ApiBaseModel, ApiDateTime
 from common.dependencies import strip_text
 
 
@@ -62,7 +61,7 @@ class ConversationRead(ApiBaseModel):
     source_document_ids: list[int]
     session_id: str | None = None
     status: ConversationRecordStatus
-    created_at: datetime
+    created_at: ApiDateTime
 
 
 class RAGQuestionRequest(ApiBaseModel):

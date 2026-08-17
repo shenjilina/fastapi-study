@@ -1,11 +1,9 @@
 """知识库模块 Schema。"""
 
-from datetime import datetime
-
 from pydantic import ConfigDict, Field, field_validator
 
 from api.knowledge.enums import KnowledgeBaseStatus
-from common.base_model import ApiBaseModel
+from common.base_model import ApiBaseModel, ApiDateTime
 from common.dependencies import strip_text
 
 
@@ -56,5 +54,5 @@ class KnowledgeBaseRead(ApiBaseModel):
     name: str
     description: str | None
     status: KnowledgeBaseStatus
-    created_at: datetime
-    updated_at: datetime
+    created_at: ApiDateTime
+    updated_at: ApiDateTime
