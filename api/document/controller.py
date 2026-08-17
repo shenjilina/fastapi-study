@@ -15,14 +15,15 @@ from api.document.schema import (
     DocumentListRequest,
     DocumentRead,
     DocumentStatusUpdateRequest,
+    DocumentUploadResponse,
 )
-from common.response import success_response
+from common.response import ApiResponse, success_response
 from core.db import get_db
 
 router = APIRouter(tags=["documents"])
 
 
-@router.post("/documents", status_code=status.HTTP_201_CREATED)
+@router.post("/documents", status_code=status.HTTP_201_CREATED, response_model=ApiResponse[DocumentRead])
 def create_document(
     payload: DocumentCreateRequest,
     db: Session = Depends(get_db),
@@ -35,7 +36,11 @@ def create_document(
     )
 
 
-@router.patch("/documents/{document_id}/status", status_code=status.HTTP_200_OK)
+@router.patch(
+    "/documents/{document_id}/status",
+    status_code=status.HTTP_200_OK,
+    response_model=ApiResponse[DocumentRead],
+)
 def update_document_status(
     document_id: int,
     payload: DocumentStatusUpdateRequest,
@@ -49,7 +54,11 @@ def update_document_status(
     )
 
 
-@router.post("/knowledge-bases/documents/list", status_code=status.HTTP_200_OK)
+@router.post(
+    "/knowledge-bases/documents/list",
+    status_code=status.HTTP_200_OK,
+    response_model=ApiResponse[list[DocumentRead]],
+)
 def list_documents_by_knowledge_base(
     payload: DocumentListRequest,
     db: Session = Depends(get_db),
@@ -65,6 +74,7 @@ def list_documents_by_knowledge_base(
 @router.post(
     "/knowledge-bases/documents/upload/{knowledge_base_id}",
     status_code=status.HTTP_201_CREATED,
+    response_model=ApiResponse[DocumentUploadResponse],
 )
 async def upload_document(
     knowledge_base_id: int,
@@ -84,7 +94,11 @@ async def upload_document(
     )
 
 
-@router.delete("/documents/{document_id}", status_code=status.HTTP_200_OK)
+@router.delete(
+    "/documents/{document_id}",
+    status_code=status.HTTP_200_OK,
+    response_model=ApiResponse[DocumentDeleteResponse],
+)
 def delete_document(
     document_id: int,
     db: Session = Depends(get_db),

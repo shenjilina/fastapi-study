@@ -9,16 +9,16 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
 from api.user import service
-from api.user.schema import LoginRequest, UserCreateRequest, UserDetailRequest, UserRead
+from api.user.schema import LoginRequest, LoginResponse, UserCreateRequest, UserDetailRequest, UserRead
 from common.dependencies import get_current_user
-from common.response import success_response
+from common.response import ApiResponse, success_response
 from core.db import get_db
 
 router = APIRouter(prefix="/users", tags=["users"])
 auth_router = APIRouter(prefix="/auth", tags=["auth"])
 
 
-@auth_router.post("/login", status_code=status.HTTP_200_OK)
+@auth_router.post("/login", status_code=status.HTTP_200_OK, response_model=ApiResponse[LoginResponse])
 def login(
     payload: LoginRequest,
     db: Session = Depends(get_db),
@@ -31,7 +31,7 @@ def login(
     )
 
 
-@auth_router.post("/create_user", status_code=status.HTTP_201_CREATED)
+@auth_router.post("/create_user", status_code=status.HTTP_201_CREATED, response_model=ApiResponse[UserRead])
 def create_user(
     payload: UserCreateRequest,
     db: Session = Depends(get_db),
@@ -44,14 +44,14 @@ def create_user(
     )
 
 
-@router.get("/list", status_code=status.HTTP_200_OK)
+@router.get("/list", status_code=status.HTTP_200_OK, response_model=ApiResponse[list[UserRead]])
 def list_users(db: Session = Depends(get_db)) -> dict[str, object]:
     """查询用户列表接口。"""
     users = [UserRead.model_validate(item).model_dump(mode="json") for item in service.list_users(db)]
     return success_response(users, message="用户列表获取成功")
 
 
-@router.get("/me", status_code=status.HTTP_200_OK)
+@router.get("/me", status_code=status.HTTP_200_OK, response_model=ApiResponse[UserRead])
 def get_current_user_profile(
     current_user=Depends(get_current_user),
 ) -> dict[str, object]:
@@ -62,7 +62,7 @@ def get_current_user_profile(
     )
 
 
-@router.post("/detail", status_code=status.HTTP_200_OK)
+@router.post("/detail", status_code=status.HTTP_200_OK, response_model=ApiResponse[UserRead])
 def get_user_detail(
     payload: UserDetailRequest,
     db: Session = Depends(get_db),

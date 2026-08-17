@@ -12,14 +12,15 @@ from api.knowledge.schema import (
     KnowledgeBaseCreateRequest,
     KnowledgeBaseDetailRequest,
     KnowledgeBaseListRequest,
+    KnowledgeBaseRead,
 )
-from common.response import success_response
+from common.response import ApiResponse, success_response
 from core.db import get_db
 
 router = APIRouter(prefix="/knowledge-bases", tags=["knowledge"])
 
 
-@router.post("", status_code=status.HTTP_201_CREATED)
+@router.post("", status_code=status.HTTP_201_CREATED, response_model=ApiResponse[KnowledgeBaseRead])
 def create_knowledge_base(
     payload: KnowledgeBaseCreateRequest,
     db: Session = Depends(get_db),
@@ -32,7 +33,7 @@ def create_knowledge_base(
     )
 
 
-@router.post("/list", status_code=status.HTTP_200_OK)
+@router.post("/list", status_code=status.HTTP_200_OK, response_model=ApiResponse[list[KnowledgeBaseRead]])
 def list_knowledge_bases(
     payload: KnowledgeBaseListRequest,
     db: Session = Depends(get_db),
@@ -45,7 +46,7 @@ def list_knowledge_bases(
     return success_response(knowledge_bases, message="知识库列表获取成功")
 
 
-@router.post("/detail", status_code=status.HTTP_200_OK)
+@router.post("/detail", status_code=status.HTTP_200_OK, response_model=ApiResponse[KnowledgeBaseRead])
 def get_knowledge_base_detail(
     payload: KnowledgeBaseDetailRequest,
     db: Session = Depends(get_db),

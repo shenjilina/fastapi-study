@@ -159,5 +159,6 @@ class RAGHealthCheckRead(ApiBaseModel):
     chain: str = Field(description="链名称")
     max_context_tokens: int = Field(description="上下文最大 Token 数")
     default_top_k: int = Field(description="默认检索 TopK")
+    score_threshold: float = Field(description="检索距离阈值（越小越相关）")
     retriever: dict[str, Any] = Field(default_factory=dict, description="检索器状态")
     llm: dict[str, Any] = Field(default_factory=dict, description="LLM 状态")

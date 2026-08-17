@@ -19,10 +19,13 @@ from api.rag.schema import (
     ConversationDeleteResponse,
     ConversationDetailRequest,
     ConversationListRequest,
+    ConversationRead,
+    RAGAnswerRead,
+    RAGHealthCheckRead,
     RAGQuestionRequest,
 )
 from common.dependencies import get_current_user
-from common.response import success_response
+from common.response import ApiResponse, success_response
 from core.db import get_db
 
 # 对话记录资源路由：统一使用 /conversations 前缀
@@ -32,7 +35,7 @@ router = APIRouter(prefix="/conversations", tags=["rag"])
 health_router = APIRouter(tags=["rag"])
 
 
-@router.post("/ask", status_code=status.HTTP_200_OK)
+@router.post("/ask", status_code=status.HTTP_200_OK, response_model=ApiResponse[RAGAnswerRead])
 def ask_question(
     payload: RAGQuestionRequest,
     db: Session = Depends(get_db),
@@ -49,6 +52,8 @@ def ask_question(
     )
 
 
+# SSE 流式例外：不声明 response_model。SSE 逐块推送 text/event-stream，
+# 响应体非单一 JSON 对象，无法被 response_model 校验/序列化；若声明会破坏流式输出。
 @router.post("/ask/stream", status_code=status.HTTP_200_OK)
 def ask_question_stream(
     payload: RAGQuestionRequest,
@@ -73,14 +78,18 @@ def ask_question_stream(
     )
 
 
-@health_router.get("/rag/health", status_code=status.HTTP_200_OK)
+@health_router.get(
+    "/rag/health",
+    status_code=status.HTTP_200_OK,
+    response_model=ApiResponse[RAGHealthCheckRead],
+)
 def rag_health_check() -> dict[str, object]:
     """RAG 链健康检查接口：返回检索器、LLM、链参数状态。"""
     health = service.get_rag_health()
     return success_response(health, message="RAG 链状态获取成功")
 
 
-@router.post("", status_code=status.HTTP_201_CREATED)
+@router.post("", status_code=status.HTTP_201_CREATED, response_model=ApiResponse[ConversationRead])
 def create_conversation(
     payload: ConversationCreateRequest,
     db: Session = Depends(get_db),
@@ -94,7 +103,7 @@ def create_conversation(
     )
 
 
-@router.post("/list", status_code=status.HTTP_200_OK)
+@router.post("/list", status_code=status.HTTP_200_OK, response_model=ApiResponse[list[ConversationRead]])
 def list_conversations(
     payload: ConversationListRequest,
     db: Session = Depends(get_db),
@@ -112,7 +121,11 @@ def list_conversations(
     return success_response(conversations_data, message="问答记录列表获取成功")
 
 
-@router.post("/get_conversation", status_code=status.HTTP_200_OK)
+@router.post(
+    "/get_conversation",
+    status_code=status.HTTP_200_OK,
+    response_model=ApiResponse[ConversationRead],
+)
 def get_conversation(
     payload: ConversationDetailRequest,
     db: Session = Depends(get_db),
@@ -125,7 +138,11 @@ def get_conversation(
     )
 
 
-@router.delete("/{conversation_id}", status_code=status.HTTP_200_OK)
+@router.delete(
+    "/{conversation_id}",
+    status_code=status.HTTP_200_OK,
+    response_model=ApiResponse[ConversationDeleteResponse],
+)
 def delete_conversation(
     conversation_id: int,
     db: Session = Depends(get_db),
