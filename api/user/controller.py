@@ -9,13 +9,13 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
 from api.user import service
-from api.user.schema import LoginRequest, UserCreateRequest, UserRead
+from api.user.schema import LoginRequest, UserCreateRequest, UserDetailRequest, UserRead
 from common.dependencies import get_current_user
 from common.response import success_response
 from core.db import get_db
 
 router = APIRouter(prefix="/users", tags=["users"])
-auth_router = APIRouter(tags=["auth"])
+auth_router = APIRouter(prefix="/auth", tags=["auth"])
 
 
 @auth_router.post("/login", status_code=status.HTTP_200_OK)
@@ -31,7 +31,7 @@ def login(
     )
 
 
-@auth_router.post("/users", status_code=status.HTTP_201_CREATED)
+@auth_router.post("/create_user", status_code=status.HTTP_201_CREATED)
 def create_user(
     payload: UserCreateRequest,
     db: Session = Depends(get_db),
@@ -44,7 +44,7 @@ def create_user(
     )
 
 
-@router.get("", status_code=status.HTTP_200_OK)
+@router.get("/list", status_code=status.HTTP_200_OK)
 def list_users(db: Session = Depends(get_db)) -> dict[str, object]:
     """查询用户列表接口。"""
     users = [UserRead.model_validate(item).model_dump(mode="json") for item in service.list_users(db)]
@@ -62,13 +62,13 @@ def get_current_user_profile(
     )
 
 
-@router.get("/{user_id}", status_code=status.HTTP_200_OK)
+@router.post("/detail", status_code=status.HTTP_200_OK)
 def get_user_detail(
-    user_id: int,
+    payload: UserDetailRequest,
     db: Session = Depends(get_db),
 ) -> dict[str, object]:
     """查询用户详情接口。"""
-    user = service.get_user_detail(db, user_id)
+    user = service.get_user_detail(db, payload.user_id)
     return success_response(
         UserRead.model_validate(user).model_dump(mode="json"),
         message="用户详情获取成功",

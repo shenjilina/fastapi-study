@@ -25,18 +25,23 @@ from init_app import app
 client = TestClient(app)
 
 
-def _create_user(suffix: str) -> int:
-    """创建用户并返回 user_id。"""
+def _create_user(suffix: str) -> tuple[int, dict]:
+    """创建用户并登录，返回 (user_id, 鉴权请求头)。"""
+    username = f"day8_user_{suffix}"
     resp = client.post(
-        "/api/v1/users",
+        "/api/v1/auth/create_user",
         json={
-            "username": f"day8_user_{suffix}",
-            "email": f"day8_user_{suffix}@example.com",
+            "username": username,
+            "email": f"{username}@example.com",
             "password": "Password123",
         },
     )
     assert resp.status_code == 201, f"创建用户失败: {resp.json()}"
-    return resp.json()["data"]["id"]
+    user_id = resp.json()["data"]["id"]
+    login_resp = client.post("/api/v1/auth/login", json={"username": username, "password": "Password123"})
+    assert login_resp.status_code == 200, f"登录失败: {login_resp.json()}"
+    token = login_resp.json()["data"]["access_token"]
+    return user_id, {"Authorization": f"Bearer {token}"}
 
 
 def _create_kb(user_id: int, suffix: str) -> int:
@@ -57,12 +62,12 @@ def _upload_txt(kb_id: int, content: str, filename: str = "day8_doc.txt") -> int
     return resp.json()["data"]["document"]["id"]
 
 
-def _ask(user_id: int, kb_id: int, question: str, top_k: int | None = None) -> dict:
-    """调用 RAG 问答接口。"""
+def _ask(user_id: int, kb_id: int, question: str, headers: dict, top_k: int | None = None) -> dict:
+    """调用 RAG 问答接口（必选 JWT 鉴权）。"""
     payload = {"user_id": user_id, "knowledge_base_id": kb_id, "question": question}
     if top_k is not None:
         payload["top_k"] = top_k
-    resp = client.post("/api/v1/conversations/ask", json=payload)
+    resp = client.post("/api/v1/conversations/ask", json=payload, headers=headers)
     return resp
 
 
@@ -76,7 +81,7 @@ def main() -> None:
     # ================================================================
     # 场景 1：完整闭环 - 上传文档 -> 问答 -> 溯源 -> 持久化
     # ================================================================
-    user_id = _create_user(suffix)
+    user_id, headers = _create_user(suffix)
     print(f"[1] USER OK: id={user_id}")
 
     kb_id = _create_kb(user_id, suffix)
@@ -93,7 +98,7 @@ def main() -> None:
     print(f"[1] DOC OK: id={document_id}")
 
     # 提问并验证完整响应结构
-    ask_resp = _ask(user_id, kb_id, "FastAPI 是什么？")
+    ask_resp = _ask(user_id, kb_id, "FastAPI 是什么？", headers)
     assert ask_resp.status_code == 200, f"问答接口失败: {ask_resp.json()}"
     answer_data = ask_resp.json()["data"]
 
@@ -124,7 +129,7 @@ def main() -> None:
     # 验证对话记录已入库
     conv_id = answer_data["conversation_id"]
     assert conv_id is not None, "对话记录应已持久化"
-    get_resp = client.get(f"/api/v1/conversations/{conv_id}")
+    get_resp = client.post("/api/v1/conversations/get", json={"conversation_id": conv_id})
     assert get_resp.status_code == 200
     conv = get_resp.json()["data"]
     assert conv["question"] == "FastAPI 是什么？"
@@ -140,7 +145,7 @@ def main() -> None:
     # 场景 2：知识库隔离 - KB2 为空，提问应返回兜底回答
     # ================================================================
     kb2_id = _create_kb(user_id, suffix + "_empty")
-    empty_resp = _ask(user_id, kb2_id, "这个知识库有内容吗？")
+    empty_resp = _ask(user_id, kb2_id, "这个知识库有内容吗？", headers)
     assert empty_resp.status_code == 200
     empty_data = empty_resp.json()["data"]
     assert len(empty_data["source_documents"]) == 0, "空知识库不应有检索结果"
@@ -150,12 +155,12 @@ def main() -> None:
     # ================================================================
     # 场景 3：链路漏洞修复 - 空提问拦截(422)
     # ================================================================
-    empty_q_resp = _ask(user_id, kb_id, "")
+    empty_q_resp = _ask(user_id, kb_id, "", headers)
     assert empty_q_resp.status_code == 422, f"空提问应 422: {empty_q_resp.status_code}"
     print("[3] EMPTY QUESTION OK: 422 拦截")
 
     # 纯空格提问也应拦截
-    whitespace_resp = _ask(user_id, kb_id, "   ")
+    whitespace_resp = _ask(user_id, kb_id, "   ", headers)
     assert whitespace_resp.status_code == 422, f"纯空格提问应 422: {whitespace_resp.status_code}"
     print("[3] WHITESPACE QUESTION OK: 422 拦截")
 
@@ -164,7 +169,7 @@ def main() -> None:
     # ================================================================
     # 使用接近上限的提问（2000 字符以内），验证系统正常处理
     long_question = "请详细介绍 FastAPI 框架。 " * 80  # ~1600 字符，在 2000 限制内
-    long_resp = _ask(user_id, kb_id, long_question)
+    long_resp = _ask(user_id, kb_id, long_question, headers)
     assert long_resp.status_code == 200, f"长提问不应报错: {long_resp.status_code}"
     long_data = long_resp.json()["data"]
     assert len(long_data["answer"]) > 0
@@ -172,7 +177,7 @@ def main() -> None:
 
     # 超过 2000 字符的提问应被 422 拦截
     over_limit_question = "测试超长提问。 " * 300  # ~2400 字符，超过 2000 限制
-    over_resp = _ask(user_id, kb_id, over_limit_question)
+    over_resp = _ask(user_id, kb_id, over_limit_question, headers)
     assert over_resp.status_code == 422, f"超长提问应 422: {over_resp.status_code}"
     print("[4] OVER LIMIT OK: 超过 2000 字符的提问被 422 拦截")
 
@@ -180,7 +185,7 @@ def main() -> None:
     # 场景 5：链路漏洞修复 - 检索失败兜底（不存在的内容）
     # ================================================================
     # 用一个完全不相关的提问，验证即使检索结果少也能正常返回
-    unrelated_resp = _ask(user_id, kb_id, "量子力学的基本原理是什么？")
+    unrelated_resp = _ask(user_id, kb_id, "量子力学的基本原理是什么？", headers)
     assert unrelated_resp.status_code == 200
     print("[5] FALLBACK OK: 不相关问题正常返回兜底回答")
 
@@ -200,7 +205,7 @@ def main() -> None:
     finally:
         db_session.close()
 
-    disabled_resp = _ask(user_id, kb_id, "测试禁用知识库提问")
+    disabled_resp = _ask(user_id, kb_id, "测试禁用知识库提问", headers)
     assert disabled_resp.status_code == 403, f"禁用 KB 应 403: {disabled_resp.status_code}"
     assert "禁用" in disabled_resp.json()["message"]
     print("[6] DISABLED KB OK: 403 拦截禁用知识库")
@@ -218,15 +223,15 @@ def main() -> None:
     # ================================================================
     # 场景 7：越权访问拦截(403)
     # ================================================================
-    other_user_id = _create_user(suffix + "_other")
-    unauthorized_resp = _ask(other_user_id, kb_id, "越权提问测试")
+    other_user_id, other_headers = _create_user(suffix + "_other")
+    unauthorized_resp = _ask(other_user_id, kb_id, "越权提问测试", other_headers)
     assert unauthorized_resp.status_code == 403, f"越权应 403: {unauthorized_resp.status_code}"
     print("[7] UNAUTHORIZED OK: 403 拦截越权访问")
 
     # ================================================================
     # 场景 8：不存在的知识库(404)
     # ================================================================
-    not_found_resp = _ask(user_id, 999999, "不存在的知识库")
+    not_found_resp = _ask(user_id, 999999, "不存在的知识库", headers)
     assert not_found_resp.status_code == 404, f"不存在 KB 应 404: {not_found_resp.status_code}"
     print("[8] NOT FOUND OK: 404 拦截不存在的知识库")
 
@@ -247,21 +252,21 @@ def main() -> None:
     # 场景 10：对话记录完整 CRUD 闭环
     # ================================================================
     # 列表查询 - 按知识库
-    list_kb_resp = client.get("/api/v1/conversations", params={"knowledge_base_id": kb_id})
+    list_kb_resp = client.post("/api/v1/conversations/list", json={"knowledge_base_id": kb_id})
     assert list_kb_resp.status_code == 200
     kb_convs = list_kb_resp.json()["data"]
     assert len(kb_convs) >= 1
     print(f"[10] LIST BY KB OK: count={len(kb_convs)}")
 
     # 列表查询 - 按用户
-    list_user_resp = client.get("/api/v1/conversations", params={"user_id": user_id})
+    list_user_resp = client.post("/api/v1/conversations/list", json={"user_id": user_id})
     assert list_user_resp.status_code == 200
     user_convs = list_user_resp.json()["data"]
     assert len(user_convs) >= 1
     print(f"[10] LIST BY USER OK: count={len(user_convs)}")
 
     # 单条查询
-    single_resp = client.get(f"/api/v1/conversations/{conv_id}")
+    single_resp = client.post("/api/v1/conversations/get", json={"conversation_id": conv_id})
     assert single_resp.status_code == 200
     single_conv = single_resp.json()["data"]
     assert single_conv["id"] == conv_id
@@ -274,7 +279,7 @@ def main() -> None:
     print(f"[10] DELETE OK: id={conv_id}")
 
     # 验证删除后 404
-    verify_resp = client.get(f"/api/v1/conversations/{conv_id}")
+    verify_resp = client.post("/api/v1/conversations/get", json={"conversation_id": conv_id})
     assert verify_resp.status_code == 404
     print("[10] VERIFY DELETE OK: 删除后返回 404")
 
@@ -287,12 +292,12 @@ def main() -> None:
     # 场景 11：top_k 参数传递验证
     # ================================================================
     # 使用自定义 top_k 提问，验证不报错
-    topk_resp = _ask(user_id, kb_id, "LangChain 是什么？", top_k=2)
+    topk_resp = _ask(user_id, kb_id, "LangChain 是什么？", headers, top_k=2)
     assert topk_resp.status_code == 200, f"自定义 top_k 问答失败: {topk_resp.status_code}"
     print("[11] TOP_K OK: 自定义 top_k=2 正常工作")
 
     # top_k 超范围应 422
-    topk_invalid = _ask(user_id, kb_id, "测试", top_k=100)
+    topk_invalid = _ask(user_id, kb_id, "测试", headers, top_k=100)
     assert topk_invalid.status_code == 422, f"top_k 超范围应 422: {topk_invalid.status_code}"
     print("[11] TOP_K VALIDATION OK: top_k=100 被 422 拦截")
 

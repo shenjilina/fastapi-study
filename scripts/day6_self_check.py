@@ -25,7 +25,7 @@ def main() -> None:
 
     # 1. 创建用户
     user_resp = client.post(
-        "/api/v1/users",
+        "/api/v1/auth/create_user",
         json={
             "username": f"day6_user_{suffix}",
             "email": f"day6_user_{suffix}@example.com",
@@ -54,7 +54,7 @@ def main() -> None:
         "通过将文档切片后存入向量库，可以实现基于语义的精准检索。"
     )
     files = {"file": ("day6_test.txt", io.BytesIO(txt_content.encode("utf-8")), "text/plain")}
-    upload_resp = client.post(f"/api/v1/knowledge-bases/{kb_id}/documents/upload", files=files)
+    upload_resp = client.post(f"/api/v1/knowledge-bases/documents/upload/{kb_id}", files=files)
     assert upload_resp.status_code == 201, f"上传文档失败: {upload_resp.json()}"
     upload_data = upload_resp.json()["data"]
     document_id = upload_data["document"]["id"]
@@ -66,12 +66,12 @@ def main() -> None:
 
     # 4. 重复上传拦截
     files2 = {"file": ("day6_test_copy.txt", io.BytesIO(txt_content.encode("utf-8")), "text/plain")}
-    dup_resp = client.post(f"/api/v1/knowledge-bases/{kb_id}/documents/upload", files=files2)
+    dup_resp = client.post(f"/api/v1/knowledge-bases/documents/upload/{kb_id}", files=files2)
     assert dup_resp.status_code == 409, f"重复上传应被拦截: {dup_resp.json()}"
     print(f"DEDUP OK: {dup_resp.json()['message']}")
 
     # 5. 查询文档列表
-    list_resp = client.get(f"/api/v1/knowledge-bases/{kb_id}/documents")
+    list_resp = client.post("/api/v1/knowledge-bases/documents/list", json={"knowledge_base_id": kb_id})
     assert list_resp.status_code == 200
     docs = list_resp.json()["data"]
     assert len(docs) == 1
@@ -83,7 +83,7 @@ def main() -> None:
     print(f"DELETE OK: {del_resp.json()['message']}")
 
     # 7. 验证删除后列表为空
-    list_resp2 = client.get(f"/api/v1/knowledge-bases/{kb_id}/documents")
+    list_resp2 = client.post("/api/v1/knowledge-bases/documents/list", json={"knowledge_base_id": kb_id})
     assert list_resp2.status_code == 200
     docs2 = list_resp2.json()["data"]
     assert len(docs2) == 0
@@ -91,7 +91,7 @@ def main() -> None:
 
     # 8. 不支持的文件类型拦截
     files3 = {"file": ("test.docx", io.BytesIO(b"test"), "application/octet-stream")}
-    bad_resp = client.post(f"/api/v1/knowledge-bases/{kb_id}/documents/upload", files=files3)
+    bad_resp = client.post(f"/api/v1/knowledge-bases/documents/upload/{kb_id}", files=files3)
     assert bad_resp.status_code == 400, f"不支持的类型应被拦截: {bad_resp.json()}"
     print(f"TYPE CHECK OK: {bad_resp.json()['message']}")
 

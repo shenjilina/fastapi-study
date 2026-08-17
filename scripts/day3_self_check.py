@@ -14,7 +14,7 @@ def main() -> None:
     print("HEALTH REQUEST ID:", success_response.headers.get("X-Request-ID"))
 
     validation_response = client.post(
-        "/api/v1/users",
+        "/api/v1/auth/create_user",
         json={
             "username": "ab",
             "email": "bad_email",
@@ -24,7 +24,7 @@ def main() -> None:
     print("VALIDATION:", validation_response.status_code, validation_response.json())
     print("VALIDATION REQUEST ID:", validation_response.headers.get("X-Request-ID"))
 
-    business_response = client.get("/api/v1/users/999999")
+    business_response = client.post("/api/v1/users/get", json={"user_id": 999999})
     print("BUSINESS:", business_response.status_code, business_response.json())
     print("BUSINESS REQUEST ID:", business_response.headers.get("X-Request-ID"))
 

@@ -44,17 +44,23 @@ def _assert_request_id(resp) -> None:
     assert resp.headers.get("X-Request-ID"), "响应缺少 X-Request-ID 头"
 
 
-def _create_user(suffix: str) -> int:
+def _create_user(suffix: str) -> tuple[int, dict]:
+    """创建用户并登录，返回 (user_id, 鉴权请求头)。"""
+    username = f"day9_user_{suffix}"
     resp = client.post(
-        "/api/v1/users",
+        "/api/v1/auth/create_user",
         json={
-            "username": f"day9_user_{suffix}",
-            "email": f"day9_user_{suffix}@example.com",
+            "username": username,
+            "email": f"{username}@example.com",
             "password": "Password123",
         },
     )
     assert resp.status_code == 201, f"创建用户失败: {resp.json()}"
-    return resp.json()["data"]["id"]
+    user_id = resp.json()["data"]["id"]
+    login_resp = client.post("/api/v1/auth/login", json={"username": username, "password": "Password123"})
+    assert login_resp.status_code == 200, f"登录失败: {login_resp.json()}"
+    token = login_resp.json()["data"]["access_token"]
+    return user_id, {"Authorization": f"Bearer {token}"}
 
 
 def _create_kb(user_id: int, suffix: str) -> int:
@@ -91,7 +97,7 @@ def main() -> None:
     # ================================================================
     # 场景 2：全局异常兜底 - 方法不允许 405 对齐统一格式
     # ================================================================
-    resp = client.delete("/api/v1/users")
+    resp = client.delete("/api/v1/users/list")
     assert resp.status_code == 405
     body = _assert_unified_format(resp, expect_code_zero=False)
     _assert_request_id(resp)
@@ -100,7 +106,7 @@ def main() -> None:
     # ================================================================
     # 场景 3：参数校验 422 统一格式（缺字段 + 非法字段）
     # ================================================================
-    resp = client.post("/api/v1/users", json={"username": "x"})
+    resp = client.post("/api/v1/auth/create_user", json={"username": "x"})
     assert resp.status_code == 422
     body = _assert_unified_format(resp, expect_code_zero=False)
     assert body["code"] == 1001, f"校验错误 code 应为 1001: {body['code']}"
@@ -111,7 +117,7 @@ def main() -> None:
     # ================================================================
     # 场景 4：正常链路统一响应格式（用户 -> 知识库 -> 文档 -> 问答）
     # ================================================================
-    user_id = _create_user(suffix)
+    user_id, headers = _create_user(suffix)
     kb_id = _create_kb(user_id, suffix)
 
     txt_content = (
@@ -205,7 +211,7 @@ def main() -> None:
     )
 
     # 文档应被标记为 FAILED
-    list_resp = client.get(f"/api/v1/knowledge-bases/{kb_id}/documents")
+    list_resp = client.post("/api/v1/knowledge-bases/documents/list", json={"knowledge_base_id": kb_id})
     assert list_resp.status_code == 200
     docs = list_resp.json()["data"]
     failed_docs = [
@@ -223,6 +229,7 @@ def main() -> None:
     # ================================================================
     ask_resp = client.post(
         "/api/v1/conversations/ask",
+        headers=headers,
         json={"user_id": user_id, "knowledge_base_id": kb_id, "question": "FastAPI 是什么？"},
     )
     assert ask_resp.status_code == 200, f"问答接口应 200: {ask_resp.status_code}"
@@ -248,14 +255,14 @@ def main() -> None:
     # 场景 12：登录接口统一格式（正常 + 异常）
     # ================================================================
     resp = client.post(
-        "/api/v1/login",
+        "/api/v1/auth/login",
         json={"username": f"day9_user_{suffix}", "password": "Password123"},
     )
     assert resp.status_code == 200
     _assert_unified_format(resp, expect_code_zero=True)
 
     resp = client.post(
-        "/api/v1/login",
+        "/api/v1/auth/login",
         json={"username": f"day9_user_{suffix}", "password": "WrongPass123"},
     )
     assert resp.status_code == 401

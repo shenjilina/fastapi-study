@@ -3,7 +3,7 @@
 from datetime import datetime
 from typing import Any
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 from api.rag.enums import ConversationRecordStatus
 from common.dependencies import strip_text
@@ -124,6 +124,28 @@ class ConversationDeleteResponse(BaseModel):
 
     conversation_id: int
     deleted: bool
+
+
+class ConversationListRequest(BaseModel):
+    """查询问答记录列表请求体（GET 转 POST，参数入请求体）。
+
+    至少提供 knowledge_base_id 或 user_id 中的一个过滤条件。
+    """
+
+    knowledge_base_id: int | None = Field(default=None, gt=0, description="按知识库 ID 过滤")
+    user_id: int | None = Field(default=None, gt=0, description="按用户 ID 过滤")
+
+    @model_validator(mode="after")
+    def _require_any_filter(self) -> "ConversationListRequest":
+        if self.knowledge_base_id is None and self.user_id is None:
+            raise ValueError("请提供 knowledge_base_id 或 user_id 过滤条件")
+        return self
+
+
+class ConversationDetailRequest(BaseModel):
+    """查询单条问答记录请求体（GET 转 POST，参数入请求体）。"""
+
+    conversation_id: int = Field(gt=0, description="问答记录 ID")
 
 
 class RAGHealthCheckRead(BaseModel):

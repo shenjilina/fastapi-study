@@ -27,18 +27,23 @@ from init_app import app
 client = TestClient(app)
 
 
-def _create_user(suffix: str) -> int:
-    """创建用户并返回 user_id。"""
+def _create_user(suffix: str) -> tuple[int, dict]:
+    """创建用户并登录，返回 (user_id, 鉴权请求头)。"""
+    username = f"day7_user_{suffix}"
     resp = client.post(
-        "/api/v1/users",
+        "/api/v1/auth/create_user",
         json={
-            "username": f"day7_user_{suffix}",
-            "email": f"day7_user_{suffix}@example.com",
+            "username": username,
+            "email": f"{username}@example.com",
             "password": "Password123",
         },
     )
     assert resp.status_code == 201, f"创建用户失败: {resp.json()}"
-    return resp.json()["data"]["id"]
+    user_id = resp.json()["data"]["id"]
+    login_resp = client.post("/api/v1/auth/login", json={"username": username, "password": "Password123"})
+    assert login_resp.status_code == 200, f"登录失败: {login_resp.json()}"
+    token = login_resp.json()["data"]["access_token"]
+    return user_id, {"Authorization": f"Bearer {token}"}
 
 
 def _create_knowledge_base(user_id: int, suffix: str) -> int:
@@ -59,12 +64,12 @@ def _upload_txt(kb_id: int, content: str, filename: str = "day7_test.txt") -> in
     return resp.json()["data"]["document"]["id"]
 
 
-def _ask(user_id: int, kb_id: int, question: str, top_k: int | None = None) -> dict:
-    """调用 RAG 问答接口。"""
+def _ask(user_id: int, kb_id: int, question: str, headers: dict, top_k: int | None = None) -> dict:
+    """调用 RAG 问答接口（必选 JWT 鉴权）。"""
     payload = {"user_id": user_id, "knowledge_base_id": kb_id, "question": question}
     if top_k is not None:
         payload["top_k"] = top_k
-    resp = client.post("/api/v1/conversations/ask", json=payload)
+    resp = client.post("/api/v1/conversations/ask", json=payload, headers=headers)
     assert resp.status_code == 200, f"问答接口失败: {resp.json()}"
     return resp.json()["data"]
 
@@ -77,7 +82,7 @@ def main() -> None:
     suffix = uuid4().hex[:8]
 
     # 1. 准备数据：用户 + 知识库 + 文档
-    user_id = _create_user(suffix)
+    user_id, headers = _create_user(suffix)
     print(f"USER OK: id={user_id}")
 
     kb_id = _create_knowledge_base(user_id, suffix)
@@ -93,7 +98,7 @@ def main() -> None:
     print(f"DOC OK: id={document_id}")
 
     # 2. RAG 问答：验证返回结构完整
-    answer_data = _ask(user_id, kb_id, "FastAPI 是什么？")
+    answer_data = _ask(user_id, kb_id, "FastAPI 是什么？", headers)
     assert "question" in answer_data
     assert "answer" in answer_data
     assert "source_documents" in answer_data
@@ -118,7 +123,7 @@ def main() -> None:
     )
 
     # 3. 验证对话记录已落库：查询单条
-    get_resp = client.get(f"/api/v1/conversations/{conversation_id}")
+    get_resp = client.post("/api/v1/conversations/get", json={"conversation_id": conversation_id})
     assert get_resp.status_code == 200, f"查询单条问答失败: {get_resp.json()}"
     conv = get_resp.json()["data"]
     assert conv["id"] == conversation_id
@@ -128,14 +133,14 @@ def main() -> None:
     print(f"GET ONE OK: status={conv['status']}")
 
     # 4. 查询知识库对话记录列表
-    list_kb_resp = client.get("/api/v1/conversations", params={"knowledge_base_id": kb_id})
+    list_kb_resp = client.post("/api/v1/conversations/list", json={"knowledge_base_id": kb_id})
     assert list_kb_resp.status_code == 200
     kb_convs = list_kb_resp.json()["data"]
     assert len(kb_convs) >= 1
     print(f"LIST BY KB OK: count={len(kb_convs)}")
 
     # 5. 查询用户对话记录列表
-    list_user_resp = client.get("/api/v1/conversations", params={"user_id": user_id})
+    list_user_resp = client.post("/api/v1/conversations/list", json={"user_id": user_id})
     assert list_user_resp.status_code == 200
     user_convs = list_user_resp.json()["data"]
     assert len(user_convs) >= 1
@@ -148,14 +153,15 @@ def main() -> None:
     print(f"DELETE OK: conv_id={conversation_id}")
 
     # 7. 验证删除后查不到
-    get_resp2 = client.get(f"/api/v1/conversations/{conversation_id}")
+    get_resp2 = client.post("/api/v1/conversations/get", json={"conversation_id": conversation_id})
     assert get_resp2.status_code == 404, "删除后应查不到"
     print("VERIFY DELETE OK: 已删除记录查询返回 404")
 
     # 8. 权限隔离：其他用户对非自己的知识库提问应被 403 拦截
-    other_user_id = _create_user(suffix + "_other")
+    other_user_id, other_headers = _create_user(suffix + "_other")
     ask_resp = client.post(
         "/api/v1/conversations/ask",
+        headers=other_headers,
         json={
             "user_id": other_user_id,
             "knowledge_base_id": kb_id,
@@ -168,6 +174,7 @@ def main() -> None:
     # 9. 不存在的知识库提问应被 404 拦截
     ask_resp2 = client.post(
         "/api/v1/conversations/ask",
+        headers=headers,
         json={
             "user_id": user_id,
             "knowledge_base_id": 999999,
@@ -179,7 +186,7 @@ def main() -> None:
 
     # 10. 空知识库提问：验证无检索结果兜底
     empty_kb_id = _create_knowledge_base(user_id, suffix + "_empty")
-    empty_answer = _ask(user_id, empty_kb_id, "这个知识库是空的，能回答吗？")
+    empty_answer = _ask(user_id, empty_kb_id, "这个知识库是空的，能回答吗？", headers)
     assert empty_answer["success"] is False or len(empty_answer["source_documents"]) == 0
     assert "未找到相关资料" in empty_answer["answer"] or empty_answer["success"] is False
     print(f"EMPTY KB OK: 空知识库兜底回答 - success={empty_answer['success']}")
@@ -198,6 +205,7 @@ def main() -> None:
     # 12. 输入参数校验：空问题应被 422 拦截
     ask_resp3 = client.post(
         "/api/v1/conversations/ask",
+        headers=headers,
         json={"user_id": user_id, "knowledge_base_id": kb_id, "question": ""},
     )
     assert ask_resp3.status_code == 422, f"空问题应 422: {ask_resp3.json()}"

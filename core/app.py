@@ -18,7 +18,7 @@ def _register_common_components(app: FastAPI, settings) -> None:
     """统一注册中间件、异常处理器和 API 路由。"""
     register_middlewares(app, settings)
     register_exception_handlers(app)
-    app.include_router(api_router, prefix=settings.api_v1_prefix)
+    app.include_router(api_router, prefix=settings.api_prefix)
 
 
 def create_app() -> FastAPI:

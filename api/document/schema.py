@@ -54,6 +54,12 @@ class DocumentStatusUpdateRequest(BaseModel):
     chunk_count: int | None = Field(default=None, ge=0, description="切片数量")
 
 
+class DocumentListRequest(BaseModel):
+    """查询知识库文档列表请求体（GET 转 POST，参数入请求体）。"""
+
+    knowledge_base_id: int = Field(gt=0, description="所属知识库 ID")
+
+
 class DocumentUploadResponse(BaseModel):
     """文档上传响应结构。"""
 

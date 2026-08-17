@@ -14,7 +14,7 @@ This repository follows the Day 1 bootstrap plan from `plan.md`.
 ## Quick start
 
 ```bash
-.venv/Scripts/Activate.ps1  
+.venv/Scripts/Activate.ps1
 uv sync
 # 运行项目
 uv run main.py

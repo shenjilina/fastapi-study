@@ -9,7 +9,7 @@
 - RAG 健康检查为运维端点，独立于业务资源，使用单独路由注册。
 """
 
-from fastapi import APIRouter, Depends, Query, status
+from fastapi import APIRouter, Depends, status
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 
@@ -17,12 +17,13 @@ from api.rag import service
 from api.rag.schema import (
     ConversationCreateRequest,
     ConversationDeleteResponse,
+    ConversationDetailRequest,
+    ConversationListRequest,
     RAGQuestionRequest,
 )
 from common.dependencies import get_current_user
 from common.response import success_response
 from core.db import get_db
-from core.exceptions import AppException
 
 # 对话记录资源路由：统一使用 /conversations 前缀
 router = APIRouter(prefix="/conversations", tags=["rag"])
@@ -93,34 +94,31 @@ def create_conversation(
     )
 
 
-@router.get("", status_code=status.HTTP_200_OK)
+@router.post("/list", status_code=status.HTTP_200_OK)
 def list_conversations(
-    knowledge_base_id: int | None = Query(default=None, gt=0, description="按知识库 ID 过滤"),
-    user_id: int | None = Query(default=None, gt=0, description="按用户 ID 过滤"),
+    payload: ConversationListRequest,
     db: Session = Depends(get_db),
 ) -> dict[str, object]:
-    """查询对话记录列表，支持按知识库或用户过滤。
+    """查询对话记录列表。
 
-    至少提供 knowledge_base_id 或 user_id 中的一个过滤条件。
+    至少提供 knowledge_base_id 或 user_id 中的一个过滤条件（schema 层已校验）。
     """
-    if knowledge_base_id is not None:
-        conversations = service.list_conversations_by_knowledge_base(db, knowledge_base_id)
-    elif user_id is not None:
-        conversations = service.list_conversations_by_user(db, user_id)
+    if payload.knowledge_base_id is not None:
+        conversations = service.list_conversations_by_knowledge_base(db, payload.knowledge_base_id)
     else:
-        raise AppException("请提供 knowledge_base_id 或 user_id 过滤条件", status_code=400)
+        conversations = service.list_conversations_by_user(db, payload.user_id)
 
     conversations_data = [item.model_dump(mode="json") for item in conversations]
     return success_response(conversations_data, message="问答记录列表获取成功")
 
 
-@router.get("/{conversation_id}", status_code=status.HTTP_200_OK)
+@router.post("/get_conversation", status_code=status.HTTP_200_OK)
 def get_conversation(
-    conversation_id: int,
+    payload: ConversationDetailRequest,
     db: Session = Depends(get_db),
 ) -> dict[str, object]:
     """查询单条问答记录接口。"""
-    conversation = service.get_conversation(db, conversation_id)
+    conversation = service.get_conversation(db, payload.conversation_id)
     return success_response(
         conversation.model_dump(mode="json"),
         message="问答记录详情获取成功",

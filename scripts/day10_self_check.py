@@ -33,17 +33,23 @@ from init_app import app
 client = TestClient(app)
 
 
-def _create_user(suffix: str) -> int:
+def _create_user(suffix: str) -> tuple[int, dict]:
+    """创建用户并登录，返回 (user_id, 鉴权请求头)。"""
+    username = f"day10_user_{suffix}"
     resp = client.post(
-        "/api/v1/users",
+        "/api/v1/auth/create_user",
         json={
-            "username": f"day10_user_{suffix}",
-            "email": f"day10_user_{suffix}@example.com",
+            "username": username,
+            "email": f"{username}@example.com",
             "password": "Password123",
         },
     )
     assert resp.status_code == 201, f"创建用户失败: {resp.json()}"
-    return resp.json()["data"]["id"]
+    user_id = resp.json()["data"]["id"]
+    login_resp = client.post("/api/v1/auth/login", json={"username": username, "password": "Password123"})
+    assert login_resp.status_code == 200, f"登录失败: {login_resp.json()}"
+    token = login_resp.json()["data"]["access_token"]
+    return user_id, {"Authorization": f"Bearer {token}"}
 
 
 def _create_kb(user_id: int, suffix: str) -> int:
@@ -94,7 +100,7 @@ def main() -> None:
     # ================================================================
     # 场景 3：新参数上传链路正常（切片参数生效）
     # ================================================================
-    user_id = _create_user(suffix)
+    user_id, headers = _create_user(suffix)
     kb_id = _create_kb(user_id, suffix)
     txt_content = (
         "FastAPI 是一个现代的 Python Web 框架，支持自动文档生成。"
@@ -245,6 +251,7 @@ def main() -> None:
     # ================================================================
     ask_resp = client.post(
         "/api/v1/conversations/ask",
+        headers=headers,
         json={"user_id": user_id, "knowledge_base_id": kb_id, "question": "FastAPI 是什么？"},
     )
     assert ask_resp.status_code == 200, f"问答接口应 200: {ask_resp.status_code}"

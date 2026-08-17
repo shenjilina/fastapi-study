@@ -12,6 +12,7 @@ from api.document import service
 from api.document.schema import (
     DocumentCreateRequest,
     DocumentDeleteResponse,
+    DocumentListRequest,
     DocumentRead,
     DocumentStatusUpdateRequest,
 )
@@ -48,15 +49,15 @@ def update_document_status(
     )
 
 
-@router.get("/knowledge-bases/{knowledge_base_id}/documents", status_code=status.HTTP_200_OK)
+@router.post("/knowledge-bases/documents/list", status_code=status.HTTP_200_OK)
 def list_documents_by_knowledge_base(
-    knowledge_base_id: int,
+    payload: DocumentListRequest,
     db: Session = Depends(get_db),
 ) -> dict[str, object]:
     """查询知识库文档列表接口。"""
     documents = [
         DocumentRead.model_validate(item).model_dump(mode="json")
-        for item in service.list_documents_by_knowledge_base(db, knowledge_base_id)
+        for item in service.list_documents_by_knowledge_base(db, payload.knowledge_base_id)
     ]
     return success_response(documents, message="文档列表获取成功")
 

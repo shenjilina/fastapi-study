@@ -39,6 +39,12 @@ class UserCreateRequest(BaseModel):
         return normalized
 
 
+class UserDetailRequest(BaseModel):
+    """查询用户详情请求体（GET 转 POST，参数入请求体）。"""
+
+    user_id: int = Field(gt=0, description="用户 ID")
+
+
 class LoginRequest(BaseModel):
     """登录请求体。"""
 

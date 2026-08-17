@@ -33,6 +33,18 @@ class KnowledgeBaseCreateRequest(BaseModel):
         return strip_text(value)
 
 
+class KnowledgeBaseListRequest(BaseModel):
+    """查询知识库列表请求体（GET 转 POST，参数入请求体）。"""
+
+    owner_id: int = Field(gt=0, description="知识库所属用户 ID")
+
+
+class KnowledgeBaseDetailRequest(BaseModel):
+    """查询知识库详情请求体（GET 转 POST，参数入请求体）。"""
+
+    knowledge_base_id: int = Field(gt=0, description="知识库 ID")
+
+
 class KnowledgeBaseRead(BaseModel):
     """知识库响应结构。"""
 
