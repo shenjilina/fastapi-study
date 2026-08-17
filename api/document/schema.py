@@ -2,13 +2,14 @@
 
 from datetime import datetime
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import ConfigDict, Field, field_validator
 
 from api.document.enums import DocumentParseStatus
+from common.base_model import ApiBaseModel
 from common.dependencies import strip_text
 
 
-class DocumentCreateRequest(BaseModel):
+class DocumentCreateRequest(ApiBaseModel):
     """创建文档请求体。"""
 
     knowledge_base_id: int = Field(gt=0, description="所属知识库 ID")
@@ -47,20 +48,20 @@ class DocumentCreateRequest(BaseModel):
         return normalized
 
 
-class DocumentStatusUpdateRequest(BaseModel):
+class DocumentStatusUpdateRequest(ApiBaseModel):
     """更新文档解析状态请求体。"""
 
     parse_status: DocumentParseStatus = Field(description="目标解析状态")
     chunk_count: int | None = Field(default=None, ge=0, description="切片数量")
 
 
-class DocumentListRequest(BaseModel):
+class DocumentListRequest(ApiBaseModel):
     """查询知识库文档列表请求体（GET 转 POST，参数入请求体）。"""
 
     knowledge_base_id: int = Field(gt=0, description="所属知识库 ID")
 
 
-class DocumentUploadResponse(BaseModel):
+class DocumentUploadResponse(ApiBaseModel):
     """文档上传响应结构。"""
 
     document: "DocumentRead"
@@ -68,7 +69,7 @@ class DocumentUploadResponse(BaseModel):
     chunk_count: int = Field(ge=0, description="实际切片数量")
 
 
-class DocumentDeleteResponse(BaseModel):
+class DocumentDeleteResponse(ApiBaseModel):
     """文档删除响应结构。"""
 
     document_id: int
@@ -76,7 +77,7 @@ class DocumentDeleteResponse(BaseModel):
     deleted: bool = True
 
 
-class DocumentRead(BaseModel):
+class DocumentRead(ApiBaseModel):
     """文档响应结构。"""
 
     model_config = ConfigDict(from_attributes=True)

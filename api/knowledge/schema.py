@@ -2,13 +2,14 @@
 
 from datetime import datetime
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import ConfigDict, Field, field_validator
 
 from api.knowledge.enums import KnowledgeBaseStatus
+from common.base_model import ApiBaseModel
 from common.dependencies import strip_text
 
 
-class KnowledgeBaseCreateRequest(BaseModel):
+class KnowledgeBaseCreateRequest(ApiBaseModel):
     """创建知识库请求体。"""
 
     owner_id: int = Field(gt=0, description="知识库所属用户 ID")
@@ -33,19 +34,19 @@ class KnowledgeBaseCreateRequest(BaseModel):
         return strip_text(value)
 
 
-class KnowledgeBaseListRequest(BaseModel):
+class KnowledgeBaseListRequest(ApiBaseModel):
     """查询知识库列表请求体（GET 转 POST，参数入请求体）。"""
 
     owner_id: int = Field(gt=0, description="知识库所属用户 ID")
 
 
-class KnowledgeBaseDetailRequest(BaseModel):
+class KnowledgeBaseDetailRequest(ApiBaseModel):
     """查询知识库详情请求体（GET 转 POST，参数入请求体）。"""
 
     knowledge_base_id: int = Field(gt=0, description="知识库 ID")
 
 
-class KnowledgeBaseRead(BaseModel):
+class KnowledgeBaseRead(ApiBaseModel):
     """知识库响应结构。"""
 
     model_config = ConfigDict(from_attributes=True)

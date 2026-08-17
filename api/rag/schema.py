@@ -3,13 +3,14 @@
 from datetime import datetime
 from typing import Any
 
-from pydantic import BaseModel, Field, field_validator, model_validator
+from pydantic import AliasChoices, Field, field_validator, model_validator
 
 from api.rag.enums import ConversationRecordStatus
+from common.base_model import ApiBaseModel
 from common.dependencies import strip_text
 
 
-class ConversationCreateRequest(BaseModel):
+class ConversationCreateRequest(ApiBaseModel):
     """创建问答记录请求体。"""
 
     user_id: int = Field(gt=0, description="用户 ID")
@@ -50,7 +51,7 @@ class ConversationCreateRequest(BaseModel):
         return normalized
 
 
-class ConversationRead(BaseModel):
+class ConversationRead(ApiBaseModel):
     """问答记录响应结构。"""
 
     id: int
@@ -64,7 +65,7 @@ class ConversationRead(BaseModel):
     created_at: datetime
 
 
-class RAGQuestionRequest(BaseModel):
+class RAGQuestionRequest(ApiBaseModel):
     """RAG 问答请求体：用户提问 + 知识库 ID + 可选检索 TopK + 可选多轮会话标识。"""
 
     user_id: int = Field(gt=0, description="提问用户 ID")
@@ -79,6 +80,10 @@ class RAGQuestionRequest(BaseModel):
     conversation_session_id: str | None = Field(
         default=None,
         max_length=64,
+        # 个别字段覆盖全局别名：除默认 camelCase 别名外，额外兼容前端 currentSessionId 传参。
+        validation_alias=AliasChoices(
+            "conversation_session_id", "conversationSessionId", "currentSessionId"
+        ),
         description="多轮会话标识，传入后携带该会话最近历史问答作为上下文",
     )
 
@@ -97,7 +102,7 @@ class RAGQuestionRequest(BaseModel):
         return text or None
 
 
-class RAGSourceDocumentRead(BaseModel):
+class RAGSourceDocumentRead(ApiBaseModel):
     """RAG 问答命中的源文档信息，用于前端溯源展示。"""
 
     page_content: str = Field(description="文档片段内容")
@@ -105,7 +110,7 @@ class RAGSourceDocumentRead(BaseModel):
     score: float | None = Field(default=None, description="相似度分数（越小越相似）")
 
 
-class RAGAnswerRead(BaseModel):
+class RAGAnswerRead(ApiBaseModel):
     """RAG 问答响应结构：包含回答、源文档、持久化的对话记录 ID。"""
 
     question: str
@@ -119,14 +124,14 @@ class RAGAnswerRead(BaseModel):
     )
 
 
-class ConversationDeleteResponse(BaseModel):
+class ConversationDeleteResponse(ApiBaseModel):
     """问答记录删除响应。"""
 
     conversation_id: int
     deleted: bool
 
 
-class ConversationListRequest(BaseModel):
+class ConversationListRequest(ApiBaseModel):
     """查询问答记录列表请求体（GET 转 POST，参数入请求体）。
 
     至少提供 knowledge_base_id 或 user_id 中的一个过滤条件。
@@ -142,13 +147,13 @@ class ConversationListRequest(BaseModel):
         return self
 
 
-class ConversationDetailRequest(BaseModel):
+class ConversationDetailRequest(ApiBaseModel):
     """查询单条问答记录请求体（GET 转 POST，参数入请求体）。"""
 
     conversation_id: int = Field(gt=0, description="问答记录 ID")
 
 
-class RAGHealthCheckRead(BaseModel):
+class RAGHealthCheckRead(ApiBaseModel):
     """RAG 链健康检查响应结构。"""
 
     chain: str = Field(description="链名称")

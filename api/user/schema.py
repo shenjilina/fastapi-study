@@ -2,12 +2,13 @@
 
 from datetime import datetime
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import ConfigDict, Field, field_validator
 
+from common.base_model import ApiBaseModel
 from common.dependencies import strip_text
 
 
-class UserCreateRequest(BaseModel):
+class UserCreateRequest(ApiBaseModel):
     """创建用户请求体。"""
 
     username: str = Field(min_length=3, max_length=50, description="用户名，3 到 50 个字符")
@@ -39,13 +40,13 @@ class UserCreateRequest(BaseModel):
         return normalized
 
 
-class UserDetailRequest(BaseModel):
+class UserDetailRequest(ApiBaseModel):
     """查询用户详情请求体（GET 转 POST，参数入请求体）。"""
 
     user_id: int = Field(gt=0, description="用户 ID")
 
 
-class LoginRequest(BaseModel):
+class LoginRequest(ApiBaseModel):
     """登录请求体。"""
 
     username: str = Field(min_length=1, max_length=50, description="用户名")
@@ -60,7 +61,7 @@ class LoginRequest(BaseModel):
         return text
 
 
-class LoginResponse(BaseModel):
+class LoginResponse(ApiBaseModel):
     """登录成功响应结构，携带 JWT 访问令牌。"""
 
     user_id: int
@@ -71,7 +72,7 @@ class LoginResponse(BaseModel):
     expires_in: int = Field(description="令牌有效期（秒）")
 
 
-class UserRead(BaseModel):
+class UserRead(ApiBaseModel):
     """用户响应结构。"""
 
     model_config = ConfigDict(from_attributes=True)
