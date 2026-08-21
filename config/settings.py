@@ -3,8 +3,10 @@
 from functools import lru_cache
 
 from dotenv import load_dotenv
-from pydantic import Field, field_validator
+from pydantic import Field, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+DEFAULT_JWT_SECRET_KEY = "fastapi-study-dev-secret-change-me"
 
 # 启动时优先加载 `.env`，方便本地开发直接读取环境变量。
 load_dotenv()
@@ -41,6 +43,11 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     log_file: str = "logs/app.log"
 
+    # Optional deployment bootstrap credentials. These are never given defaults.
+    init_admin_username: str | None = None
+    init_admin_email: str | None = None
+    init_admin_password: str | None = None
+
     # RAG / 模型相关配置
     chroma_persist_directory: str = "./chroma"
     ollama_base_url: str = "http://localhost:11434"
@@ -64,7 +71,7 @@ class Settings(BaseSettings):
     retrieval_score_threshold: float = 1.2
 
     # JWT 鉴权配置（Day12）：生产环境必须通过环境变量覆盖默认密钥。
-    jwt_secret_key: str = "fastapi-study-dev-secret-change-me"
+    jwt_secret_key: str = DEFAULT_JWT_SECRET_KEY
     jwt_algorithm: str = "HS256"
     jwt_expire_minutes: int = 120
 
@@ -78,6 +85,28 @@ class Settings(BaseSettings):
         if isinstance(value, str):
             return [item.strip() for item in value.split(",") if item.strip()]
         return value
+
+    @field_validator("app_env")
+    @classmethod
+    def _validate_app_env(cls, value: str) -> str:
+        normalized = value.strip().lower()
+        if normalized not in {"development", "testing", "production"}:
+            raise ValueError("APP_ENV must be development, testing, or production")
+        return normalized
+
+    @field_validator("log_level")
+    @classmethod
+    def _validate_log_level(cls, value: str) -> str:
+        normalized = value.strip().upper()
+        if normalized not in {"DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"}:
+            raise ValueError("LOG_LEVEL must be DEBUG, INFO, WARNING, ERROR, or CRITICAL")
+        return normalized
+
+    @model_validator(mode="after")
+    def _validate_production_security(self) -> "Settings":
+        if self.app_env == "production" and self.jwt_secret_key == DEFAULT_JWT_SECRET_KEY:
+            raise ValueError("JWT_SECRET_KEY must be changed before production startup")
+        return self
 
 
 @lru_cache
