@@ -2192,3 +2192,6 @@
 2026-08-17 20:59:20,675 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
 2026-08-17 20:59:20,675 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=2 top_k=5
 2026-08-17 21:02:50,314 | INFO | core.app | Application shutdown complete.
+2026-08-17 21:02:55,223 | INFO | core.app | Application started. Database ready: True
+2026-08-17 21:02:55,331 | INFO | core.app | Application shutdown complete.
+2026-08-17 21:02:59,716 | INFO | core.app | Application started. Database ready: True
