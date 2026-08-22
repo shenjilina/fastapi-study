@@ -83,7 +83,7 @@ def _validate_question_access(db: Session, payload: RAGQuestionRequest | Convers
     if knowledge_base.owner_id != payload.user_id:
         raise AppException("该用户无权操作当前知识库", status_code=403)
 
-    if knowledge_base.status == KnowledgeBaseStatus.DISABLED:
+    if knowledge_base.status in {KnowledgeBaseStatus.DISABLED, KnowledgeBaseStatus.ARCHIVED}:
         raise AppException("知识库已禁用，无法进行问答", status_code=403)
 
     return knowledge_base

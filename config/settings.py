@@ -59,9 +59,8 @@ class Settings(BaseSettings):
 
     # 文件上传与解析配置
     max_upload_size_mb: int = 10
-    allowed_file_extensions: list[str] = Field(
-        default_factory=lambda: ["txt", "pdf"]
-    )
+    file_storage_dir: str = "./uploads"
+    allowed_file_extensions: list[str] = Field(default_factory=lambda: ["txt", "pdf"])
 
     # 切片与检索参数（Day10 调优：小切片提升命中精度，高重叠保证语义连续）
     chunk_size: int = 400

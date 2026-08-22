@@ -1,9 +1,7 @@
-"""知识库模块 CRUD。"""
-
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from api.knowledge.enums import KnowledgeBaseStatus
+from api.knowledge.enums import KnowledgeBaseStatus, KnowledgeBaseVisibility
 from api.knowledge.model import KnowledgeBase
 
 
@@ -13,13 +11,14 @@ def create_knowledge_base(
     owner_id: int,
     name: str,
     description: str | None = None,
+    visibility: KnowledgeBaseVisibility = KnowledgeBaseVisibility.PRIVATE,
     status: KnowledgeBaseStatus = KnowledgeBaseStatus.ACTIVE,
 ) -> KnowledgeBase:
-    """创建知识库。"""
     knowledge_base = KnowledgeBase(
         owner_id=owner_id,
         name=name,
         description=description,
+        visibility=visibility,
         status=status,
     )
     db.add(knowledge_base)
@@ -29,15 +28,17 @@ def create_knowledge_base(
 
 
 def get_knowledge_base_by_id(db: Session, knowledge_base_id: int) -> KnowledgeBase | None:
-    """按主键查询知识库。"""
-    return db.get(KnowledgeBase, knowledge_base_id)
+    statement = select(KnowledgeBase).where(
+        KnowledgeBase.id == knowledge_base_id,
+        KnowledgeBase.deleted_at.is_(None),
+    )
+    return db.scalar(statement)
 
 
 def list_knowledge_bases_by_owner(db: Session, owner_id: int) -> list[KnowledgeBase]:
-    """查询某个用户名下的全部知识库。"""
     statement = (
         select(KnowledgeBase)
-        .where(KnowledgeBase.owner_id == owner_id)
+        .where(KnowledgeBase.owner_id == owner_id, KnowledgeBase.deleted_at.is_(None))
         .order_by(KnowledgeBase.id.asc())
     )
     return list(db.scalars(statement))

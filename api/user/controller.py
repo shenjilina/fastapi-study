@@ -68,6 +68,9 @@ def change_password(
 @auth_router.post(
     "/register", status_code=status.HTTP_201_CREATED, response_model=ApiResponse[UserRead]
 )
+@auth_router.post(
+    "/create_user", status_code=status.HTTP_201_CREATED, response_model=ApiResponse[UserRead]
+)
 def create_user(
     payload: UserCreateRequest,
     db: Session = Depends(get_db),

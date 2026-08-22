@@ -1,50 +1,62 @@
-"""文档相关 ORM 模型。"""
-
 from __future__ import annotations
 
 from datetime import datetime
 from typing import TYPE_CHECKING
 
-from sqlalchemy import DateTime, Enum, ForeignKey, Integer, String, Text, func
+from sqlalchemy import (
+    BigInteger,
+    Boolean,
+    DateTime,
+    Enum,
+    ForeignKey,
+    Index,
+    Integer,
+    String,
+    Text,
+    UniqueConstraint,
+    func,
+)
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from api.document.enums import DocumentParseStatus
 from core.db import Base
 
 if TYPE_CHECKING:
-    from api.knowledge.model import KnowledgeBase
+    from api.chunk.model import Chunk
+    from api.files.model import FileRecord
 
 
 class Document(Base):
-    """知识库中的文档元数据表。"""
-
     __tablename__ = "documents"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    knowledge_base_id: Mapped[int] = mapped_column(
-        ForeignKey("knowledge_bases.id", ondelete="CASCADE"),
-        index=True,
+    file_id: Mapped[int] = mapped_column(
+        ForeignKey("files.id", ondelete="CASCADE"), index=True, nullable=False
     )
-    filename: Mapped[str] = mapped_column(String(255))
-    file_type: Mapped[str] = mapped_column(String(20))
-    file_size: Mapped[int] = mapped_column(Integer)
-    file_md5: Mapped[str] = mapped_column(String(32), index=True)
+    title: Mapped[str] = mapped_column(String(255))
+    description: Mapped[str | None] = mapped_column(Text(), nullable=True)
     chunk_count: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     parse_status: Mapped[DocumentParseStatus] = mapped_column(
-        Enum(DocumentParseStatus),
-        default=DocumentParseStatus.PENDING,
-        nullable=False,
+        Enum(DocumentParseStatus), default=DocumentParseStatus.PENDING, nullable=False
     )
+    error_msg: Mapped[str | None] = mapped_column(Text(), nullable=True)
+    vector_cleaned: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    file_size: Mapped[int] = mapped_column(BigInteger, default=0, nullable=False)
     created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True),
-        server_default=func.now(),
-        nullable=False,
+        DateTime(timezone=True), server_default=func.now(), nullable=False
     )
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True),
-        server_default=func.now(),
-        onupdate=func.now(),
-        nullable=False,
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False
+    )
+    deleted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+
+    __table_args__ = (
+        UniqueConstraint("file_id", "deleted_at", name="uq_documents_file_id_deleted_at"),
+        Index("ix_documents_parse_status", "parse_status"),
+        Index("ix_documents_deleted_at", "deleted_at"),
     )
 
-    knowledge_base: Mapped["KnowledgeBase"] = relationship(back_populates="documents")
+    file: Mapped["FileRecord"] = relationship(back_populates="document")
+    chunks: Mapped[list["Chunk"]] = relationship(
+        back_populates="document", cascade="all, delete-orphan"
+    )

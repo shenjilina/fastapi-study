@@ -1,6 +1,7 @@
 """FastAPI application factory."""
 
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI
 
@@ -28,6 +29,7 @@ def create_app() -> FastAPI:
 
     @asynccontextmanager
     async def lifespan(_: FastAPI):
+        Path(settings.file_storage_dir).resolve().mkdir(parents=True, exist_ok=True)
         database_ready = False
         try:
             database_ready = test_database_connection()

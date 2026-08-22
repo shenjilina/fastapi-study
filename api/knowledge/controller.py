@@ -21,7 +21,9 @@ from core.db import get_db
 router = APIRouter(prefix="/knowledge-bases", tags=["knowledge"])
 
 
-@router.post("", status_code=status.HTTP_201_CREATED, response_model=ApiResponse[KnowledgeBaseRead])
+@router.post(
+    "/create", status_code=status.HTTP_201_CREATED, response_model=ApiResponse[KnowledgeBaseRead]
+)
 def create_knowledge_base(
     payload: KnowledgeBaseCreateRequest,
     db: Session = Depends(get_db),

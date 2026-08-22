@@ -2477,3 +2477,644 @@
 2026-08-22 16:14:24,030 | INFO | common.middleware | [request_id=b0856e84efec46538494b49ad727ba6b] POST /api/auth/login completed in 56.45 ms
 2026-08-22 16:14:35,221 | INFO | common.middleware | [request_id=74242b6c29194fbeb6b78784338f2628] POST /api/auth/login completed in 55.92 ms
 2026-08-22 16:33:20,521 | INFO | core.app | Application shutdown complete.
+2026-08-22 16:33:27,729 | INFO | core.app | Application started. Database ready: True
+2026-08-22 16:33:34,771 | INFO | common.middleware | [request_id=d6ddb2516d664c7cb25162cc1b983029] GET /docs completed in 0.70 ms
+2026-08-22 16:33:35,522 | INFO | common.middleware | [request_id=c7dc205b7c0b4cf2a46c3e116e815a9a] GET /openapi.json completed in 172.54 ms
+2026-08-22 16:34:09,990 | INFO | common.middleware | [request_id=ea686d7b80b944578bf22a4ee42156bc] POST /api/auth/register completed in 113.40 ms
+2026-08-22 16:34:21,532 | INFO | common.middleware | [request_id=1ee40650f685442d86f038b3e0e93d16] POST /api/auth/login completed in 57.10 ms
+2026-08-22 16:34:21,587 | INFO | common.middleware | [request_id=ace8dca440454c0b917cce9c0f0ee35d] GET /api/users/info completed in 4.80 ms
+2026-08-22 16:34:21,750 | INFO | common.middleware | [request_id=86a795cc2a7141999718ba2d90052d81] GET /api/document/options completed in 1.38 ms
+2026-08-22 16:34:21,751 | INFO | common.middleware | [request_id=f128dde59dd845288bdda93a605c03c0] GET /api/chat/session/list completed in 1.63 ms
+2026-08-22 16:34:22,765 | INFO | common.middleware | [request_id=e5a079c55d2b4595b0ab6c9124b025e5] GET /api/document/options completed in 0.75 ms
+2026-08-22 16:34:22,768 | INFO | common.middleware | [request_id=1988c2d8b6094e7eb5be9438ea613749] GET /api/chat/session/list completed in 0.80 ms
+2026-08-22 16:34:33,551 | INFO | common.middleware | [request_id=c3c97a577610464b8c244bdbe57c8714] GET /api/document/list completed in 0.66 ms
+2026-08-22 16:34:33,552 | INFO | common.middleware | [request_id=6def9995a92f435c9569f6e86811c64a] GET /api/document/options completed in 1.30 ms
+2026-08-22 16:34:34,569 | INFO | common.middleware | [request_id=492dd0386a96414c9f307be80127b6f2] GET /api/document/list completed in 0.83 ms
+2026-08-22 16:34:34,572 | INFO | common.middleware | [request_id=422c63e2c31349308566e71e51e61f86] GET /api/document/options completed in 0.66 ms
+2026-08-22 16:34:51,744 | INFO | common.middleware | [request_id=414bf2cd1bbd46e3b722b9ceee453076] GET /api/document/options completed in 0.89 ms
+2026-08-22 16:34:51,746 | INFO | common.middleware | [request_id=e9a460ed606b4145b5b9126901f09957] GET /api/document/list completed in 2.60 ms
+2026-08-22 16:34:52,760 | INFO | common.middleware | [request_id=996df890877f42029cb70ed50921f738] GET /api/document/options completed in 0.63 ms
+2026-08-22 16:34:52,782 | INFO | common.middleware | [request_id=ec4d9a5b226c4a21b454ee6cb8b7b6b1] GET /api/document/list completed in 0.54 ms
+2026-08-22 16:35:01,191 | INFO | common.middleware | [request_id=139bf676feba43e5982196375a775c07] GET /api/document/options completed in 0.74 ms
+2026-08-22 16:35:01,218 | INFO | common.middleware | [request_id=3b975096f03a4cfbbe0cb237cdc46df1] GET /api/document/list completed in 0.62 ms
+2026-08-22 16:35:02,233 | INFO | common.middleware | [request_id=4c62204b7cca4725afac691813c2e58a] GET /api/document/options completed in 0.50 ms
+2026-08-22 16:35:02,241 | INFO | common.middleware | [request_id=bc02e4c4af894f5fa684736da4b84fb8] GET /api/document/list completed in 0.51 ms
+2026-08-22 16:36:15,814 | INFO | common.middleware | [request_id=75d4f4ecce4843d9b9c32bf7d071fe91] GET /api/document/options completed in 0.79 ms
+2026-08-22 16:36:15,816 | INFO | common.middleware | [request_id=8141c0420e4e4564a24e594dae0e847a] GET /api/document/list completed in 1.65 ms
+2026-08-22 16:36:16,843 | INFO | common.middleware | [request_id=dbee48abca1b4a04bf8f26c1c0604383] GET /api/document/options completed in 0.71 ms
+2026-08-22 16:36:16,845 | INFO | common.middleware | [request_id=98470680858b4a70be106f48a0a05cbf] GET /api/document/list completed in 2.73 ms
+2026-08-22 16:36:51,350 | INFO | common.middleware | [request_id=f3213d5537284be39dd857ed63ba356c] GET /api/document/options completed in 0.67 ms
+2026-08-22 16:36:51,353 | INFO | common.middleware | [request_id=3adf6bb1b16348cd827d17cb7c4355ee] GET /api/document/list completed in 1.62 ms
+2026-08-22 16:36:52,372 | INFO | common.middleware | [request_id=d1af7f2648de4a30bbf2e95db6c41012] GET /api/document/options completed in 0.65 ms
+2026-08-22 16:36:52,374 | INFO | common.middleware | [request_id=b493e1df9c514927851975a8608844e2] GET /api/document/list completed in 1.54 ms
+2026-08-22 16:37:04,116 | INFO | common.middleware | [request_id=b80e1e08812e4b9d8a2a0223eadcbd1e] GET /api/document/options completed in 0.64 ms
+2026-08-22 16:37:04,117 | INFO | common.middleware | [request_id=56da0d196a434e669c0f0ae1e4bbc04a] GET /api/document/list completed in 1.31 ms
+2026-08-22 16:37:34,335 | INFO | core.app | Application shutdown complete.
+2026-08-22 16:37:39,223 | INFO | core.app | Application started. Database ready: True
+2026-08-22 16:37:39,228 | INFO | common.middleware | [request_id=4acdc37feeee4fa5b16ef53cc1cf8860] GET /docs completed in 0.25 ms
+2026-08-22 16:37:39,434 | INFO | common.middleware | [request_id=06d9bcd5f0284e6d9c85fadb8240731a] GET /openapi.json completed in 151.11 ms
+2026-08-22 16:38:19,566 | INFO | core.app | Application shutdown complete.
+2026-08-22 16:38:23,766 | INFO | core.app | Application started. Database ready: True
+2026-08-22 16:40:51,034 | INFO | core.app | Application shutdown complete.
+2026-08-22 16:40:55,151 | INFO | core.app | Application started. Database ready: True
+2026-08-22 16:43:39,479 | INFO | core.app | Application shutdown complete.
+2026-08-22 16:43:43,865 | INFO | core.app | Application started. Database ready: True
+2026-08-22 16:43:43,965 | INFO | core.app | Application shutdown complete.
+2026-08-22 16:43:48,050 | INFO | core.app | Application started. Database ready: True
+2026-08-22 16:44:11,502 | INFO | common.middleware | [request_id=a0adb8a6b4e047559cabb24a0e75385b] POST /api/auth/create_user completed in 18.75 ms
+2026-08-22 16:44:11,504 | INFO | httpx | HTTP Request: POST http://testserver/api/auth/create_user "HTTP/1.1 404 Not Found"
+2026-08-22 16:44:11,586 | INFO | common.middleware | [request_id=8507624342f74d8790dd6ed25bf02ba8] GET /health completed in 1.13 ms
+2026-08-22 16:44:11,586 | INFO | httpx | HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2026-08-22 16:44:11,653 | INFO | utils.hash_utils | Duplicate file detected: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-6\test_is_duplicate_file_true0\dup.txt (md5=9a0364b9e99bb480dd25e1f0284c8555)
+2026-08-22 16:44:11,653 | INFO | utils.hash_utils | Duplicate text detected (md5=24f1b0a79473250c195c7fb84e393392)
+2026-08-22 16:44:11,680 | INFO | utils.text_utils | Text truncated: original_tokens=500 max_tokens=10 chars 2000->39
+2026-08-22 16:44:11,681 | INFO | utils.text_utils | Text truncated: original_tokens=12 max_tokens=5 chars 48->15
+2026-08-22 16:44:11,682 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-22 16:44:11,683 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-22 16:44:11,690 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-6\test_parse_txt_utf80\test.txt (size=13)
+2026-08-22 16:44:11,690 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-22 16:44:11,690 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-6\test_parse_txt_chinese0\chinese.txt (size=18)
+2026-08-22 16:44:11,699 | INFO | utils.file_parser | TXT parsed successfully: 6 chars
+2026-08-22 16:44:11,701 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-6\test_parse_txt_gbk0\gbk.txt (size=8)
+2026-08-22 16:44:11,704 | INFO | utils.file_parser | TXT parsed successfully: 4 chars
+2026-08-22 16:44:11,708 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-6\test_parse_txt_whitespace_only0\whitespace.txt (size=8)
+2026-08-22 16:44:11,777 | INFO | utils.file_parser | Parsing PDF file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-6\test_parse_pdf_basic0\test.pdf (size=431)
+2026-08-22 16:44:11,781 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-6\test_parse_file_txt_dispatch0\test.txt (size=13)
+2026-08-22 16:44:11,787 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-22 16:44:11,797 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): Ollama not running
+2026-08-22 16:44:11,797 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3): Ollama not running
+2026-08-22 16:44:11,798 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3): Ollama not running
+2026-08-22 16:44:11,799 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): fail
+2026-08-22 16:44:11,800 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-08-22 16:44:11,953 | INFO | core.langchain.chroma_store | Chroma store ready. collection=rag_documents persist_directory=D:\www\jilin\python\fastapi-study\chroma
+2026-08-22 16:44:11,972 | WARNING | core.langchain.retriever | top_k=100 exceeds max 20, clamped to max
+2026-08-22 16:44:11,974 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
+2026-08-22 16:44:11,976 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
+2026-08-22 16:44:11,976 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=2 top_k=5
+2026-08-22 16:46:24,073 | INFO | core.app | Application shutdown complete.
+2026-08-22 16:46:28,295 | INFO | core.app | Application started. Database ready: True
+2026-08-22 16:46:30,829 | INFO | common.middleware | [request_id=07f51a5bef934efa9c036dd8c6362f46] GET /docs completed in 0.81 ms
+2026-08-22 16:46:31,050 | INFO | common.middleware | [request_id=efe53bf12f134de1b6d54d330f144dbe] GET /openapi.json completed in 164.79 ms
+2026-08-22 16:47:09,557 | INFO | common.middleware | [request_id=b9d27f07906e4a05aad60d687103b09c] GET /api/document/options completed in 1.12 ms
+2026-08-22 16:47:09,560 | INFO | common.middleware | [request_id=95cc7c38f75f4380bd9ec2a71cdeca71] GET /api/document/list completed in 0.61 ms
+2026-08-22 16:47:18,723 | INFO | common.middleware | [request_id=e6791ebcd9f5431bbd22b35587e1a3f2] GET /api/struct/list completed in 0.56 ms
+2026-08-22 16:47:19,739 | INFO | common.middleware | [request_id=853d55714b8c48099aae6a719ebeb2f3] GET /api/struct/list completed in 0.46 ms
+2026-08-22 16:47:23,676 | INFO | common.middleware | [request_id=88975db7317d458cb3254dd838952ad7] GET /api/document/list completed in 0.73 ms
+2026-08-22 16:47:23,678 | INFO | common.middleware | [request_id=9b08961de8c848b9966eaa3f6a4a8615] GET /api/document/options completed in 0.47 ms
+2026-08-22 16:47:24,703 | INFO | common.middleware | [request_id=7f60a5f905864d4f9a43b5e3f45ba2a1] GET /api/document/list completed in 3.49 ms
+2026-08-22 16:47:24,706 | INFO | common.middleware | [request_id=3ce403cedeb94c318573579643bd0a82] GET /api/document/options completed in 1.35 ms
+2026-08-22 16:47:28,141 | INFO | common.middleware | [request_id=bf4598d093d84910ad957c7832aa722e] GET /api/document/options completed in 0.66 ms
+2026-08-22 16:47:28,142 | INFO | common.middleware | [request_id=30d914a45308452b90aaa4aeb97f1289] GET /api/document/list completed in 1.42 ms
+2026-08-22 16:47:58,976 | INFO | common.middleware | [request_id=e1b7e50071d2407aa331bf7ea068ca7b] GET /api/document/options completed in 0.95 ms
+2026-08-22 16:47:58,980 | INFO | common.middleware | [request_id=03114fb914884a389413b44cc8d6d4d2] GET /api/document/list completed in 3.23 ms
+2026-08-22 16:48:04,760 | INFO | common.middleware | [request_id=4bf25fb8a1414af695e88c2fc0d2c54f] GET /api/struct/list completed in 0.54 ms
+2026-08-22 16:48:05,769 | INFO | common.middleware | [request_id=284b2f3668c2437785ad3d01cc65f417] GET /api/struct/list completed in 0.53 ms
+2026-08-22 16:48:12,127 | INFO | common.middleware | [request_id=ea5bac18de5a4d828f8896f298b77b84] GET /api/struct/list completed in 0.60 ms
+2026-08-22 16:48:13,152 | INFO | common.middleware | [request_id=75b13547ae5c43c399ce838ddc8f53d7] GET /api/struct/list completed in 0.68 ms
+2026-08-22 21:07:18,422 | INFO | common.middleware | [request_id=26c9968a0a3947bead2f514fcf5a7073] GET /api/struct/list completed in 0.62 ms
+2026-08-22 21:07:18,742 | INFO | common.middleware | [request_id=a3cb5dffca2548668472cb3743ce30e8] GET /api/struct/list completed in 0.70 ms
+2026-08-22 21:07:19,857 | INFO | common.middleware | [request_id=89bd2085a6054f5b8ca10073a8d9260b] GET /api/struct/list completed in 0.48 ms
+2026-08-22 21:07:21,041 | INFO | common.middleware | [request_id=15b8d640dd994c038e9099a4295cc352] GET /api/document/list completed in 0.91 ms
+2026-08-22 21:07:21,042 | INFO | common.middleware | [request_id=66dd8179c3fc41689c58ba1fab2b7979] GET /api/document/options completed in 1.72 ms
+2026-08-22 21:07:22,053 | INFO | common.middleware | [request_id=a26c5511633f4cfeb6afbe4b6c8b6787] GET /api/document/list completed in 0.72 ms
+2026-08-22 21:07:22,054 | INFO | common.middleware | [request_id=7b21f28255af4968b03e628f298ffc64] GET /api/document/options completed in 1.49 ms
+2026-08-22 21:07:27,481 | INFO | common.middleware | [request_id=36c1879f98584ee9bb4d6d5b065a62f4] GET /api/document/list completed in 0.69 ms
+2026-08-22 21:07:27,483 | INFO | common.middleware | [request_id=66be9937be444ca5b665a5ee1a190d77] GET /api/document/options completed in 0.52 ms
+2026-08-22 21:09:21,524 | INFO | common.middleware | [request_id=633eb09660d14c8b9fd7ba5d08ac10d5] GET /openapi.json completed in 0.64 ms
+2026-08-22 21:09:30,669 | INFO | common.middleware | [request_id=d0704fc41a054a958a80f0a43a1efa1e] GET /openapi.json completed in 0.56 ms
+2026-08-22 21:09:40,140 | INFO | common.middleware | [request_id=67deec8e52134277bf21086c84e61e55] GET /openapi.json completed in 0.56 ms
+2026-08-22 21:13:23,778 | INFO | common.middleware | [request_id=0db4104f06d24d82b5f6c514a8e0d6e8] GET /openapi.json completed in 0.73 ms
+2026-08-22 21:16:57,408 | INFO | common.middleware | [request_id=0086707f2e274c8190f66ba6ef92fbcd] POST /api/knowledge-bases/list completed in 4.27 ms
+2026-08-22 21:17:30,524 | INFO | common.middleware | [request_id=d5ea5de0efea4051b84be9352a0f2445] POST /api/knowledge-bases/list completed in 1.84 ms
+2026-08-22 21:17:39,197 | INFO | common.middleware | [request_id=9356882a1b1e467fac38a876ad0e4227] POST /api/knowledge-bases/list completed in 1.25 ms
+2026-08-22 21:17:41,127 | INFO | common.middleware | [request_id=41510539d2834831b241183794391a20] POST /api/knowledge-bases/list completed in 1.36 ms
+2026-08-22 21:17:48,279 | INFO | common.middleware | [request_id=cf339ae291bc4239be5631baff69966d] POST /api/knowledge-bases/list completed in 1.58 ms
+2026-08-22 21:18:45,337 | INFO | common.middleware | [request_id=ec7a2c4a113240e5985b909fbdce028b] POST /api/knowledge-bases/list completed in 1.27 ms
+2026-08-22 21:18:55,257 | INFO | common.middleware | [request_id=eaa706bec0ce4ac1944294c50a86582c] POST /api/knowledge-bases/list completed in 1.30 ms
+2026-08-22 21:24:41,954 | INFO | common.middleware | [request_id=38f0aa10167644cbb769afd2aeaba879] POST /api/knowledge-bases/list completed in 3.21 ms
+2026-08-22 21:24:44,221 | INFO | common.middleware | [request_id=2b6157531f1e40f8a826de8d0c1e8e69] POST /api/knowledge-bases/list completed in 3.36 ms
+2026-08-22 21:24:45,363 | INFO | common.middleware | [request_id=6181887ecd974e758b4df2556de0b1ac] POST /api/knowledge-bases/list completed in 1.23 ms
+2026-08-22 21:26:34,070 | INFO | common.middleware | [request_id=39764643a5574734904bbd300c0dfd5e] GET /api/struct/list completed in 1.07 ms
+2026-08-22 21:26:35,088 | INFO | common.middleware | [request_id=b01c5a018e75412fb455e2f5d1901c34] GET /api/struct/list completed in 0.56 ms
+2026-08-22 21:26:36,327 | INFO | common.middleware | [request_id=8901017297fc4d6b8aca36a1b139b56d] POST /api/knowledge-bases/list completed in 1.86 ms
+2026-08-22 21:26:37,343 | INFO | common.middleware | [request_id=1859f34c973740d59c1d41ead67924c8] POST /api/knowledge-bases/list completed in 2.45 ms
+2026-08-22 21:28:31,480 | INFO | common.middleware | [request_id=dd2320bf4b2c412ba641cb48a5b032db] POST /api/auth/logout completed in 22.91 ms
+2026-08-22 21:28:32,930 | INFO | common.middleware | [request_id=9b39080c4134437e9fd22e4a0a52605a] POST /api/auth/login completed in 94.95 ms
+2026-08-22 21:28:32,949 | INFO | common.middleware | [request_id=62a8eb93f0044532aaa63bde89217fdd] GET /api/users/info completed in 9.28 ms
+2026-08-22 21:28:33,009 | INFO | common.middleware | [request_id=4dd52e2784384516afb20e536f02db0b] GET /api/chat/session/list completed in 0.69 ms
+2026-08-22 21:28:33,020 | INFO | common.middleware | [request_id=db2ec5c84ac7424694678e1be965e627] POST /api/knowledge-bases/list completed in 10.24 ms
+2026-08-22 21:28:34,057 | INFO | common.middleware | [request_id=7886af740b9b44839c3d9a4e659173b9] GET /api/chat/session/list completed in 0.73 ms
+2026-08-22 21:42:01,287 | INFO | common.middleware | [request_id=d8959a4d824a48c8ac2aeff6653ffc2c] POST /api/knowledge-bases/list completed in 5.82 ms
+2026-08-22 21:42:40,291 | INFO | common.middleware | [request_id=58b8ecee6d3f41ee83e13f8e06854f13] POST /api/knowledge-bases/list completed in 4.24 ms
+2026-08-22 21:42:53,710 | INFO | core.app | Application shutdown complete.
+2026-08-22 21:42:58,964 | INFO | core.app | Application started. Database ready: True
+2026-08-22 21:43:03,942 | INFO | common.middleware | [request_id=d9dbda8d3ac443a592fc9ca01586443e] POST /api/knowledge-bases/list completed in 43.05 ms
+2026-08-22 21:43:17,189 | INFO | core.app | Application shutdown complete.
+2026-08-22 21:43:21,455 | INFO | core.app | Application started. Database ready: True
+2026-08-22 21:43:36,020 | INFO | common.middleware | [request_id=2130d2d1f03b4564bf4b10c6117fa0ed] POST /api/knowledge-bases/list completed in 33.78 ms
+2026-08-22 21:43:57,771 | INFO | core.app | Application shutdown complete.
+2026-08-22 21:44:01,965 | INFO | core.app | Application started. Database ready: True
+2026-08-22 21:44:05,156 | INFO | common.middleware | [request_id=5937140aba004d48b668f17019b58014] POST /api/knowledge-bases/list completed in 40.14 ms
+2026-08-22 21:44:26,184 | INFO | common.middleware | [request_id=d8ee922e462740f984ecd06066cd39d1] POST /api/knowledge-bases/create completed in 27.44 ms
+2026-08-22 21:44:26,198 | INFO | common.middleware | [request_id=d28f3f99f48c4434bdeee5c4607826c3] POST /api/knowledge-bases/list completed in 6.16 ms
+2026-08-22 21:44:26,236 | INFO | common.middleware | [request_id=b3b5b78028a94e5fbed9cb2529dbbf62] POST /api/documents/knowledge-bases/documents/list completed in 18.20 ms
+2026-08-22 21:44:47,983 | INFO | common.middleware | [request_id=ab8b203a901e44a5a46197c8a3831bd8] POST /api/knowledge-bases/create completed in 19.12 ms
+2026-08-22 21:44:47,997 | INFO | common.middleware | [request_id=43805e5681594ac4b7276b3e5a26965f] POST /api/knowledge-bases/list completed in 3.85 ms
+2026-08-22 21:44:48,020 | INFO | common.middleware | [request_id=c361dde659fb40c18e019a44b4cb113c] POST /api/documents/knowledge-bases/documents/list completed in 5.01 ms
+2026-08-22 21:45:19,063 | INFO | common.middleware | [request_id=48ff6529107448b688463298a3e9d0b8] POST /api/documents/knowledge-bases/documents/list completed in 3.66 ms
+2026-08-22 21:45:44,099 | INFO | common.middleware | [request_id=249230ed039740b7b61090ee6e2b2775] POST /api/knowledge-bases/list completed in 4.00 ms
+2026-08-22 21:45:45,113 | INFO | common.middleware | [request_id=6ead138fa25042c889fb98d9a0bdfb86] POST /api/documents/knowledge-bases/documents/list completed in 4.54 ms
+2026-08-22 21:47:04,142 | INFO | common.middleware | [request_id=0a7bb8a65e234248b8688a6b10241679] POST /api/knowledge-bases/list completed in 8.70 ms
+2026-08-22 21:47:04,147 | INFO | common.middleware | [request_id=cbde725cda864900adae2b6c1d2d689b] POST /api/documents/knowledge-bases/documents/list completed in 8.82 ms
+2026-08-22 21:55:17,837 | INFO | common.middleware | [request_id=8814dbada6e24993b5c1b86d43209d93] POST /api/documents/knowledge-bases/documents/list completed in 8.29 ms
+2026-08-22 21:55:17,837 | INFO | common.middleware | [request_id=f685f22c32674192a83626ecbdb6c27f] POST /api/knowledge-bases/list completed in 10.10 ms
+2026-08-22 21:56:00,131 | INFO | common.middleware | [request_id=93182607a75542e793efd34739de07b2] POST /api/knowledge-bases/list completed in 31.24 ms
+2026-08-22 21:56:00,137 | INFO | common.middleware | [request_id=8fb9d0cd948a4b26829bdc5d3c5bb2e0] POST /api/documents/knowledge-bases/documents/list completed in 34.47 ms
+2026-08-22 22:01:31,508 | INFO | common.middleware | [request_id=28bc0ba6260e4c668d21b05b78648002] POST /api/knowledge-bases/list completed in 9.35 ms
+2026-08-22 22:01:31,509 | INFO | common.middleware | [request_id=60fa5ab210e54e9385ca2ea0a0bf95ee] POST /api/documents/knowledge-bases/documents/list completed in 9.83 ms
+2026-08-22 22:01:58,583 | INFO | common.middleware | [request_id=f965ba4eb6b34a9bb985063a64804c0a] POST /api/documents/knowledge-bases/documents/upload/41 completed in 6.57 ms
+2026-08-22 22:02:20,379 | INFO | common.middleware | [request_id=4ef15a07c22d462aa25664d1d0b60633] POST /api/knowledge-bases/list completed in 7.67 ms
+2026-08-22 22:02:20,381 | INFO | common.middleware | [request_id=dcf1de9dea4d4186b37e4f8dc4ba80fa] POST /api/documents/knowledge-bases/documents/list completed in 9.15 ms
+2026-08-22 22:07:51,060 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:08:13,806 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:08:57,544 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:09:21,257 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:09:45,535 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:09:49,836 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:10:12,256 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:10:16,556 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:10:37,486 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:10:41,875 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:11:07,245 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:11:11,545 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:29:17,467 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:29:21,880 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:29:21,986 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:29:26,175 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:29:45,454 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:29:50,110 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:29:50,215 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:29:54,447 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:29:54,550 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:29:58,744 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:30:20,067 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:30:24,486 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:30:24,589 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:30:28,782 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:30:36,431 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:30:40,816 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:30:40,917 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:30:45,152 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:30:47,485 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:30:51,741 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:30:55,864 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:31:30,827 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:31:36,324 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:31:57,462 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:31:57,576 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:32:01,726 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:32:17,303 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:32:21,539 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:32:30,948 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:32:35,276 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:32:44,994 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:32:49,283 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:32:49,397 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:32:53,612 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:33:01,864 | INFO | common.middleware | [request_id=d77bbc69d48d414b8afd00fb83984ff8] POST /api/auth/create_user completed in 94.24 ms
+2026-08-22 22:33:01,866 | INFO | httpx | HTTP Request: POST http://testserver/api/auth/create_user "HTTP/1.1 404 Not Found"
+2026-08-22 22:33:01,874 | INFO | common.middleware | [request_id=186a494de191414286185c54ad6cc82d] GET /health completed in 1.09 ms
+2026-08-22 22:33:01,874 | INFO | httpx | HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2026-08-22 22:33:01,959 | INFO | utils.hash_utils | Duplicate file detected: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-7\test_is_duplicate_file_true0\dup.txt (md5=9a0364b9e99bb480dd25e1f0284c8555)
+2026-08-22 22:33:01,964 | INFO | utils.hash_utils | Duplicate text detected (md5=24f1b0a79473250c195c7fb84e393392)
+2026-08-22 22:33:01,974 | INFO | utils.text_utils | Text truncated: original_tokens=500 max_tokens=10 chars 2000->39
+2026-08-22 22:33:01,974 | INFO | utils.text_utils | Text truncated: original_tokens=12 max_tokens=5 chars 48->15
+2026-08-22 22:33:01,974 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-22 22:33:01,974 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-22 22:33:01,974 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-7\test_parse_txt_utf80\test.txt (size=13)
+2026-08-22 22:33:01,990 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-22 22:33:01,993 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-7\test_parse_txt_chinese0\chinese.txt (size=18)
+2026-08-22 22:33:01,994 | INFO | utils.file_parser | TXT parsed successfully: 6 chars
+2026-08-22 22:33:01,997 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-7\test_parse_txt_gbk0\gbk.txt (size=8)
+2026-08-22 22:33:02,004 | INFO | utils.file_parser | TXT parsed successfully: 4 chars
+2026-08-22 22:33:02,008 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-7\test_parse_txt_whitespace_only0\whitespace.txt (size=8)
+2026-08-22 22:33:02,107 | INFO | utils.file_parser | Parsing PDF file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-7\test_parse_pdf_basic0\test.pdf (size=431)
+2026-08-22 22:33:02,108 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-7\test_parse_file_txt_dispatch0\test.txt (size=13)
+2026-08-22 22:33:02,128 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-22 22:33:02,139 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): Ollama not running
+2026-08-22 22:33:02,139 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3): Ollama not running
+2026-08-22 22:33:02,139 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3): Ollama not running
+2026-08-22 22:33:02,141 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): fail
+2026-08-22 22:33:02,141 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-08-22 22:33:02,825 | INFO | core.langchain.chroma_store | Chroma store ready. collection=rag_documents persist_directory=D:\www\jilin\python\fastapi-study\chroma
+2026-08-22 22:33:02,845 | WARNING | core.langchain.retriever | top_k=100 exceeds max 20, clamped to max
+2026-08-22 22:33:02,847 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
+2026-08-22 22:33:02,849 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
+2026-08-22 22:33:02,849 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=2 top_k=5
+2026-08-22 22:34:54,126 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:34:58,599 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:34:58,713 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:35:02,911 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:35:11,691 | INFO | common.middleware | [request_id=42741f60eea644e2a970db5ac73cbc39] POST /api/auth/create_user completed in 152.45 ms
+2026-08-22 22:35:11,691 | INFO | httpx | HTTP Request: POST http://testserver/api/auth/create_user "HTTP/1.1 201 Created"
+2026-08-22 22:35:34,108 | INFO | common.middleware | [request_id=a5357780dc834d2d9c7390ca4e76b443] POST /api/auth/create_user completed in 157.99 ms
+2026-08-22 22:35:34,108 | INFO | httpx | HTTP Request: POST http://testserver/api/auth/create_user "HTTP/1.1 201 Created"
+2026-08-22 22:35:34,131 | INFO | common.middleware | [request_id=c9c4c2d30a4943109e379532cf812656] GET /health completed in 15.95 ms
+2026-08-22 22:35:34,132 | INFO | httpx | HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2026-08-22 22:35:34,175 | INFO | utils.hash_utils | Duplicate file detected: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-8\test_is_duplicate_file_true0\dup.txt (md5=9a0364b9e99bb480dd25e1f0284c8555)
+2026-08-22 22:35:34,192 | INFO | utils.hash_utils | Duplicate text detected (md5=24f1b0a79473250c195c7fb84e393392)
+2026-08-22 22:35:34,204 | INFO | utils.text_utils | Text truncated: original_tokens=500 max_tokens=10 chars 2000->39
+2026-08-22 22:35:34,206 | INFO | utils.text_utils | Text truncated: original_tokens=12 max_tokens=5 chars 48->15
+2026-08-22 22:35:34,207 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-22 22:35:34,208 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-22 22:35:34,213 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-8\test_parse_txt_utf80\test.txt (size=13)
+2026-08-22 22:35:34,213 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-22 22:35:34,220 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-8\test_parse_txt_chinese0\chinese.txt (size=18)
+2026-08-22 22:35:34,220 | INFO | utils.file_parser | TXT parsed successfully: 6 chars
+2026-08-22 22:35:34,225 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-8\test_parse_txt_gbk0\gbk.txt (size=8)
+2026-08-22 22:35:34,226 | INFO | utils.file_parser | TXT parsed successfully: 4 chars
+2026-08-22 22:35:34,232 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-8\test_parse_txt_whitespace_only0\whitespace.txt (size=8)
+2026-08-22 22:35:34,275 | INFO | utils.file_parser | Parsing PDF file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-8\test_parse_pdf_basic0\test.pdf (size=431)
+2026-08-22 22:35:34,295 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-8\test_parse_file_txt_dispatch0\test.txt (size=13)
+2026-08-22 22:35:34,296 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-22 22:35:34,306 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): Ollama not running
+2026-08-22 22:35:34,306 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3): Ollama not running
+2026-08-22 22:35:34,306 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3): Ollama not running
+2026-08-22 22:35:34,308 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): fail
+2026-08-22 22:35:34,309 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-08-22 22:35:34,405 | INFO | core.langchain.chroma_store | Chroma store ready. collection=rag_documents persist_directory=D:\www\jilin\python\fastapi-study\chroma
+2026-08-22 22:35:34,408 | WARNING | core.langchain.retriever | top_k=100 exceeds max 20, clamped to max
+2026-08-22 22:35:34,408 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
+2026-08-22 22:35:34,408 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
+2026-08-22 22:35:34,408 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=2 top_k=5
+2026-08-22 22:36:00,176 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:36:04,428 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:36:16,658 | INFO | common.middleware | [request_id=dfde55a0751041c8b94bdf8c73c975fa] POST /api/auth/create_user completed in 137.85 ms
+2026-08-22 22:36:16,658 | INFO | httpx | HTTP Request: POST http://testserver/api/auth/create_user "HTTP/1.1 201 Created"
+2026-08-22 22:36:16,682 | INFO | common.middleware | [request_id=51d46731283a4ee8b1e5d0b3ade92095] GET /health completed in 15.30 ms
+2026-08-22 22:36:16,683 | INFO | httpx | HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2026-08-22 22:36:16,746 | INFO | utils.hash_utils | Duplicate file detected: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-9\test_is_duplicate_file_true0\dup.txt (md5=9a0364b9e99bb480dd25e1f0284c8555)
+2026-08-22 22:36:16,754 | INFO | utils.hash_utils | Duplicate text detected (md5=24f1b0a79473250c195c7fb84e393392)
+2026-08-22 22:36:16,758 | INFO | utils.text_utils | Text truncated: original_tokens=500 max_tokens=10 chars 2000->39
+2026-08-22 22:36:16,758 | INFO | utils.text_utils | Text truncated: original_tokens=12 max_tokens=5 chars 48->15
+2026-08-22 22:36:16,758 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-22 22:36:16,758 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-22 22:36:16,780 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-9\test_parse_txt_utf80\test.txt (size=13)
+2026-08-22 22:36:16,781 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-22 22:36:16,784 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-9\test_parse_txt_chinese0\chinese.txt (size=18)
+2026-08-22 22:36:16,785 | INFO | utils.file_parser | TXT parsed successfully: 6 chars
+2026-08-22 22:36:16,788 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-9\test_parse_txt_gbk0\gbk.txt (size=8)
+2026-08-22 22:36:16,789 | INFO | utils.file_parser | TXT parsed successfully: 4 chars
+2026-08-22 22:36:16,791 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-9\test_parse_txt_whitespace_only0\whitespace.txt (size=8)
+2026-08-22 22:36:16,853 | INFO | utils.file_parser | Parsing PDF file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-9\test_parse_pdf_basic0\test.pdf (size=431)
+2026-08-22 22:36:16,858 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-9\test_parse_file_txt_dispatch0\test.txt (size=13)
+2026-08-22 22:36:16,858 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-22 22:36:16,858 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): Ollama not running
+2026-08-22 22:36:16,858 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3): Ollama not running
+2026-08-22 22:36:16,858 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3): Ollama not running
+2026-08-22 22:36:16,858 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): fail
+2026-08-22 22:36:16,873 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-08-22 22:36:16,958 | INFO | core.langchain.chroma_store | Chroma store ready. collection=rag_documents persist_directory=D:\www\jilin\python\fastapi-study\chroma
+2026-08-22 22:36:16,978 | WARNING | core.langchain.retriever | top_k=100 exceeds max 20, clamped to max
+2026-08-22 22:36:16,980 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
+2026-08-22 22:36:16,981 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
+2026-08-22 22:36:16,982 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=2 top_k=5
+2026-08-22 22:36:28,464 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:36:32,669 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:38:45,146 | INFO | common.middleware | [request_id=0656b534ecc54ac0a05a87308596bdb1] POST /api/documents/knowledge-bases/documents/list completed in 19.38 ms
+2026-08-22 22:38:45,183 | INFO | common.middleware | [request_id=b13581aec7a74683bb9e76109fc1dd98] POST /api/knowledge-bases/list completed in 73.04 ms
+2026-08-22 22:38:48,962 | INFO | common.middleware | [request_id=a8e1b41726a840acb5269f64953779a9] GET /docs completed in 0.38 ms
+2026-08-22 22:38:49,155 | INFO | common.middleware | [request_id=ac58e26b17b74f539c4107fc28d3ffd7] GET /openapi.json completed in 132.94 ms
+2026-08-22 22:40:22,143 | INFO | common.middleware | [request_id=9394af2be9384cffa5ed9926eb2cea33] GET /openapi.json completed in 1.12 ms
+2026-08-22 22:40:32,654 | INFO | common.middleware | [request_id=86242f358a4444c7abdb466affc9e944] GET /openapi.json completed in 0.59 ms
+2026-08-22 22:40:57,549 | INFO | common.middleware | [request_id=acd43be24cbb4928b88218ac340abb9f] POST /api/knowledge-bases/list completed in 3.28 ms
+2026-08-22 22:40:58,022 | INFO | common.middleware | [request_id=af436423251348d59168bc4852e0a6d9] POST /api/documents/knowledge-bases/documents/list completed in 0.37 ms
+2026-08-22 22:41:12,677 | INFO | common.middleware | [request_id=0d867b18793f49999190b6a581962580] POST /api/documents/knowledge-bases/documents/list completed in 0.32 ms
+2026-08-22 22:41:27,682 | INFO | common.middleware | [request_id=3bb8c961938e4e8bb12564d07d2c82e6] POST /api/documents/knowledge-bases/documents/list completed in 0.33 ms
+2026-08-22 22:41:28,333 | INFO | common.middleware | [request_id=d9595105a9d947618b1d2e691b6303b4] POST /api/knowledge-bases/list completed in 2.57 ms
+2026-08-22 22:41:28,704 | INFO | common.middleware | [request_id=5c1aa3f14cfb4c60b8eee92731738f01] POST /api/documents/knowledge-bases/documents/list completed in 0.34 ms
+2026-08-22 22:41:30,363 | INFO | common.middleware | [request_id=399fd661b93f490bbb3ac26e58724c76] POST /api/knowledge-bases/list completed in 85.67 ms
+2026-08-22 22:41:30,677 | INFO | common.middleware | [request_id=84fa3bffbcef4179a3d0eb6e39147c0f] POST /api/documents/knowledge-bases/documents/list completed in 0.32 ms
+2026-08-22 22:42:25,692 | INFO | common.middleware | [request_id=402bafd0310a4b95808e3062f7f3bc0a] POST /api/documents/knowledge-bases/documents/list completed in 0.30 ms
+2026-08-22 22:42:25,692 | INFO | common.middleware | [request_id=5464f358362a4edbb4e5e9a659f8860d] POST /api/knowledge-bases/list completed in 3.61 ms
+2026-08-22 22:46:13,653 | INFO | common.middleware | [request_id=85a2d968afac4653a38fce109c25cb9a] POST /api/documents/knowledge-bases/documents/list completed in 1.00 ms
+2026-08-22 22:46:13,657 | INFO | common.middleware | [request_id=dfb26c59ebd44f3ea7dc3b67457a385b] POST /api/knowledge-bases/list completed in 4.51 ms
+2026-08-22 22:46:23,658 | INFO | common.middleware | [request_id=9a1bf327846e48b8afddb9ed5a1488cc] POST /api/documents/knowledge-bases/documents/list completed in 0.36 ms
+2026-08-22 22:49:56,969 | INFO | common.middleware | [request_id=3cd6949e44344e899a5331188522dcb6] POST /api/documents/knowledge-bases/documents/list completed in 0.88 ms
+2026-08-22 22:49:56,976 | INFO | common.middleware | [request_id=64f62cdfc92e42d9b7355b0cc024579f] POST /api/knowledge-bases/list completed in 7.26 ms
+2026-08-22 22:49:58,541 | INFO | common.middleware | [request_id=747a3a0756944d1a9b69ddad9a908e20] POST /api/knowledge-bases/list completed in 5.06 ms
+2026-08-22 22:49:58,716 | INFO | common.middleware | [request_id=c18a60cfd54d428a865842ff19702a68] POST /api/documents/knowledge-bases/documents/list completed in 0.61 ms
+2026-08-22 22:49:59,737 | INFO | common.middleware | [request_id=b67c6f8cc0bf466cb9bb568402541c68] POST /api/documents/knowledge-bases/documents/list completed in 0.66 ms
+2026-08-22 22:50:03,948 | INFO | common.middleware | [request_id=ff4ac75f966b49c9997de4faacffdb6c] POST /api/files/upload completed in 9.77 ms
+2026-08-22 22:50:24,824 | INFO | common.middleware | [request_id=b703a99ad7b14ac49542d90da7beb564] POST /api/documents/knowledge-bases/documents/list completed in 0.64 ms
+2026-08-22 22:50:25,836 | INFO | common.middleware | [request_id=894576f7890a4941b90bea0bcb907bfc] POST /api/documents/knowledge-bases/documents/list completed in 0.61 ms
+2026-08-22 22:50:28,722 | INFO | common.middleware | [request_id=eccd463ba7ac4f63b2cc2c2b01f1623d] POST /api/knowledge-bases/list completed in 4.39 ms
+2026-08-22 22:50:28,857 | INFO | common.middleware | [request_id=496067b492944973ad51c3a7d58c834d] POST /api/documents/knowledge-bases/documents/list completed in 0.53 ms
+2026-08-22 22:50:29,889 | INFO | common.middleware | [request_id=d27242aca06148cda694e801b4f686f7] POST /api/documents/knowledge-bases/documents/list completed in 0.51 ms
+2026-08-22 22:50:35,882 | INFO | common.middleware | [request_id=9fe05c4e5054440aa63bfaac7ffd0033] POST /api/documents/knowledge-bases/documents/list completed in 0.54 ms
+2026-08-22 22:50:36,906 | INFO | common.middleware | [request_id=d4cfb8f533b14332b696ebb6378f17bb] POST /api/documents/knowledge-bases/documents/list completed in 0.54 ms
+2026-08-22 22:50:50,673 | INFO | common.middleware | [request_id=aba0c70ce71c4273acc04e0ae302824c] POST /api/documents/knowledge-bases/documents/list completed in 0.33 ms
+2026-08-22 22:50:57,212 | INFO | common.middleware | [request_id=9c10fd89b04343afb64e0e88476d7764] POST /api/documents/list completed in 18.79 ms
+2026-08-22 22:51:10,087 | INFO | common.middleware | [request_id=93c3303272bf4c1d9f648b2e9497e092] POST /api/knowledge-bases/list completed in 10.82 ms
+2026-08-22 22:51:10,089 | INFO | common.middleware | [request_id=ddc48a633dd84e87a1685bd3ceceb49b] POST /api/documents/list completed in 11.93 ms
+2026-08-22 22:51:11,121 | INFO | common.middleware | [request_id=5652bfa423894d7a9b7c3565567a9533] POST /api/documents/list completed in 3.86 ms
+2026-08-22 22:51:28,104 | INFO | common.middleware | [request_id=66c378c5ddbf437da760948e0fedf60b] POST /api/documents/list completed in 4.40 ms
+2026-08-22 22:51:29,132 | INFO | common.middleware | [request_id=79c413846c2a476cb4f06916c80768e2] POST /api/documents/list completed in 3.86 ms
+2026-08-22 22:51:43,828 | INFO | common.middleware | [request_id=a4639fe93516474a941d205a6d2aec3e] POST /api/documents/list completed in 7.67 ms
+2026-08-22 22:51:43,828 | INFO | common.middleware | [request_id=2c0c504b52614872b767b4d3e5f62d78] POST /api/knowledge-bases/list completed in 9.18 ms
+2026-08-22 22:51:44,859 | INFO | common.middleware | [request_id=94988b2557de41ca9652509c21dd1db0] POST /api/documents/list completed in 5.74 ms
+2026-08-22 22:53:57,908 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:54:02,292 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:54:12,144 | INFO | common.middleware | [request_id=2389549bce5646e49b46bb8dab9543da] POST /api/knowledge-bases/list completed in 51.64 ms
+2026-08-22 22:54:12,145 | INFO | common.middleware | [request_id=4d943402b60b48a78705b1f96c2e518d] POST /api/documents/list completed in 37.35 ms
+2026-08-22 22:54:25,829 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:54:31,033 | INFO | core.app | Application started. Database ready: True
+2026-08-22 22:54:58,242 | INFO | common.middleware | [request_id=e46c662d77844c059650986ee042c8fb] POST /api/auth/create_user completed in 144.05 ms
+2026-08-22 22:54:58,242 | INFO | httpx | HTTP Request: POST http://testserver/api/auth/create_user "HTTP/1.1 201 Created"
+2026-08-22 22:54:58,264 | INFO | common.middleware | [request_id=c05b53d82ada4313b2b8f3fa4c6f272f] GET /health completed in 15.34 ms
+2026-08-22 22:54:58,265 | INFO | httpx | HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2026-08-22 22:54:58,333 | INFO | utils.hash_utils | Duplicate file detected: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-10\test_is_duplicate_file_true0\dup.txt (md5=9a0364b9e99bb480dd25e1f0284c8555)
+2026-08-22 22:54:58,338 | INFO | utils.hash_utils | Duplicate text detected (md5=24f1b0a79473250c195c7fb84e393392)
+2026-08-22 22:54:58,338 | INFO | utils.text_utils | Text truncated: original_tokens=500 max_tokens=10 chars 2000->39
+2026-08-22 22:54:58,353 | INFO | utils.text_utils | Text truncated: original_tokens=12 max_tokens=5 chars 48->15
+2026-08-22 22:54:58,354 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-22 22:54:58,355 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-22 22:54:58,362 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-10\test_parse_txt_utf80\test.txt (size=13)
+2026-08-22 22:54:58,363 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-22 22:54:58,366 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-10\test_parse_txt_chinese0\chinese.txt (size=18)
+2026-08-22 22:54:58,371 | INFO | utils.file_parser | TXT parsed successfully: 6 chars
+2026-08-22 22:54:58,371 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-10\test_parse_txt_gbk0\gbk.txt (size=8)
+2026-08-22 22:54:58,371 | INFO | utils.file_parser | TXT parsed successfully: 4 chars
+2026-08-22 22:54:58,371 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-10\test_parse_txt_whitespace_only0\whitespace.txt (size=8)
+2026-08-22 22:54:58,440 | INFO | utils.file_parser | Parsing PDF file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-10\test_parse_pdf_basic0\test.pdf (size=431)
+2026-08-22 22:54:58,460 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-10\test_parse_file_txt_dispatch0\test.txt (size=13)
+2026-08-22 22:54:58,461 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-22 22:54:58,471 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): Ollama not running
+2026-08-22 22:54:58,471 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3): Ollama not running
+2026-08-22 22:54:58,471 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3): Ollama not running
+2026-08-22 22:54:58,472 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): fail
+2026-08-22 22:54:58,474 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-08-22 22:54:58,571 | INFO | core.langchain.chroma_store | Chroma store ready. collection=rag_documents persist_directory=D:\www\jilin\python\fastapi-study\chroma
+2026-08-22 22:54:58,571 | WARNING | core.langchain.retriever | top_k=100 exceeds max 20, clamped to max
+2026-08-22 22:54:58,571 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
+2026-08-22 22:54:58,571 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
+2026-08-22 22:54:58,571 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=2 top_k=5
+2026-08-22 22:55:13,252 | INFO | core.app | Application shutdown complete.
+2026-08-22 22:55:17,440 | INFO | core.app | Application started. Database ready: True
+2026-08-22 23:24:31,880 | INFO | common.middleware | [request_id=af12a85ad60040e482185b84bb528ffc] POST /api/documents/list completed in 45.44 ms
+2026-08-22 23:24:31,883 | INFO | common.middleware | [request_id=a7b6ec4eecaf47578c759f463a4945bb] POST /api/knowledge-bases/list completed in 65.96 ms
+2026-08-22 23:24:34,384 | INFO | common.middleware | [request_id=4d4cc2f4c3634d459adc1a7b2b5efcec] POST /api/knowledge-bases/list completed in 5.69 ms
+2026-08-22 23:24:34,544 | INFO | common.middleware | [request_id=8cd7a87d0626419a8692ffc10947bc33] POST /api/documents/list completed in 8.98 ms
+2026-08-22 23:24:59,389 | INFO | common.middleware | [request_id=73250d6086c34040a5467acaf5c70f14] POST /api/files/upload completed in 36.23 ms
+2026-08-22 23:24:59,401 | INFO | common.middleware | [request_id=025f0947541344faa62210e3e8375183] POST /api/documents/list completed in 4.41 ms
+2026-08-22 23:26:00,790 | INFO | common.middleware | [request_id=63b51d0265394104a4083a179792b1d5] POST /api/knowledge-bases/list completed in 7.39 ms
+2026-08-22 23:26:00,791 | INFO | common.middleware | [request_id=18a331c388774fc6b587ec758062c741] POST /api/documents/list completed in 7.63 ms
+2026-08-22 23:27:01,392 | INFO | common.middleware | [request_id=02b55952c8c6456baa6a9260b328de61] POST /api/knowledge-bases/list completed in 7.52 ms
+2026-08-22 23:27:01,394 | INFO | common.middleware | [request_id=3e83d9033a184070971430634a64e11f] POST /api/documents/list completed in 8.64 ms
+2026-08-22 23:33:45,832 | INFO | common.middleware | [request_id=1e946a9d591a45e68df2b9b28f011f40] POST /api/knowledge-bases/list completed in 4.91 ms
+2026-08-22 23:33:45,833 | INFO | common.middleware | [request_id=b7b317d7540e4dd2ad014ea3c5312038] POST /api/documents/list completed in 5.09 ms
+2026-08-22 23:33:46,852 | INFO | common.middleware | [request_id=2bcaab50dd5744cd9626d3d300d5c002] POST /api/documents/list completed in 2.91 ms
+2026-08-22 23:33:46,853 | INFO | common.middleware | [request_id=75d50f2dbdc748f983fbe1bbc5ee3e4c] POST /api/knowledge-bases/list completed in 5.16 ms
+2026-08-22 23:33:50,850 | INFO | common.middleware | [request_id=ae877f15de9e4050a8b8066443bf66ff] POST /api/knowledge-bases/list completed in 2.46 ms
+2026-08-22 23:33:51,989 | INFO | common.middleware | [request_id=0daffafce6814f019f4d91571599dcd7] POST /api/knowledge-bases/list completed in 2.11 ms
+2026-08-22 23:33:52,917 | INFO | common.middleware | [request_id=d93a3b322eec469aa7f9903b47c6c54b] POST /api/knowledge-bases/list completed in 3.17 ms
+2026-08-22 23:33:53,940 | INFO | common.middleware | [request_id=19bde42d48044859bfbe12c3bffcf212] POST /api/knowledge-bases/list completed in 2.44 ms
+2026-08-22 23:33:55,554 | INFO | common.middleware | [request_id=ff4024a6ec56429a8a05eee5d0df7920] POST /api/auth/logout completed in 20.56 ms
+2026-08-22 23:40:02,884 | INFO | core.app | Application shutdown complete.
+2026-08-22 23:40:23,942 | INFO | core.app | Application started. Database ready: True
+2026-08-22 23:40:33,685 | INFO | core.app | Application shutdown complete.
+2026-08-22 23:40:58,572 | INFO | core.app | Application started. Database ready: True
+2026-08-22 23:41:05,593 | INFO | core.app | Application shutdown complete.
+2026-08-22 23:41:09,856 | INFO | core.app | Application started. Database ready: True
+2026-08-22 23:41:18,854 | INFO | core.app | Application shutdown complete.
+2026-08-22 23:41:23,244 | INFO | core.app | Application started. Database ready: True
+2026-08-22 23:41:23,345 | INFO | core.app | Application shutdown complete.
+2026-08-22 23:41:27,507 | INFO | core.app | Application started. Database ready: True
+2026-08-22 23:41:30,062 | INFO | core.app | Application shutdown complete.
+2026-08-22 23:41:34,300 | INFO | core.app | Application started. Database ready: True
+2026-08-22 23:42:10,325 | INFO | core.app | Application shutdown complete.
+2026-08-22 23:42:14,556 | INFO | core.app | Application started. Database ready: True
+2026-08-22 23:42:56,648 | INFO | core.app | Application shutdown complete.
+2026-08-22 23:43:00,983 | INFO | core.app | Application started. Database ready: True
+2026-08-22 23:43:10,456 | INFO | core.app | Application shutdown complete.
+2026-08-22 23:43:14,736 | INFO | core.app | Application started. Database ready: True
+2026-08-22 23:43:36,626 | INFO | core.app | Application shutdown complete.
+2026-08-22 23:43:40,897 | INFO | core.app | Application started. Database ready: True
+2026-08-22 23:48:26,700 | INFO | core.app | Application shutdown complete.
+2026-08-22 23:48:46,754 | INFO | core.app | Application started. Database ready: True
+2026-08-22 23:49:27,215 | INFO | common.middleware | [request_id=8bc7192dfc28457c8443562b2f480baa] POST /api/auth/create_user completed in 138.49 ms
+2026-08-22 23:49:27,215 | INFO | httpx | HTTP Request: POST http://testserver/api/auth/create_user "HTTP/1.1 201 Created"
+2026-08-22 23:49:27,230 | INFO | common.middleware | [request_id=188a47a529de4a6c97e79a2c5bb25eab] GET /health completed in 16.03 ms
+2026-08-22 23:49:27,230 | INFO | httpx | HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2026-08-22 23:49:27,317 | INFO | utils.hash_utils | Duplicate file detected: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-11\test_is_duplicate_file_true0\dup.txt (md5=9a0364b9e99bb480dd25e1f0284c8555)
+2026-08-22 23:49:27,327 | INFO | utils.hash_utils | Duplicate text detected (md5=24f1b0a79473250c195c7fb84e393392)
+2026-08-22 23:49:27,340 | INFO | utils.text_utils | Text truncated: original_tokens=500 max_tokens=10 chars 2000->39
+2026-08-22 23:49:27,342 | INFO | utils.text_utils | Text truncated: original_tokens=12 max_tokens=5 chars 48->15
+2026-08-22 23:49:27,343 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-22 23:49:27,343 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-22 23:49:27,347 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-11\test_parse_txt_utf80\test.txt (size=13)
+2026-08-22 23:49:27,347 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-22 23:49:27,359 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-11\test_parse_txt_chinese0\chinese.txt (size=18)
+2026-08-22 23:49:27,368 | INFO | utils.file_parser | TXT parsed successfully: 6 chars
+2026-08-22 23:49:27,372 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-11\test_parse_txt_gbk0\gbk.txt (size=8)
+2026-08-22 23:49:27,378 | INFO | utils.file_parser | TXT parsed successfully: 4 chars
+2026-08-22 23:49:27,381 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-11\test_parse_txt_whitespace_only0\whitespace.txt (size=8)
+2026-08-22 23:49:27,469 | INFO | utils.file_parser | Parsing PDF file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-11\test_parse_pdf_basic0\test.pdf (size=431)
+2026-08-22 23:49:27,480 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-11\test_parse_file_txt_dispatch0\test.txt (size=13)
+2026-08-22 23:49:27,480 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-22 23:49:27,497 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): Ollama not running
+2026-08-22 23:49:27,498 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3): Ollama not running
+2026-08-22 23:49:27,498 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3): Ollama not running
+2026-08-22 23:49:27,499 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): fail
+2026-08-22 23:49:27,501 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-08-22 23:49:27,668 | INFO | core.langchain.chroma_store | Chroma store ready. collection=rag_documents persist_directory=D:\www\jilin\python\fastapi-study\chroma
+2026-08-22 23:49:27,672 | WARNING | core.langchain.retriever | top_k=100 exceeds max 20, clamped to max
+2026-08-22 23:49:27,674 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
+2026-08-22 23:49:27,675 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
+2026-08-22 23:49:27,675 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=2 top_k=5
+2026-08-22 23:49:49,514 | INFO | core.app | Application shutdown complete.
+2026-08-22 23:49:53,766 | INFO | core.app | Application started. Database ready: True
+2026-08-22 23:50:03,266 | INFO | common.middleware | [request_id=5b6906f34be94bffa250dad4720faffc] POST /api/auth/create_user completed in 137.88 ms
+2026-08-22 23:50:03,268 | INFO | httpx | HTTP Request: POST http://testserver/api/auth/create_user "HTTP/1.1 201 Created"
+2026-08-22 23:50:03,287 | INFO | common.middleware | [request_id=0325e22e5b2a4ce3a819ca1b96313bcf] GET /health completed in 16.18 ms
+2026-08-22 23:50:03,287 | INFO | httpx | HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2026-08-22 23:50:03,342 | INFO | utils.hash_utils | Duplicate file detected: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-12\test_is_duplicate_file_true0\dup.txt (md5=9a0364b9e99bb480dd25e1f0284c8555)
+2026-08-22 23:50:03,342 | INFO | utils.hash_utils | Duplicate text detected (md5=24f1b0a79473250c195c7fb84e393392)
+2026-08-22 23:50:03,358 | INFO | utils.text_utils | Text truncated: original_tokens=500 max_tokens=10 chars 2000->39
+2026-08-22 23:50:03,360 | INFO | utils.text_utils | Text truncated: original_tokens=12 max_tokens=5 chars 48->15
+2026-08-22 23:50:03,361 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-22 23:50:03,362 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-22 23:50:03,368 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-12\test_parse_txt_utf80\test.txt (size=13)
+2026-08-22 23:50:03,369 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-22 23:50:03,372 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-12\test_parse_txt_chinese0\chinese.txt (size=18)
+2026-08-22 23:50:03,372 | INFO | utils.file_parser | TXT parsed successfully: 6 chars
+2026-08-22 23:50:03,375 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-12\test_parse_txt_gbk0\gbk.txt (size=8)
+2026-08-22 23:50:03,375 | INFO | utils.file_parser | TXT parsed successfully: 4 chars
+2026-08-22 23:50:03,375 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-12\test_parse_txt_whitespace_only0\whitespace.txt (size=8)
+2026-08-22 23:50:03,437 | INFO | utils.file_parser | Parsing PDF file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-12\test_parse_pdf_basic0\test.pdf (size=431)
+2026-08-22 23:50:03,442 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-12\test_parse_file_txt_dispatch0\test.txt (size=13)
+2026-08-22 23:50:03,442 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-22 23:50:03,442 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): Ollama not running
+2026-08-22 23:50:03,442 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3): Ollama not running
+2026-08-22 23:50:03,442 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3): Ollama not running
+2026-08-22 23:50:03,442 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): fail
+2026-08-22 23:50:03,442 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-08-22 23:50:03,541 | INFO | core.langchain.chroma_store | Chroma store ready. collection=rag_documents persist_directory=D:\www\jilin\python\fastapi-study\chroma
+2026-08-22 23:50:03,542 | WARNING | core.langchain.retriever | top_k=100 exceeds max 20, clamped to max
+2026-08-22 23:50:03,542 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
+2026-08-22 23:50:03,542 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
+2026-08-22 23:50:03,542 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=2 top_k=5
+2026-08-22 23:56:00,939 | INFO | core.app | Application shutdown complete.
+2026-08-22 23:56:05,325 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:12:48,613 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:14:13,797 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:14:20,617 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:15:23,760 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:15:42,263 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:15:46,706 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:15:46,819 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:15:51,106 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:15:51,209 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:15:55,392 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:15:59,497 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:16:03,766 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:16:32,102 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:17:41,191 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:17:50,497 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:18:21,653 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:18:36,269 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:18:40,535 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:18:44,689 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:19:25,960 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:19:33,976 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:19:38,297 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:19:38,401 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:19:42,598 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:20:00,863 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:20:05,088 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:20:11,060 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:20:15,354 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:20:20,379 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:20:24,537 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:21:08,100 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:21:12,437 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:21:27,552 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:21:31,767 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:21:43,326 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:21:47,614 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:22:45,441 | INFO | common.middleware | [request_id=8977e2f0e51e4bd4a9311a8f1698669c] POST /api/auth/create_user completed in 148.97 ms
+2026-08-23 00:22:45,441 | INFO | httpx | HTTP Request: POST http://testserver/api/auth/create_user "HTTP/1.1 201 Created"
+2026-08-23 00:22:45,461 | INFO | common.middleware | [request_id=9d0e05272b6b43b7a7493e2e268d9951] GET /health completed in 15.47 ms
+2026-08-23 00:22:45,462 | INFO | httpx | HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2026-08-23 00:22:45,508 | INFO | utils.hash_utils | Duplicate file detected: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-13\test_is_duplicate_file_true0\dup.txt (md5=9a0364b9e99bb480dd25e1f0284c8555)
+2026-08-23 00:22:45,520 | INFO | utils.hash_utils | Duplicate text detected (md5=24f1b0a79473250c195c7fb84e393392)
+2026-08-23 00:22:45,536 | INFO | utils.text_utils | Text truncated: original_tokens=500 max_tokens=10 chars 2000->39
+2026-08-23 00:22:45,538 | INFO | utils.text_utils | Text truncated: original_tokens=12 max_tokens=5 chars 48->15
+2026-08-23 00:22:45,539 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-23 00:22:45,540 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-23 00:22:45,542 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-13\test_parse_txt_utf80\test.txt (size=13)
+2026-08-23 00:22:45,542 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-23 00:22:45,542 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-13\test_parse_txt_chinese0\chinese.txt (size=18)
+2026-08-23 00:22:45,542 | INFO | utils.file_parser | TXT parsed successfully: 6 chars
+2026-08-23 00:22:45,542 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-13\test_parse_txt_gbk0\gbk.txt (size=8)
+2026-08-23 00:22:45,542 | INFO | utils.file_parser | TXT parsed successfully: 4 chars
+2026-08-23 00:22:45,561 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-13\test_parse_txt_whitespace_only0\whitespace.txt (size=8)
+2026-08-23 00:22:45,627 | INFO | utils.file_parser | Parsing PDF file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-13\test_parse_pdf_basic0\test.pdf (size=431)
+2026-08-23 00:22:45,632 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-13\test_parse_file_txt_dispatch0\test.txt (size=13)
+2026-08-23 00:22:45,633 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-23 00:22:45,642 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): Ollama not running
+2026-08-23 00:22:45,642 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3): Ollama not running
+2026-08-23 00:22:45,642 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3): Ollama not running
+2026-08-23 00:22:45,642 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): fail
+2026-08-23 00:22:45,642 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-08-23 00:22:45,734 | INFO | core.langchain.chroma_store | Chroma store ready. collection=rag_documents persist_directory=D:\www\jilin\python\fastapi-study\chroma
+2026-08-23 00:22:45,739 | WARNING | core.langchain.retriever | top_k=100 exceeds max 20, clamped to max
+2026-08-23 00:22:45,741 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
+2026-08-23 00:22:45,742 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
+2026-08-23 00:22:45,742 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=2 top_k=5
+2026-08-23 00:22:56,619 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:23:00,848 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:23:11,429 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:23:15,736 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:23:57,194 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:24:01,477 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:24:45,967 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:24:50,270 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:24:56,227 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:25:00,522 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:25:12,271 | INFO | common.middleware | [request_id=65830b3d243b49c198965734e6c80e48] POST /api/auth/create_user completed in 138.87 ms
+2026-08-23 00:25:12,271 | INFO | httpx | HTTP Request: POST http://testserver/api/auth/create_user "HTTP/1.1 201 Created"
+2026-08-23 00:25:12,292 | INFO | common.middleware | [request_id=1d8708c81226434da2beadbe680e95f7] GET /health completed in 15.49 ms
+2026-08-23 00:25:12,293 | INFO | httpx | HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2026-08-23 00:25:12,349 | INFO | utils.hash_utils | Duplicate file detected: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-14\test_is_duplicate_file_true0\dup.txt (md5=9a0364b9e99bb480dd25e1f0284c8555)
+2026-08-23 00:25:12,356 | INFO | utils.hash_utils | Duplicate text detected (md5=24f1b0a79473250c195c7fb84e393392)
+2026-08-23 00:25:12,367 | INFO | utils.text_utils | Text truncated: original_tokens=500 max_tokens=10 chars 2000->39
+2026-08-23 00:25:12,369 | INFO | utils.text_utils | Text truncated: original_tokens=12 max_tokens=5 chars 48->15
+2026-08-23 00:25:12,371 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-23 00:25:12,371 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-23 00:25:12,371 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-14\test_parse_txt_utf80\test.txt (size=13)
+2026-08-23 00:25:12,371 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-23 00:25:12,371 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-14\test_parse_txt_chinese0\chinese.txt (size=18)
+2026-08-23 00:25:12,371 | INFO | utils.file_parser | TXT parsed successfully: 6 chars
+2026-08-23 00:25:12,371 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-14\test_parse_txt_gbk0\gbk.txt (size=8)
+2026-08-23 00:25:12,371 | INFO | utils.file_parser | TXT parsed successfully: 4 chars
+2026-08-23 00:25:12,390 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-14\test_parse_txt_whitespace_only0\whitespace.txt (size=8)
+2026-08-23 00:25:12,438 | INFO | utils.file_parser | Parsing PDF file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-14\test_parse_pdf_basic0\test.pdf (size=431)
+2026-08-23 00:25:12,438 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-14\test_parse_file_txt_dispatch0\test.txt (size=13)
+2026-08-23 00:25:12,453 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-23 00:25:12,463 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): Ollama not running
+2026-08-23 00:25:12,463 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3): Ollama not running
+2026-08-23 00:25:12,463 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3): Ollama not running
+2026-08-23 00:25:12,465 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): fail
+2026-08-23 00:25:12,466 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-08-23 00:25:12,558 | INFO | core.langchain.chroma_store | Chroma store ready. collection=rag_documents persist_directory=D:\www\jilin\python\fastapi-study\chroma
+2026-08-23 00:25:12,563 | WARNING | core.langchain.retriever | top_k=100 exceeds max 20, clamped to max
+2026-08-23 00:25:12,565 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
+2026-08-23 00:25:12,566 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
+2026-08-23 00:25:12,566 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=2 top_k=5
+2026-08-23 00:25:26,948 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:25:31,385 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:25:31,489 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:25:35,677 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:25:35,789 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:25:40,115 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:25:40,225 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:25:44,378 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:26:06,894 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:26:11,291 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:26:11,414 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:26:15,563 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:26:38,671 | INFO | common.middleware | [request_id=a1ff9a6d8145478c825dcfca2d8819b0] POST /api/auth/create_user completed in 126.69 ms
+2026-08-23 00:26:38,671 | INFO | httpx | HTTP Request: POST http://testserver/api/auth/create_user "HTTP/1.1 201 Created"
+2026-08-23 00:26:38,691 | INFO | common.middleware | [request_id=ff0807109c494289b54f11dc8e7d4d0d] GET /health completed in 15.41 ms
+2026-08-23 00:26:38,692 | INFO | httpx | HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"
+2026-08-23 00:26:38,748 | INFO | utils.hash_utils | Duplicate file detected: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-15\test_is_duplicate_file_true0\dup.txt (md5=9a0364b9e99bb480dd25e1f0284c8555)
+2026-08-23 00:26:38,750 | INFO | utils.hash_utils | Duplicate text detected (md5=24f1b0a79473250c195c7fb84e393392)
+2026-08-23 00:26:38,765 | INFO | utils.text_utils | Text truncated: original_tokens=500 max_tokens=10 chars 2000->39
+2026-08-23 00:26:38,767 | INFO | utils.text_utils | Text truncated: original_tokens=12 max_tokens=5 chars 48->15
+2026-08-23 00:26:38,767 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-23 00:26:38,768 | INFO | utils.text_utils | Deduplicated texts: removed 2 duplicates from 5 total
+2026-08-23 00:26:38,771 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-15\test_parse_txt_utf80\test.txt (size=13)
+2026-08-23 00:26:38,771 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-23 00:26:38,771 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-15\test_parse_txt_chinese0\chinese.txt (size=18)
+2026-08-23 00:26:38,771 | INFO | utils.file_parser | TXT parsed successfully: 6 chars
+2026-08-23 00:26:38,771 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-15\test_parse_txt_gbk0\gbk.txt (size=8)
+2026-08-23 00:26:38,771 | INFO | utils.file_parser | TXT parsed successfully: 4 chars
+2026-08-23 00:26:38,787 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-15\test_parse_txt_whitespace_only0\whitespace.txt (size=8)
+2026-08-23 00:26:38,838 | INFO | utils.file_parser | Parsing PDF file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-15\test_parse_pdf_basic0\test.pdf (size=431)
+2026-08-23 00:26:38,846 | INFO | utils.file_parser | Parsing TXT file: C:\Users\shenj\AppData\Local\Temp\pytest-of-shenj\pytest-15\test_parse_file_txt_dispatch0\test.txt (size=13)
+2026-08-23 00:26:38,846 | INFO | utils.file_parser | TXT parsed successfully: 13 chars
+2026-08-23 00:26:38,860 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): Ollama not running
+2026-08-23 00:26:38,860 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3): Ollama not running
+2026-08-23 00:26:38,861 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3): Ollama not running
+2026-08-23 00:26:38,862 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): fail
+2026-08-23 00:26:38,863 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-08-23 00:26:38,938 | INFO | core.langchain.chroma_store | Chroma store ready. collection=rag_documents persist_directory=D:\www\jilin\python\fastapi-study\chroma
+2026-08-23 00:26:38,951 | WARNING | core.langchain.retriever | top_k=100 exceeds max 20, clamped to max
+2026-08-23 00:26:38,954 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
+2026-08-23 00:26:38,956 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=1 top_k=5
+2026-08-23 00:26:38,956 | INFO | core.langchain.retriever | Retrieving documents: query_len=5 kb_id=2 top_k=5
+2026-08-23 00:27:07,407 | INFO | core.app | Application shutdown complete.
+2026-08-23 00:27:11,644 | INFO | core.app | Application started. Database ready: True
+2026-08-23 00:27:52,060 | INFO | common.middleware | [request_id=0b93dc9d0d2140a1b51a1a6edeb0306a] GET /health completed in 18.23 ms
+2026-08-23 00:27:52,062 | INFO | httpx | HTTP Request: GET http://testserver/health "HTTP/1.1 200 OK"

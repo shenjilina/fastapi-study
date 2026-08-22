@@ -17,6 +17,8 @@ class Base(DeclarativeBase):
 def load_all_models() -> None:
     """导入所有模型模块，确保 SQLAlchemy 能收集完整 metadata。"""
     import api.document.model  # noqa: F401
+    import api.chunk.model  # noqa: F401
+    import api.files.model  # noqa: F401
     import api.knowledge.model  # noqa: F401
     import api.rag.model  # noqa: F401
     import api.user.model  # noqa: F401

@@ -7,6 +7,7 @@
 from fastapi import APIRouter, Depends
 
 from api.document.controller import router as document_router
+from api.files.controller import router as files_router
 from api.knowledge.controller import router as knowledge_router
 from api.rag.controller import health_router as rag_health_router
 from api.rag.controller import router as rag_router
@@ -23,6 +24,7 @@ api_router.include_router(user_router, dependencies=[Depends(get_current_user)])
 protected_router = APIRouter(dependencies=[Depends(get_current_user)])
 protected_router.include_router(knowledge_router)
 protected_router.include_router(document_router)
+protected_router.include_router(files_router)
 protected_router.include_router(rag_router)
 protected_router.include_router(rag_health_router)
 api_router.include_router(protected_router)
