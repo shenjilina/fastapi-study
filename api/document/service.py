@@ -21,6 +21,7 @@ from api.document.schema import (
     DocumentStatusUpdateRequest,
 )
 from api.knowledge import crud as knowledge_crud
+from common.dependencies import ensure_owner
 from config.log_config import get_logger
 from config.settings import get_settings
 from core.exceptions import AppException
@@ -28,6 +29,22 @@ from core.langchain.chroma_store import get_chroma_store
 from utils import file_parser, hash_utils, text_utils
 
 logger = get_logger(__name__)
+
+
+def _get_owned_knowledge_base(db: Session, knowledge_base_id: int, current_user):
+    knowledge_base = knowledge_crud.get_knowledge_base_by_id(db, knowledge_base_id)
+    if knowledge_base is None:
+        raise AppException("所属知识库不存在", status_code=404)
+    ensure_owner(knowledge_base.owner_id, current_user, resource="知识库")
+    return knowledge_base
+
+
+def _get_owned_document(db: Session, document_id: int, current_user):
+    document = document_crud.get_document_by_id(db, document_id)
+    if document is None:
+        raise AppException("文档不存在", status_code=404)
+    _get_owned_knowledge_base(db, document.knowledge_base_id, current_user)
+    return document
 
 
 def _rollback_vectors(vector_ids: list[str]) -> None:
@@ -63,11 +80,9 @@ def _commit_document_status(
         raise AppException("文档状态更新失败，请稍后重试", status_code=500) from exc
 
 
-def create_document(db: Session, payload: DocumentCreateRequest):
+def create_document(db: Session, payload: DocumentCreateRequest, current_user):
     """创建文档元数据，并做知识库归属和重复性校验。"""
-    knowledge_base = knowledge_crud.get_knowledge_base_by_id(db, payload.knowledge_base_id)
-    if knowledge_base is None:
-        raise AppException("所属知识库不存在", status_code=404)
+    _get_owned_knowledge_base(db, payload.knowledge_base_id, current_user)
 
     duplicated_document = document_crud.get_document_by_md5(
         db,
@@ -95,11 +110,9 @@ def create_document(db: Session, payload: DocumentCreateRequest):
         raise AppException("创建文档失败，请稍后重试", status_code=500) from exc
 
 
-def list_documents_by_knowledge_base(db: Session, knowledge_base_id: int):
+def list_documents_by_knowledge_base(db: Session, knowledge_base_id: int, current_user):
     """查询知识库下的文档列表。"""
-    knowledge_base = knowledge_crud.get_knowledge_base_by_id(db, knowledge_base_id)
-    if knowledge_base is None:
-        raise AppException("知识库不存在", status_code=404)
+    _get_owned_knowledge_base(db, knowledge_base_id, current_user)
     return document_crud.list_documents_by_knowledge_base(db, knowledge_base_id)
 
 
@@ -107,8 +120,10 @@ def update_document_status(
     db: Session,
     document_id: int,
     payload: DocumentStatusUpdateRequest,
+    current_user,
 ):
     """更新文档解析状态。"""
+    _get_owned_document(db, document_id, current_user)
     try:
         document = document_crud.update_document_status(
             db,
@@ -129,7 +144,7 @@ def update_document_status(
         raise AppException("更新文档状态失败，请稍后重试", status_code=500) from exc
 
 
-def upload_document(db: Session, knowledge_base_id: int, file: UploadFile) -> dict:
+def upload_document(db: Session, knowledge_base_id: int, file: UploadFile, current_user) -> dict:
     """文件上传全流程：校验 -> MD5 去重 -> 文本解析 -> 智能切片 -> 向量入库 -> 数据库存元数据。
 
     任何步骤失败都会将文档状态置为 FAILED 并回滚向量数据。
@@ -137,9 +152,7 @@ def upload_document(db: Session, knowledge_base_id: int, file: UploadFile) -> di
     settings = get_settings()
 
     # 1. 验证知识库存在
-    knowledge_base = knowledge_crud.get_knowledge_base_by_id(db, knowledge_base_id)
-    if knowledge_base is None:
-        raise AppException("所属知识库不存在", status_code=404)
+    _get_owned_knowledge_base(db, knowledge_base_id, current_user)
 
     # 2. 文件格式白名单校验
     filename = file.filename or "unknown"
@@ -288,11 +301,9 @@ def upload_document(db: Session, knowledge_base_id: int, file: UploadFile) -> di
         tmp_path.unlink(missing_ok=True)
 
 
-def delete_document(db: Session, document_id: int) -> dict:
+def delete_document(db: Session, document_id: int, current_user) -> dict:
     """删除文档：同时删除向量数据和数据库记录。"""
-    document = document_crud.get_document_by_id(db, document_id)
-    if document is None:
-        raise AppException("文档不存在", status_code=404)
+    document = _get_owned_document(db, document_id, current_user)
 
     filename = document.filename
 

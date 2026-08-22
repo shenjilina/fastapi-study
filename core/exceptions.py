@@ -66,14 +66,54 @@ def _format_validation_errors(exc: RequestValidationError) -> list[dict[str, obj
     """把 FastAPI 的校验错误转换成更易读的统一结构。"""
     formatted_errors: list[dict[str, object]] = []
     for item in exc.errors():
+        error_type = item.get("type", "")
+        context = item.get("ctx", {}) or {}
         formatted_errors.append(
             {
                 "field": ".".join(str(part) for part in item.get("loc", [])),
-                "message": item.get("msg", ""),
-                "type": item.get("type", ""),
+                "message": _translate_validation_message(error_type, item.get("msg", ""), context),
+                "type": error_type,
             }
         )
     return formatted_errors
+
+
+def _translate_validation_message(
+    error_type: str,
+    message: str,
+    context: dict[str, object],
+) -> str:
+    """将 Pydantic 常见的英文校验提示转换为中文。"""
+    if error_type == "missing":
+        return "字段为必填项"
+    if error_type in {"string_type", "str_type"}:
+        return "请输入字符串"
+    if error_type == "string_too_short":
+        return f"长度不能少于 {context.get('min_length')} 个字符"
+    if error_type == "string_too_long":
+        return f"长度不能超过 {context.get('max_length')} 个字符"
+    if error_type in {
+        "int_type",
+        "float_type",
+        "number_type",
+        "int_parsing",
+        "float_parsing",
+        "number_parsing",
+    }:
+        return "请输入有效的数字"
+    if error_type == "bool_type":
+        return "请输入布尔值"
+    if error_type in {"greater_than", "greater_equal"}:
+        operator = "大于" if error_type == "greater_than" else "大于或等于"
+        return f"数值必须{operator} {context.get('gt', context.get('ge'))}"
+    if error_type in {"less_than", "less_equal"}:
+        operator = "小于" if error_type == "less_than" else "小于或等于"
+        return f"数值必须{operator} {context.get('lt', context.get('le'))}"
+    if error_type in {"list_type", "list_parsing"}:
+        return "请输入列表"
+    if error_type == "dict_type":
+        return "请输入对象"
+    return message
 
 
 def register_exception_handlers(app: FastAPI) -> None:
@@ -95,9 +135,8 @@ def register_exception_handlers(app: FastAPI) -> None:
         """兜底框架层 HTTP 异常（如未知路由 404、方法不允许 405），对齐统一响应格式。"""
         request_id = getattr(request.state, "request_id", None)
         # 优先使用统一中文文案，未命中状态码映射时回退到框架原始 detail。
-        message = (
-            _HTTP_STATUS_MESSAGES.get(exc.status_code)
-            or (str(exc.detail) if exc.detail else "请求处理失败")
+        message = _HTTP_STATUS_MESSAGES.get(exc.status_code) or (
+            str(exc.detail) if exc.detail else "请求处理失败"
         )
         return _build_error_json_response(
             status_code=exc.status_code,
@@ -108,7 +147,9 @@ def register_exception_handlers(app: FastAPI) -> None:
         )
 
     @app.exception_handler(RequestValidationError)
-    async def handle_validation_error(request: Request, exc: RequestValidationError) -> JSONResponse:
+    async def handle_validation_error(
+        request: Request, exc: RequestValidationError
+    ) -> JSONResponse:
         request_id = getattr(request.state, "request_id", None)
         return _build_error_json_response(
             status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,

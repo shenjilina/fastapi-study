@@ -14,6 +14,7 @@ from api.knowledge.schema import (
     KnowledgeBaseListRequest,
     KnowledgeBaseRead,
 )
+from common.dependencies import get_current_user
 from common.response import ApiResponse, success_response
 from core.db import get_db
 
@@ -24,35 +25,42 @@ router = APIRouter(prefix="/knowledge-bases", tags=["knowledge"])
 def create_knowledge_base(
     payload: KnowledgeBaseCreateRequest,
     db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
 ) -> dict[str, object]:
     """创建知识库接口。"""
-    knowledge_base = service.create_knowledge_base(db, payload)
+    knowledge_base = service.create_knowledge_base(db, payload, current_user)
     return success_response(
         knowledge_base.model_dump(mode="json"),
         message="知识库创建成功",
     )
 
 
-@router.post("/list", status_code=status.HTTP_200_OK, response_model=ApiResponse[list[KnowledgeBaseRead]])
+@router.post(
+    "/list", status_code=status.HTTP_200_OK, response_model=ApiResponse[list[KnowledgeBaseRead]]
+)
 def list_knowledge_bases(
     payload: KnowledgeBaseListRequest,
     db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
 ) -> dict[str, object]:
     """按用户查询知识库列表接口。"""
     knowledge_bases = [
         item.model_dump(mode="json")
-        for item in service.list_knowledge_bases(db, payload.owner_id)
+        for item in service.list_knowledge_bases(db, payload.owner_id, current_user)
     ]
     return success_response(knowledge_bases, message="知识库列表获取成功")
 
 
-@router.post("/detail", status_code=status.HTTP_200_OK, response_model=ApiResponse[KnowledgeBaseRead])
+@router.post(
+    "/detail", status_code=status.HTTP_200_OK, response_model=ApiResponse[KnowledgeBaseRead]
+)
 def get_knowledge_base_detail(
     payload: KnowledgeBaseDetailRequest,
     db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
 ) -> dict[str, object]:
     """查询知识库详情接口。"""
-    knowledge_base = service.get_knowledge_base_detail(db, payload.knowledge_base_id)
+    knowledge_base = service.get_knowledge_base_detail(db, payload.knowledge_base_id, current_user)
     return success_response(
         knowledge_base.model_dump(mode="json"),
         message="知识库详情获取成功",

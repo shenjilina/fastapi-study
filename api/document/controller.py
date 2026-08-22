@@ -17,19 +17,23 @@ from api.document.schema import (
     DocumentStatusUpdateRequest,
     DocumentUploadResponse,
 )
+from common.dependencies import get_current_user
 from common.response import ApiResponse, success_response
 from core.db import get_db
 
 router = APIRouter(tags=["documents"])
 
 
-@router.post("/documents", status_code=status.HTTP_201_CREATED, response_model=ApiResponse[DocumentRead])
+@router.post(
+    "/documents", status_code=status.HTTP_201_CREATED, response_model=ApiResponse[DocumentRead]
+)
 def create_document(
     payload: DocumentCreateRequest,
     db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
 ) -> dict[str, object]:
     """创建文档接口。"""
-    document = service.create_document(db, payload)
+    document = service.create_document(db, payload, current_user)
     return success_response(
         DocumentRead.model_validate(document).model_dump(mode="json"),
         message="文档创建成功",
@@ -45,9 +49,10 @@ def update_document_status(
     document_id: int,
     payload: DocumentStatusUpdateRequest,
     db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
 ) -> dict[str, object]:
     """更新文档解析状态接口。"""
-    document = service.update_document_status(db, document_id, payload)
+    document = service.update_document_status(db, document_id, payload, current_user)
     return success_response(
         DocumentRead.model_validate(document).model_dump(mode="json"),
         message="文档状态更新成功",
@@ -62,11 +67,14 @@ def update_document_status(
 def list_documents_by_knowledge_base(
     payload: DocumentListRequest,
     db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
 ) -> dict[str, object]:
     """查询知识库文档列表接口。"""
     documents = [
         DocumentRead.model_validate(item).model_dump(mode="json")
-        for item in service.list_documents_by_knowledge_base(db, payload.knowledge_base_id)
+        for item in service.list_documents_by_knowledge_base(
+            db, payload.knowledge_base_id, current_user
+        )
     ]
     return success_response(documents, message="文档列表获取成功")
 
@@ -80,9 +88,10 @@ async def upload_document(
     knowledge_base_id: int,
     file: UploadFile = File(..., description="上传的文件，支持 txt / pdf"),
     db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
 ) -> dict[str, object]:
     """文件上传接口：校验 -> 去重 -> 解析 -> 切片 -> 向量入库 -> 存元数据。"""
-    result = service.upload_document(db, knowledge_base_id, file)
+    result = service.upload_document(db, knowledge_base_id, file, current_user)
     document_data = DocumentRead.model_validate(result["document"]).model_dump(mode="json")
     return success_response(
         {
@@ -102,9 +111,10 @@ async def upload_document(
 def delete_document(
     document_id: int,
     db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
 ) -> dict[str, object]:
     """删除文档接口：同时删除向量数据和数据库记录。"""
-    result = service.delete_document(db, document_id)
+    result = service.delete_document(db, document_id, current_user)
     return success_response(
         DocumentDeleteResponse(
             document_id=result["document_id"],

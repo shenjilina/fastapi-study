@@ -7,13 +7,22 @@ from api.knowledge import crud as knowledge_crud
 from api.knowledge.schema import KnowledgeBaseCreateRequest, KnowledgeBaseRead
 from api.user import crud as user_crud
 from core.exceptions import AppException
+from common.dependencies import ensure_owner
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from api.user.model import User
 
 
-def create_knowledge_base(db: Session, payload: KnowledgeBaseCreateRequest) -> KnowledgeBaseRead:
+def create_knowledge_base(
+    db: Session, payload: KnowledgeBaseCreateRequest, current_user: "User"
+) -> KnowledgeBaseRead:
     """创建知识库。"""
     owner = user_crud.get_user_by_id(db, payload.owner_id)
     if owner is None:
         raise AppException("所属用户不存在", status_code=404)
+    ensure_owner(owner.id, current_user, resource="知识库")
 
     try:
         knowledge_base = knowledge_crud.create_knowledge_base(
@@ -30,18 +39,24 @@ def create_knowledge_base(db: Session, payload: KnowledgeBaseCreateRequest) -> K
         raise AppException("创建知识库失败，请稍后重试", status_code=500) from exc
 
 
-def get_knowledge_base_detail(db: Session, knowledge_base_id: int) -> KnowledgeBaseRead:
+def get_knowledge_base_detail(
+    db: Session, knowledge_base_id: int, current_user: "User"
+) -> KnowledgeBaseRead:
     """查询知识库详情。"""
     knowledge_base = knowledge_crud.get_knowledge_base_by_id(db, knowledge_base_id)
     if knowledge_base is None:
         raise AppException("知识库不存在", status_code=404)
+    ensure_owner(knowledge_base.owner_id, current_user, resource="知识库")
     return KnowledgeBaseRead.model_validate(knowledge_base)
 
 
-def list_knowledge_bases(db: Session, owner_id: int) -> list[KnowledgeBaseRead]:
+def list_knowledge_bases(
+    db: Session, owner_id: int, current_user: "User"
+) -> list[KnowledgeBaseRead]:
     """按用户查询知识库列表。"""
     owner = user_crud.get_user_by_id(db, owner_id)
     if owner is None:
         raise AppException("所属用户不存在", status_code=404)
+    ensure_owner(owner.id, current_user, resource="知识库")
     knowledge_bases = knowledge_crud.list_knowledge_bases_by_owner(db, owner_id)
     return [KnowledgeBaseRead.model_validate(item) for item in knowledge_bases]
