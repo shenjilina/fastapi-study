@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 from pathlib import Path
+from xml.etree import ElementTree
+from zipfile import BadZipFile, ZipFile
 
 from config.log_config import get_logger
 from core.constants import (
@@ -106,6 +108,31 @@ def parse_pdf(file_path: str | Path) -> str:
     return result
 
 
+def parse_docx(file_path: str | Path) -> str:
+    """Extract paragraph text from a DOCX package without an external binary dependency."""
+    path = _validate_file(file_path)
+    try:
+        with ZipFile(path) as archive:
+            document_xml = archive.read("word/document.xml")
+    except (BadZipFile, KeyError) as exc:
+        raise FileParseError(f"{CORRUPTED_FILE_ERROR}: 无效 DOCX 文件") from exc
+
+    try:
+        root = ElementTree.fromstring(document_xml)
+    except ElementTree.ParseError as exc:
+        raise FileParseError(f"{CORRUPTED_FILE_ERROR}: DOCX XML 无法读取") from exc
+
+    namespace = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
+    paragraphs = []
+    for paragraph in root.iter(f"{namespace}p"):
+        text = "".join(node.text or "" for node in paragraph.iter(f"{namespace}t"))
+        if text.strip():
+            paragraphs.append(text.strip())
+    if not paragraphs:
+        raise FileParseError("DOCX 文件解析后未获取到有效文本内容")
+    return "\n\n".join(paragraphs)
+
+
 def parse_file(file_path: str | Path) -> str:
     """根据文件扩展名自动分发到对应的解析器。
 
@@ -121,10 +148,12 @@ def parse_file(file_path: str | Path) -> str:
     path = Path(file_path)
     extension = path.suffix.lower().lstrip(".")
 
-    if extension == "txt":
+    if extension in {"txt", "md", "markdown"}:
         return parse_txt(path)
     if extension == "pdf":
         return parse_pdf(path)
+    if extension == "docx":
+        return parse_docx(path)
 
     raise FileParseError(f"{UNSUPPORTED_FILE_TYPE_ERROR}: .{extension}")
 

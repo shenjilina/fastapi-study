@@ -17,7 +17,7 @@ class Chunk(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     document_id: Mapped[int] = mapped_column(
-        ForeignKey("documents.id", ondelete="CASCADE"), index=True
+        ForeignKey("documents.id", ondelete="RESTRICT"), index=True
     )
     chunk_index: Mapped[int] = mapped_column(Integer)
     content: Mapped[str] = mapped_column(Text())

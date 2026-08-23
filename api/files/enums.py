@@ -2,8 +2,15 @@ from enum import StrEnum
 
 
 class FileStatus(StrEnum):
-    UPLOADING = "uploading"
-    UPLOADED = "uploaded"
-    PARSE_PENDING = "parse_pending"
-    PARSE_FAILED = "parse_failed"
-    PHYSICAL_DELETED = "physical_deleted"
+    UPLOADING = "UPLOADING"
+    UPLOAD_CANCELLED = "UPLOAD_CANCELLED"
+    UPLOADED = "UPLOADED"
+    PARSE_PENDING = "PARSE_PENDING"
+    PARSING = "PARSING"
+    SUCCESS = "SUCCESS"
+    PARSE_FAILED = "PARSE_FAILED"
+
+
+class FileStorageStatus(StrEnum):
+    PRESENT = "PRESENT"
+    PHYSICAL_DELETED = "PHYSICAL_DELETED"

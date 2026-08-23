@@ -36,6 +36,14 @@ def create_app() -> FastAPI:
         except Exception as exc:  # pragma: no cover - defensive logging on startup
             logger.warning("Database connectivity check failed during startup: %s", exc)
 
+        if database_ready:
+            try:
+                from api.document.recovery import reset_interrupted_parses
+
+                reset_interrupted_parses()
+            except Exception as exc:  # pragma: no cover - startup recovery must not block service
+                logger.warning("Interrupted parse recovery failed: %s", exc)
+
         logger.info("Application started. Database ready: %s", database_ready)
         yield
         logger.info("Application shutdown complete.")
@@ -50,10 +58,12 @@ def create_app() -> FastAPI:
 
     @app.get("/")
     async def root() -> dict[str, object]:
+        """返回服务运行环境的基础信息。"""
         return success_response({"environment": settings.app_env}, DEFAULT_ROOT_MESSAGE)
 
     @app.get(DEFAULT_HEALTH_PATH)
     async def health_check() -> dict[str, object]:
+        """检查应用进程和数据库连接的基础健康状态。"""
         return success_response(
             {
                 "status": "ok",

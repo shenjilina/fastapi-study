@@ -1,27 +1,50 @@
-from pydantic import Field
+from pydantic import ConfigDict, Field
 
-from api.files.enums import FileStatus
+from api.files.enums import FileStatus, FileStorageStatus
 from common.base_model import ApiBaseModel, ApiDateTime
 
 
-class FileUploadRead(ApiBaseModel):
-    file_id: int
+class FileRead(ApiBaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    owner_id: int
     filename: str
-    stored_filename: str | None
+    file_type: str | None
+    mime_type: str | None
     file_size: int
     file_md5: str
-    mime_type: str | None
     status: FileStatus
+    storage_status: FileStorageStatus
     created_at: ApiDateTime
+    updated_at: ApiDateTime
 
 
-class FileDeleteRequest(ApiBaseModel):
+class FileUploadResult(ApiBaseModel):
+    filename: str
+    accepted: bool
+    file_id: int | None = None
+    file: FileRead | None = None
+    error: str | None = None
+
+
+class FilePageRead(ApiBaseModel):
+    items: list[FileRead]
+    total: int
+    page: int
+    page_size: int
+
+
+class SourceDeleteRead(ApiBaseModel):
+    file_id: int
+    storage_status: FileStorageStatus
+
+
+class FileIdRequest(ApiBaseModel):
     file_id: int = Field(gt=0)
 
 
-class FileRead(FileUploadRead):
-    knowledge_base_id: int
-    owner_id: int
-    file_type: str | None
-    storage_path: str | None
-    updated_at: ApiDateTime
+class FileListRequest(ApiBaseModel):
+    file_status: FileStatus | None = None
+    page: int = Field(default=1, ge=1)
+    page_size: int = Field(default=20, ge=1, le=100)

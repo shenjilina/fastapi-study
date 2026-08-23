@@ -19,7 +19,7 @@ REQUEST_ID_HEADER = "X-Request-ID"
 DEFAULT_MAX_CONTEXT_TOKENS = 3000
 
 # 文件解析相关常量
-SUPPORTED_FILE_EXTENSIONS = ("txt", "pdf")
+SUPPORTED_FILE_EXTENSIONS = ("txt", "pdf", "docx", "md", "markdown")
 EMPTY_FILE_ERROR = "文件内容为空，无法解析"
 UNSUPPORTED_FILE_TYPE_ERROR = "不支持的文件类型"
 CORRUPTED_FILE_ERROR = "文件已损坏或格式不正确"

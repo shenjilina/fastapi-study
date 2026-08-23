@@ -1,0 +1,16 @@
+open webUI
+地址： http://localhost:11433/
+账号：shenjilina@163.com
+密码：12345600.
+
+
+
+
+docker run -d \`
+--name chroma-server \`
+-p 8000:8000 \`
+# 持久化向量库，把 D:\\chroma\_data 换成你自己的本地文件夹
+-v D:\\chroma\_data:/chroma/chroma \`
+# 允许 Chroma-UI 3000端口跨域访问
+-e CHROMA\_SERVER\_CORS\_ALLOW\_ORIGINS='\["http://localhost:3000"\]' \`
+chromadb/chroma:latest

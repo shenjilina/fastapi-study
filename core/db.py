@@ -68,3 +68,4 @@ def test_database_connection() -> bool:
     with engine.connect() as connection:
         connection.execute(text("SELECT 1"))
     return True
+    import api.audit.model  # noqa: F401

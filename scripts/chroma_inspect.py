@@ -1,4 +1,5 @@
 """快速查看 chroma.sqlite3 中的 collection 列表。"""
+
 import sqlite3
 
 conn = sqlite3.connect(r"chroma/chroma.sqlite3")
@@ -30,7 +31,7 @@ else:
 cursor.execute("SELECT id, collection_id, document, metadata FROM embeddings LIMIT 5")
 doc_rows = cursor.fetchall()
 if doc_rows:
-    print(f"\nSample documents (first 5):")
+    print("\nSample documents (first 5):")
     for r in doc_rows:
         doc_preview = (r[2] or "")[:80]
         print(f"  id={r[0]}  collection={r[1]}  doc={doc_preview}...")

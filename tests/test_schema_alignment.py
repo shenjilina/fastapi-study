@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from api.chunk.model import Chunk
 from api.document.enums import DocumentParseStatus
 from api.document.model import Document
-from api.files.enums import FileStatus
+from api.files.enums import FileStatus, FileStorageStatus
 from api.files.model import FileRecord
 from api.knowledge.crud import (
     create_knowledge_base,
@@ -32,13 +32,20 @@ def test_target_models_have_expected_columns_and_states() -> None:
     inspector = inspect(engine)
 
     document_columns = {column["name"] for column in inspector.get_columns("documents")}
-    assert "knowledge_base_id" not in document_columns
-    assert {"file_id", "error_msg", "vector_cleaned", "file_size", "deleted_at"} <= document_columns
+    assert {
+        "file_id",
+        "knowledge_base_id",
+        "error_msg",
+        "vector_cleaned",
+        "file_size",
+        "deleted_at",
+    } <= document_columns
     assert {"document_id", "chunk_index", "content", "vector_id"} <= {
         column["name"] for column in inspector.get_columns("chunks")
     }
-    assert FileStatus.PHYSICAL_DELETED.value == "physical_deleted"
-    assert DocumentParseStatus.PARSING.value == "parsing"
+    assert FileStatus.SUCCESS.value == "SUCCESS"
+    assert FileStorageStatus.PHYSICAL_DELETED.value == "PHYSICAL_DELETED"
+    assert DocumentParseStatus.PARSING.value == "PARSING"
 
 
 def test_knowledge_base_visibility_and_soft_delete_filter() -> None:
@@ -75,7 +82,6 @@ def test_document_is_reached_through_file() -> None:
     knowledge_base = create_knowledge_base(db, owner_id=user.id, name="File KB")
     record = FileRecord(
         owner_id=user.id,
-        knowledge_base_id=knowledge_base.id,
         filename="notes.txt",
         stored_filename="stored-notes.txt",
         storage_path="uploads/stored-notes.txt",
@@ -84,13 +90,18 @@ def test_document_is_reached_through_file() -> None:
         file_md5="a" * 32,
         status=FileStatus.UPLOADED,
     )
-    document = Document(file=record, title="Notes", file_size=10)
+    document = Document(
+        file=record,
+        knowledge_base_id=knowledge_base.id,
+        title="Notes",
+        file_size=10,
+    )
     db.add(document)
     db.commit()
     chunk = Chunk(document_id=document.id, chunk_index=0, content="hello")
     db.add(chunk)
     db.commit()
 
-    assert document.file.knowledge_base_id == knowledge_base.id
-    assert not hasattr(document, "knowledge_base_id")
+    assert not hasattr(document.file, "knowledge_base_id")
+    assert document.knowledge_base_id == knowledge_base.id
     assert document.chunks[0].content == "hello"

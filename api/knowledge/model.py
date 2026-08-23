@@ -18,7 +18,7 @@ class KnowledgeBase(Base):
     __tablename__ = "knowledge_bases"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    owner_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
+    owner_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="RESTRICT"), index=True)
     name: Mapped[str] = mapped_column(String(255))
     description: Mapped[str | None] = mapped_column(Text(), nullable=True)
     visibility: Mapped[KnowledgeBaseVisibility] = mapped_column(

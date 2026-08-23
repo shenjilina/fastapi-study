@@ -145,17 +145,17 @@ def get_conversation(
 
 
 @router.delete(
-    "/{conversation_id}",
+    "",
     status_code=status.HTTP_200_OK,
     response_model=ApiResponse[ConversationDeleteResponse],
 )
 def delete_conversation(
-    conversation_id: int,
+    payload: ConversationDetailRequest,
     db: Session = Depends(get_db),
     current_user=Depends(get_current_user),
 ) -> dict[str, object]:
     """删除问答记录接口。"""
-    result = service.delete_conversation(db, conversation_id, current_user)
+    result = service.delete_conversation(db, payload.conversation_id, current_user)
     return success_response(
         ConversationDeleteResponse(
             conversation_id=result["conversation_id"],

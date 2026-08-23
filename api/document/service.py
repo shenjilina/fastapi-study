@@ -1,167 +1,210 @@
-from datetime import datetime, timezone
-from pathlib import Path
-
-from sqlalchemy.exc import SQLAlchemyError
+from fastapi import BackgroundTasks
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from api.chunk import crud as chunk_crud
-from api.document import crud as document_crud
+from api.audit.service import record as audit
+from api.document import crud
 from api.document.enums import DocumentParseStatus
-from api.document.schema import DocumentCreateRequest, DocumentStatusUpdateRequest
-from api.files import crud as file_crud
-from api.files.enums import FileStatus
-from api.knowledge import crud as knowledge_crud
+from api.document.model import Document
+from api.document.schema import (
+    BatchRetryRead,
+    ChunkPageRead,
+    ChunkRead,
+    DocumentCreateRequest,
+    DocumentDeleteRead,
+    DocumentPageRead,
+    DocumentRead,
+    ParseQueueRead,
+)
+from api.document.tasks import cleanup_vectors, process_file
+from api.files.enums import FileStatus, FileStorageStatus
+from api.files.model import FileRecord
+from api.knowledge import service as knowledge_service
 from common.dependencies import ensure_owner
-from config.settings import get_settings
 from core.exceptions import AppException
-from core.langchain.chroma_store import get_chroma_store
-from utils import file_parser, text_utils
 
 
-def _owned_file(db: Session, file_id: int, current_user):
-    record = file_crud.get_file(db, file_id)
-    if record is None or record.status == FileStatus.PHYSICAL_DELETED:
-        raise AppException("文件不存在", status_code=404)
-    ensure_owner(record.owner_id, current_user, resource="文件")
-    knowledge_base = knowledge_crud.get_knowledge_base_by_id(db, record.knowledge_base_id)
-    if knowledge_base is None:
-        raise AppException("知识库不存在", status_code=404)
-    return record
-
-
-def _mark_failed(db: Session, record, document, message: str, vector_ids: list[str]) -> None:
-    vectors_cleaned = True
-    if vector_ids:
-        try:
-            get_chroma_store().delete_by_ids(vector_ids)
-        except Exception:
-            vectors_cleaned = False
-    chunk_crud.soft_delete_chunks(db, document.id)
-    document.parse_status = DocumentParseStatus.FAILED
-    document.error_msg = message[:4000]
-    document.chunk_count = 0
-    document.vector_cleaned = vectors_cleaned
-    record.status = FileStatus.PARSE_FAILED
-    db.commit()
-
-
-def _process_document(db: Session, record, document):
-    settings = get_settings()
-    vector_ids: list[str] = []
-    document.parse_status = DocumentParseStatus.PARSING
-    document.error_msg = None
-    record.status = FileStatus.PARSE_PENDING
-    db.commit()
-    try:
-        if not record.storage_path:
-            raise AppException("文件物理路径不存在", status_code=422)
-        raw_text = file_parser.parse_file(Path(record.storage_path))
-        cleaned_text = text_utils.clean_text(raw_text)
-        if not cleaned_text:
-            raise AppException("文件解析后文本内容为空", status_code=422)
-
-        from langchain_text_splitters import RecursiveCharacterTextSplitter
-
-        splitter = RecursiveCharacterTextSplitter(
-            chunk_size=settings.chunk_size, chunk_overlap=settings.chunk_overlap
-        )
-        chunks, _ = text_utils.deduplicate_texts(splitter.split_text(cleaned_text))
-        if not chunks:
-            raise AppException("切片后无有效内容", status_code=422)
-
-        vector_ids = get_chroma_store().add_texts(
-            chunks,
-            metadatas=[
-                {
-                    "knowledge_base_id": record.knowledge_base_id,
-                    "document_id": document.id,
-                    "filename": record.filename,
-                    "chunk_index": index,
-                }
-                for index in range(len(chunks))
-            ],
-        )
-        chunk_crud.create_chunks(db, document.id, chunks, vector_ids)
-        document.chunk_count = len(chunks)
-        document.parse_status = DocumentParseStatus.SUCCESS
-        document.error_msg = None
-        document.vector_cleaned = False
-        record.status = FileStatus.UPLOADED
-        db.commit()
-        return document
-    except Exception as exc:
-        db.rollback()
-        _mark_failed(db, record, document, str(exc), vector_ids)
-        raise
-
-
-def create_document(db: Session, payload: DocumentCreateRequest, current_user):
-    record = _owned_file(db, payload.file_id, current_user)
-    existing = document_crud.get_document_by_file_id(db, record.id)
-    if existing is not None:
-        return existing
-    try:
-        document = document_crud.create_document(
-            db,
-            file_id=record.id,
-            title=payload.title,
-            description=payload.description,
-            file_size=record.file_size,
-            parse_status=DocumentParseStatus.PENDING,
-        )
-        db.commit()
-        return _process_document(db, record, document)
-    except AppException:
-        raise
-    except SQLAlchemyError as exc:
-        db.rollback()
-        raise AppException("创建文档失败，请稍后重试", status_code=500) from exc
-
-
-def list_documents_by_knowledge_base(db: Session, knowledge_base_id: int, current_user):
-    knowledge_base = knowledge_crud.get_knowledge_base_by_id(db, knowledge_base_id)
-    if knowledge_base is None:
-        raise AppException("知识库不存在", status_code=404)
-    ensure_owner(knowledge_base.owner_id, current_user, resource="文档")
-    return document_crud.list_documents_by_knowledge_base(db, knowledge_base_id)
-
-
-def update_document_status(
-    db: Session, document_id: int, payload: DocumentStatusUpdateRequest, current_user
-):
-    document = document_crud.get_document_by_id(db, document_id)
+def get_readable(db: Session, document_id: int, current_user):
+    document = crud.get(db, document_id)
     if document is None:
         raise AppException("文档不存在", status_code=404)
-    ensure_owner(document.file.owner_id, current_user, resource="文档")
-    document.parse_status = payload.parse_status
-    if payload.chunk_count is not None:
-        document.chunk_count = payload.chunk_count
-    db.commit()
+    knowledge_service.get_readable(db, document.knowledge_base_id, current_user)
     return document
 
 
-def delete_document(db: Session, document_id: int, current_user) -> dict:
-    document = document_crud.get_document_by_id(db, document_id)
-    if document is None:
-        raise AppException("文档不存在", status_code=404)
-    ensure_owner(document.file.owner_id, current_user, resource="文档")
-    vector_ids = [
-        chunk.vector_id for chunk in document.chunks if chunk.deleted_at is None and chunk.vector_id
-    ]
-    vectors_cleaned = True
-    try:
-        if vector_ids:
-            get_chroma_store().delete_by_ids(vector_ids)
-        chunk_crud.soft_delete_chunks(db, document.id)
-    except Exception:
-        vectors_cleaned = False
-    document.deleted_at = datetime.now(timezone.utc)
-    document.vector_cleaned = vectors_cleaned
-    document.chunk_count = 0
+def detail(db: Session, document_id: int, current_user) -> DocumentRead:
+    return DocumentRead.model_validate(get_readable(db, document_id, current_user))
+
+
+def create(db: Session, payload: DocumentCreateRequest, current_user) -> DocumentRead:
+    record = db.get(FileRecord, payload.file_id)
+    if record is None:
+        raise AppException("文件不存在", status_code=404)
+    ensure_owner(record.owner_id, current_user, resource="文件")
+    knowledge_service.get_owned_active(db, payload.knowledge_base_id, current_user)
+    if record.storage_status != FileStorageStatus.PRESENT:
+        raise AppException("源文件已删除，不能创建文档", status_code=409)
+    if record.status != FileStatus.UPLOADED:
+        raise AppException("当前文件状态不允许创建文档", status_code=409)
+    if crud.active_for_file(db, record.id) is not None:
+        raise AppException("当前文件已存在有效文档", status_code=409)
+
+    document = Document(
+        file_id=record.id,
+        knowledge_base_id=payload.knowledge_base_id,
+        title=payload.title,
+        description=payload.description,
+        file_size=record.file_size,
+        parse_status=DocumentParseStatus.PENDING,
+    )
+    db.add(document)
+    db.flush()
+    audit(
+        db,
+        action="document.created",
+        target_type="document",
+        target_id=document.id,
+        operator_id=current_user.id,
+        detail={"file_id": record.id, "knowledge_base_id": document.knowledge_base_id},
+    )
     db.commit()
-    return {
-        "document_id": document_id,
-        "filename": document.file.filename,
-        "deleted": True,
-        "vector_cleaned": vectors_cleaned,
-    }
+    db.refresh(document)
+    return DocumentRead.model_validate(document)
+
+
+def list_items(
+    db: Session,
+    knowledge_base_id: int,
+    current_user,
+    *,
+    parse_status: DocumentParseStatus | None,
+    page: int,
+    page_size: int,
+) -> DocumentPageRead:
+    knowledge_service.get_readable(db, knowledge_base_id, current_user)
+    rows, total = crud.page_by_knowledge_base(
+        db,
+        knowledge_base_id,
+        parse_status=parse_status,
+        page=page,
+        page_size=page_size,
+    )
+    return DocumentPageRead(
+        items=[DocumentRead.model_validate(item) for item in rows],
+        total=total,
+        page=page,
+        page_size=page_size,
+    )
+
+
+def chunks(db: Session, document_id: int, current_user, page: int, page_size: int) -> ChunkPageRead:
+    document = get_readable(db, document_id, current_user)
+    if document.parse_status != DocumentParseStatus.SUCCESS:
+        raise AppException("文档尚未解析成功", status_code=409)
+    rows, total = crud.page_chunks(db, document.id, page, page_size)
+    return ChunkPageRead(
+        items=[ChunkRead.model_validate(item) for item in rows],
+        total=total,
+        page=page,
+        page_size=page_size,
+    )
+
+
+def delete(
+    db: Session, document_id: int, current_user, tasks: BackgroundTasks
+) -> DocumentDeleteRead:
+    document = get_readable(db, document_id, current_user)
+    record = document.file
+    knowledge_service.get_owned_active(db, document.knowledge_base_id, current_user)
+    if record.status == FileStatus.PARSING:
+        raise AppException("文档正在解析，不可删除", status_code=409)
+    crud.soft_delete(db, document)
+    if record.storage_status == FileStorageStatus.PRESENT:
+        record.status = FileStatus.UPLOADED
+    audit(
+        db,
+        action="document.deleted",
+        target_type="document",
+        target_id=document.id,
+        operator_id=current_user.id,
+    )
+    db.commit()
+    tasks.add_task(cleanup_vectors, document.id)
+    return DocumentDeleteRead(document_id=document.id, vector_cleanup_queued=True)
+
+
+def queue_parse(
+    db: Session,
+    file_id: int,
+    current_user,
+    tasks: BackgroundTasks,
+    *,
+    retry: bool = False,
+) -> ParseQueueRead:
+    record = db.get(FileRecord, file_id)
+    if record is None:
+        raise AppException("文件不存在", status_code=404)
+    if record.storage_status != FileStorageStatus.PRESENT:
+        raise AppException("源文件已删除，不能解析", status_code=409)
+
+    document = crud.active_for_file(db, record.id)
+    if document is None:
+        raise AppException("请先创建待解析文档", status_code=409)
+    knowledge_service.get_owned_active(db, document.knowledge_base_id, current_user)
+    if retry:
+        if record.status != FileStatus.PARSE_FAILED:
+            raise AppException("当前文件状态不允许重试", status_code=409)
+        document.parse_status = DocumentParseStatus.PENDING
+        document.error_msg = None
+    else:
+        if record.status != FileStatus.UPLOADED:
+            raise AppException("当前文件状态不允许解析", status_code=409)
+        if document.parse_status != DocumentParseStatus.PENDING:
+            raise AppException("请先创建待解析文档", status_code=409)
+
+    record.status = FileStatus.PARSE_PENDING
+    audit(
+        db,
+        action="file.parse_queued",
+        target_type="file",
+        target_id=record.id,
+        operator_id=current_user.id,
+        detail={"retry": retry, "document_id": document.id},
+    )
+    db.commit()
+    tasks.add_task(process_file, record.id)
+    return ParseQueueRead(file_id=record.id, document_id=document.id, status=record.status)
+
+
+def retry_failed(
+    db: Session, knowledge_base_id: int, current_user, tasks: BackgroundTasks
+) -> BatchRetryRead:
+    knowledge_service.get_owned_active(db, knowledge_base_id, current_user)
+    records = db.execute(
+        select(FileRecord, Document)
+        .join(Document, Document.file_id == FileRecord.id)
+        .where(
+            Document.knowledge_base_id == knowledge_base_id,
+            FileRecord.status == FileStatus.PARSE_FAILED,
+            FileRecord.storage_status == FileStorageStatus.PRESENT,
+            Document.deleted_at.is_(None),
+        )
+    ).all()
+    queued = []
+    for record, document in records:
+        record.status = FileStatus.PARSE_PENDING
+        document.parse_status = DocumentParseStatus.PENDING
+        document.error_msg = None
+        audit(
+            db,
+            action="file.parse_queued",
+            target_type="file",
+            target_id=record.id,
+            operator_id=current_user.id,
+            detail={"retry": True},
+        )
+        queued.append(record.id)
+    db.commit()
+    for file_id in queued:
+        tasks.add_task(process_file, file_id)
+    return BatchRetryRead(queued_file_ids=queued)
