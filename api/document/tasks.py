@@ -17,10 +17,12 @@ from utils import file_parser, text_utils
 
 
 def process_file(file_id: int) -> None:
+    # 后台解析主流程：提取文本、切分、向量化，并保存文本块及状态。
     db = SessionLocal()
     vector_ids: list[str] = []
     try:
         claimed = db.execute(
+            # 条件更新用于“抢占”任务，避免同一文件被并发解析。
             update(FileRecord)
             .where(FileRecord.id == file_id, FileRecord.status == FileStatus.PARSE_PENDING)
             .values(status=FileStatus.PARSING)
@@ -32,6 +34,7 @@ def process_file(file_id: int) -> None:
         document = crud.active_for_file(db, file_id)
         knowledge_base = db.get(KnowledgeBase, document.knowledge_base_id) if document else None
         if (
+            # 任务执行前再次校验关联对象和资源状态，防止处理已失效的任务。
             not record
             or not document
             or not knowledge_base
@@ -56,6 +59,7 @@ def process_file(file_id: int) -> None:
         db.commit()
 
         text = text_utils.clean_text(file_parser.parse_file(Path(record.storage_path or "")))
+        # 将原始文件转换为可检索的纯文本，并清理无效内容。
         if not text:
             raise ValueError("文件解析后文本内容为空")
         settings = get_settings()
@@ -64,10 +68,12 @@ def process_file(file_id: int) -> None:
         ).RecursiveCharacterTextSplitter(
             chunk_size=settings.chunk_size, chunk_overlap=settings.chunk_overlap
         )
+        # 按配置切分文本并去重，便于后续检索和控制向量粒度。
         contents, _ = text_utils.deduplicate_texts(splitter.split_text(text))
         if not contents:
             raise ValueError("切片后无有效内容")
         vector_ids = get_chroma_store().add_texts(
+            # 写入向量库，同时保存知识库、文档和块序号等检索元数据。
             contents,
             metadatas=[
                 {
@@ -80,13 +86,16 @@ def process_file(file_id: int) -> None:
             ],
         )
         db.close()
+        # 向量写入后重新建立数据库会话，避免长任务持有旧连接。
         db = SessionLocal()
         record = db.get(FileRecord, file_id)
         document = crud.active_for_file(db, file_id)
         if not record or not document or record.status != FileStatus.PARSING:
+            # 状态已被其他操作改变时，删除刚写入的向量，避免产生孤儿数据。
             get_chroma_store().delete_by_ids(vector_ids)
             return
         create_chunks(db, document.id, contents, vector_ids)
+        # 数据库记录与向量 ID 关联，解析成功后更新文件和文档状态。
         document.chunk_count = len(contents)
         document.parse_status = DocumentParseStatus.SUCCESS
         document.vector_cleaned = False
@@ -100,6 +109,7 @@ def process_file(file_id: int) -> None:
         )
         db.commit()
     except Exception as exc:
+        # 任一步骤失败都回滚数据库，并尽力清理已写入的向量和文本块。
         db.rollback()
         failure_db = SessionLocal()
         try:
@@ -134,6 +144,7 @@ def process_file(file_id: int) -> None:
 
 
 def cleanup_vectors(document_id: int) -> None:
+    # 删除文档关联的向量数据；用于文档软删除后的异步清理。
     db = SessionLocal()
     try:
         document = crud.get(db, document_id, include_deleted=True)

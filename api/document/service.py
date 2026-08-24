@@ -25,6 +25,7 @@ from core.exceptions import AppException
 
 
 def get_readable(db: Session, document_id: int, current_user):
+    # 获取文档，并确认当前用户有权访问它所属的知识库。
     document = crud.get(db, document_id)
     if document is None:
         raise AppException("文档不存在", status_code=404)
@@ -33,10 +34,12 @@ def get_readable(db: Session, document_id: int, current_user):
 
 
 def detail(db: Session, document_id: int, current_user) -> DocumentRead:
+    # 将数据库模型转换为对外返回的文档详情结构。
     return DocumentRead.model_validate(get_readable(db, document_id, current_user))
 
 
 def create(db: Session, payload: DocumentCreateRequest, current_user) -> DocumentRead:
+    # 校验文件、知识库及所有权后，创建一个处于待解析状态的文档。
     record = db.get(FileRecord, payload.file_id)
     if record is None:
         raise AppException("文件不存在", status_code=404)
@@ -58,6 +61,7 @@ def create(db: Session, payload: DocumentCreateRequest, current_user) -> Documen
         parse_status=DocumentParseStatus.PENDING,
     )
     db.add(document)
+    # flush 使数据库生成 document.id，便于记录审计信息。
     db.flush()
     audit(
         db,
@@ -81,6 +85,7 @@ def list_items(
     page: int,
     page_size: int,
 ) -> DocumentPageRead:
+    # 分页查询知识库中的文档，可按解析状态过滤。
     knowledge_service.get_readable(db, knowledge_base_id, current_user)
     rows, total = crud.page_by_knowledge_base(
         db,
@@ -98,6 +103,7 @@ def list_items(
 
 
 def chunks(db: Session, document_id: int, current_user, page: int, page_size: int) -> ChunkPageRead:
+    # 仅允许预览解析成功的文档文本块，并按页返回。
     document = get_readable(db, document_id, current_user)
     if document.parse_status != DocumentParseStatus.SUCCESS:
         raise AppException("文档尚未解析成功", status_code=409)
@@ -113,6 +119,7 @@ def chunks(db: Session, document_id: int, current_user, page: int, page_size: in
 def delete(
     db: Session, document_id: int, current_user, tasks: BackgroundTasks
 ) -> DocumentDeleteRead:
+    # 软删除文档；向量数据放入后台任务清理，避免阻塞接口响应。
     document = get_readable(db, document_id, current_user)
     record = document.file
     knowledge_service.get_owned_active(db, document.knowledge_base_id, current_user)
@@ -141,6 +148,7 @@ def queue_parse(
     *,
     retry: bool = False,
 ) -> ParseQueueRead:
+    # 校验文件是否可以解析，并将实际解析工作交给后台任务。
     record = db.get(FileRecord, file_id)
     if record is None:
         raise AppException("文件不存在", status_code=404)
@@ -152,17 +160,20 @@ def queue_parse(
         raise AppException("请先创建待解析文档", status_code=409)
     knowledge_service.get_owned_active(db, document.knowledge_base_id, current_user)
     if retry:
+        # 重试只允许用于上次解析失败的文件，并重置文档错误状态。
         if record.status != FileStatus.PARSE_FAILED:
             raise AppException("当前文件状态不允许重试", status_code=409)
         document.parse_status = DocumentParseStatus.PENDING
         document.error_msg = None
     else:
+        # 首次解析要求文件已上传且文档仍处于待解析状态。
         if record.status != FileStatus.UPLOADED:
             raise AppException("当前文件状态不允许解析", status_code=409)
         if document.parse_status != DocumentParseStatus.PENDING:
             raise AppException("请先创建待解析文档", status_code=409)
 
     record.status = FileStatus.PARSE_PENDING
+    # 先提交状态和审计记录，再加入任务，避免任务读取到未提交的数据。
     audit(
         db,
         action="file.parse_queued",
@@ -179,6 +190,7 @@ def queue_parse(
 def retry_failed(
     db: Session, knowledge_base_id: int, current_user, tasks: BackgroundTasks
 ) -> BatchRetryRead:
+    # 批量找出知识库中可重试的失败文件，并逐个加入解析队列。
     knowledge_service.get_owned_active(db, knowledge_base_id, current_user)
     records = db.execute(
         select(FileRecord, Document)
