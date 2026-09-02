@@ -13,8 +13,8 @@ ROOT_DIR = Path(__file__).resolve().parents[2]
 if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
-from config.settings import get_settings
-from core.db import Base, load_all_models
+from config.settings import get_settings  # noqa: E402
+from core.db import Base, load_all_models  # noqa: E402
 
 config = context.config
 

@@ -1,10 +1,12 @@
-"""知识库模块状态枚举。"""
-
 from enum import StrEnum
 
 
 class KnowledgeBaseStatus(StrEnum):
-    """知识库状态。"""
+    ACTIVE = "ACTIVE"
+    ARCHIVED = "ARCHIVED"
+    DISABLED = "DISABLED"
 
-    ACTIVE = "active"
-    DISABLED = "disabled"
+
+class KnowledgeBaseVisibility(StrEnum):
+    PRIVATE = "PRIVATE"
+    PUBLIC = "PUBLIC"

@@ -38,7 +38,9 @@ def _create_user(suffix: str) -> tuple[int, dict]:
     )
     assert resp.status_code == 201, f"创建用户失败: {resp.json()}"
     user_id = resp.json()["data"]["id"]
-    login_resp = client.post("/api/v1/auth/login", json={"username": username, "password": "Password123"})
+    login_resp = client.post(
+        "/api/v1/auth/login", json={"username": username, "password": "Password123"}
+    )
     assert login_resp.status_code == 200, f"登录失败: {login_resp.json()}"
     token = login_resp.json()["data"]["access_token"]
     return user_id, {"Authorization": f"Bearer {token}"}
@@ -103,11 +105,20 @@ def main() -> None:
     answer_data = ask_resp.json()["data"]
 
     # 验证响应字段完整性
-    required_fields = {"question", "answer", "source_documents", "success", "error", "conversation_id"}
+    required_fields = {
+        "question",
+        "answer",
+        "source_documents",
+        "success",
+        "error",
+        "conversation_id",
+    }
     assert required_fields.issubset(answer_data.keys()), "响应缺少必要字段"
     assert answer_data["question"] == "FastAPI 是什么？"
     assert len(answer_data["answer"]) > 0
-    print(f"[1] ASK OK: success={answer_data['success']} docs={len(answer_data['source_documents'])}")
+    print(
+        f"[1] ASK OK: success={answer_data['success']} docs={len(answer_data['source_documents'])}"
+    )
 
     # 验证关联文档溯源：源文档应包含与上传文档匹配的 document_id
     source_doc_ids = []
@@ -150,7 +161,7 @@ def main() -> None:
     empty_data = empty_resp.json()["data"]
     assert len(empty_data["source_documents"]) == 0, "空知识库不应有检索结果"
     assert "未找到相关资料" in empty_data["answer"] or empty_data["success"] is False
-    print(f"[2] ISOLATION OK: 空 KB 返回兜底回答, docs=0")
+    print("[2] ISOLATION OK: 空 KB 返回兜底回答, docs=0")
 
     # ================================================================
     # 场景 3：链路漏洞修复 - 空提问拦截(422)

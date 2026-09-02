@@ -60,24 +60,25 @@ class Settings(BaseSettings):
     embedding_model_name: str = "sentence-transformers/all-MiniLM-L6-v2"
 
     # 文件上传与解析配置
-    max_upload_size_mb: int = 10
+    max_upload_size_mb: int = 100
+    file_storage_dir: str = "./uploads"
     allowed_file_extensions: list[str] = Field(
-        default_factory=lambda: ["txt", "pdf"]
+        default_factory=lambda: ["txt", "pdf", "docx", "md", "markdown"]
     )
 
-    # 切片与检索参数（Day10 调优：小切片提升命中精度，高重叠保证语义连续）
+    # 切片与检索参数
     chunk_size: int = 400
     chunk_overlap: int = 80
     retrieval_top_k: int = 5
     # 检索距离阈值（L2 距离，越小越相似）：超过阈值的结果视为低相关并过滤，<= 0 表示不过滤。
     retrieval_score_threshold: float = 1.2
 
-    # JWT 鉴权配置（Day12）：生产环境必须通过环境变量覆盖默认密钥。
+    # JWT 鉴权配置：生产环境必须通过环境变量覆盖默认密钥。
     jwt_secret_key: str = DEFAULT_JWT_SECRET_KEY
     jwt_algorithm: str = "HS256"
     jwt_expire_minutes: int = 120
 
-    # 多轮对话记忆窗口（Day12）：最多携带最近 N 轮历史问答，防止上下文过载。
+    # 多轮对话记忆窗口：最多携带最近 N 轮历史问答，防止上下文过载。
     conversation_memory_rounds: int = 4
 
     @field_validator("cors_allow_origins", mode="before")

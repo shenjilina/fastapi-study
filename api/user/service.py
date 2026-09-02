@@ -4,7 +4,8 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from api.user import crud
-from api.user.schema import LoginRequest, LoginResponse, UserCreateRequest
+from api.user.schema import ChangePasswordRequest, LoginRequest, LoginResponse, UserCreateRequest
+from core.constants import ACCOUNT_DISABLED_CODE, AUTHENTICATION_ERROR_CODE
 from core.exceptions import AppException
 from core.security import create_access_token, get_token_ttl_seconds, hash_password, verify_password
 
@@ -39,10 +40,18 @@ def login(db: Session, payload: LoginRequest):
     """
     user = crud.get_user_by_username(db, payload.username)
     if user is None or not verify_password(payload.password, user.hashed_password):
-        raise AppException("用户名或密码错误", status_code=401)
+        raise AppException(
+            "用户名或密码错误",
+            code=AUTHENTICATION_ERROR_CODE,
+            status_code=401,
+        )
 
     if not user.is_active:
-        raise AppException("用户已被禁用", status_code=403)
+        raise AppException(
+            "用户已被禁用",
+            code=ACCOUNT_DISABLED_CODE,
+            status_code=401,
+        )
 
     return user
 
@@ -58,6 +67,23 @@ def build_login_response(user) -> LoginResponse:
         token_type="bearer",
         expires_in=get_token_ttl_seconds(),
     )
+
+
+def change_password(db: Session, user, payload: ChangePasswordRequest) -> None:
+    """校验当前密码并保存新密码。"""
+    if not verify_password(payload.old_password, user.hashed_password):
+        raise AppException(
+            "当前密码错误",
+            code=AUTHENTICATION_ERROR_CODE,
+            status_code=401,
+        )
+
+    user.hashed_password = hash_password(payload.new_password)
+    try:
+        db.commit()
+    except SQLAlchemyError as exc:
+        db.rollback()
+        raise AppException("修改密码失败，请稍后重试", status_code=500) from exc
 
 
 def get_user_detail(db: Session, user_id: int):

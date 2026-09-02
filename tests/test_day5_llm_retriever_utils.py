@@ -346,7 +346,7 @@ class TestFileParser:
 
         file_path = tmp_path / "test.docx"
         file_path.write_text("content", encoding="utf-8")
-        with pytest.raises(FileParseError, match="不支持"):
+        with pytest.raises(FileParseError, match="损坏"):
             parse_file(file_path)
 
     def test_parse_file_nonexistent(self) -> None:

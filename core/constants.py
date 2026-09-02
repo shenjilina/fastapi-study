@@ -3,8 +3,10 @@
 # 统一响应相关常量
 SUCCESS_CODE = 0
 DEFAULT_ERROR_CODE = 1
-VALIDATION_ERROR_CODE = 1001
-INTERNAL_ERROR_CODE = 1002
+VALIDATION_ERROR_CODE = 1001  # 请求参数校验失败
+INTERNAL_ERROR_CODE = 1002  # 服务端内部错误
+AUTHENTICATION_ERROR_CODE = 1003  # 登录认证失败：用户名或密码错误
+ACCOUNT_DISABLED_CODE = 1004  # 登录认证失败：用户账号已被禁用
 
 # 默认路由与文案
 DEFAULT_HEALTH_PATH = "/health"
@@ -17,7 +19,7 @@ REQUEST_ID_HEADER = "X-Request-ID"
 DEFAULT_MAX_CONTEXT_TOKENS = 3000
 
 # 文件解析相关常量
-SUPPORTED_FILE_EXTENSIONS = ("txt", "pdf")
+SUPPORTED_FILE_EXTENSIONS = ("txt", "pdf", "docx", "md", "markdown")
 EMPTY_FILE_ERROR = "文件内容为空，无法解析"
 UNSUPPORTED_FILE_TYPE_ERROR = "不支持的文件类型"
 CORRUPTED_FILE_ERROR = "文件已损坏或格式不正确"

@@ -1,115 +1,109 @@
-"""文档模块控制器。
-
-职责：仅处理路由接收、参数校验、统一响应、依赖注入，无任何业务、DB、RAG 逻辑。
-路由说明：知识库 CRUD 路由已迁移至 api/knowledge/controller.py，
-此处仅保留文档操作路由（含以 /knowledge-bases/ 为前缀的文档嵌套路由）。
-"""
-
-from fastapi import APIRouter, Depends, File, UploadFile, status
+from fastapi import APIRouter, BackgroundTasks, Depends
 from sqlalchemy.orm import Session
 
 from api.document import service
 from api.document.schema import (
+    BatchRetryRead,
+    ChunkListRequest,
+    ChunkPageRead,
     DocumentCreateRequest,
-    DocumentDeleteResponse,
+    DocumentDeleteRead,
+    DocumentIdRequest,
     DocumentListRequest,
+    DocumentPageRead,
     DocumentRead,
-    DocumentStatusUpdateRequest,
-    DocumentUploadResponse,
+    FileParseRequest,
+    KnowledgeBaseIdRequest,
+    ParseQueueRead,
 )
+from common.dependencies import get_current_user
 from common.response import ApiResponse, success_response
 from core.db import get_db
 
-router = APIRouter(tags=["documents"])
+router = APIRouter(prefix="/documents", tags=["documents"])
 
 
-@router.post("/documents", status_code=status.HTTP_201_CREATED, response_model=ApiResponse[DocumentRead])
-def create_document(
+@router.post("/create", status_code=201, response_model=ApiResponse[DocumentRead])
+def create(
     payload: DocumentCreateRequest,
     db: Session = Depends(get_db),
-) -> dict[str, object]:
-    """创建文档接口。"""
-    document = service.create_document(db, payload)
-    return success_response(
-        DocumentRead.model_validate(document).model_dump(mode="json"),
-        message="文档创建成功",
-    )
+    current_user=Depends(get_current_user),
+):
+    """根据已上传文件创建待解析文档，不触发解析任务。"""
+    return success_response(service.create(db, payload, current_user), "文档创建成功")
 
 
-@router.patch(
-    "/documents/{document_id}/status",
-    status_code=status.HTTP_200_OK,
-    response_model=ApiResponse[DocumentRead],
-)
-def update_document_status(
-    document_id: int,
-    payload: DocumentStatusUpdateRequest,
-    db: Session = Depends(get_db),
-) -> dict[str, object]:
-    """更新文档解析状态接口。"""
-    document = service.update_document_status(db, document_id, payload)
-    return success_response(
-        DocumentRead.model_validate(document).model_dump(mode="json"),
-        message="文档状态更新成功",
-    )
-
-
-@router.post(
-    "/knowledge-bases/documents/list",
-    status_code=status.HTTP_200_OK,
-    response_model=ApiResponse[list[DocumentRead]],
-)
-def list_documents_by_knowledge_base(
+@router.post("/list", response_model=ApiResponse[DocumentPageRead])
+def list_items(
     payload: DocumentListRequest,
     db: Session = Depends(get_db),
-) -> dict[str, object]:
-    """查询知识库文档列表接口。"""
-    documents = [
-        DocumentRead.model_validate(item).model_dump(mode="json")
-        for item in service.list_documents_by_knowledge_base(db, payload.knowledge_base_id)
-    ]
-    return success_response(documents, message="文档列表获取成功")
-
-
-@router.post(
-    "/knowledge-bases/documents/upload/{knowledge_base_id}",
-    status_code=status.HTTP_201_CREATED,
-    response_model=ApiResponse[DocumentUploadResponse],
-)
-async def upload_document(
-    knowledge_base_id: int,
-    file: UploadFile = File(..., description="上传的文件，支持 txt / pdf"),
-    db: Session = Depends(get_db),
-) -> dict[str, object]:
-    """文件上传接口：校验 -> 去重 -> 解析 -> 切片 -> 向量入库 -> 存元数据。"""
-    result = service.upload_document(db, knowledge_base_id, file)
-    document_data = DocumentRead.model_validate(result["document"]).model_dump(mode="json")
+    current_user=Depends(get_current_user),
+):
+    """按知识库和解析状态分页查询未软删除文档。"""
     return success_response(
-        {
-            "document": document_data,
-            "vector_ids": result["vector_ids"],
-            "chunk_count": result["chunk_count"],
-        },
-        message="文档上传成功",
+        service.list_items(
+            db,
+            payload.knowledge_base_id,
+            current_user,
+            parse_status=payload.parse_status,
+            page=payload.page,
+            page_size=payload.page_size,
+        )
     )
 
 
-@router.delete(
-    "/documents/{document_id}",
-    status_code=status.HTTP_200_OK,
-    response_model=ApiResponse[DocumentDeleteResponse],
-)
-def delete_document(
-    document_id: int,
+@router.post("/detail", response_model=ApiResponse[DocumentRead])
+def detail(
+    payload: DocumentIdRequest,
     db: Session = Depends(get_db),
-) -> dict[str, object]:
-    """删除文档接口：同时删除向量数据和数据库记录。"""
-    result = service.delete_document(db, document_id)
+    current_user=Depends(get_current_user),
+):
+    """查询文档解析状态、切片数量和错误信息。"""
+    return success_response(service.detail(db, payload.document_id, current_user))
+
+
+@router.post("/delete", response_model=ApiResponse[DocumentDeleteRead])
+def delete(
+    payload: DocumentIdRequest,
+    tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
+    """软删除文档及其切片，并异步回收关联向量。"""
+    return success_response(service.delete(db, payload.document_id, current_user, tasks))
+
+
+@router.post("/chunks", response_model=ApiResponse[ChunkPageRead])
+def chunks(
+    payload: ChunkListRequest, db: Session = Depends(get_db), current_user=Depends(get_current_user)
+):
+    """分页预览解析成功文档的有效文本切片。"""
     return success_response(
-        DocumentDeleteResponse(
-            document_id=result["document_id"],
-            filename=result["filename"],
-            deleted=result["deleted"],
-        ).model_dump(mode="json"),
-        message="文档删除成功",
+        service.chunks(db, payload.document_id, current_user, payload.page, payload.page_size)
+    )
+
+
+@router.post("/retry", response_model=ApiResponse[BatchRetryRead])
+def retry(
+    payload: KnowledgeBaseIdRequest,
+    tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
+    """批量重新提交当前知识库中所有解析失败的文件。"""
+    return success_response(
+        service.retry_failed(db, payload.knowledge_base_id, current_user, tasks)
+    )
+
+
+@router.post("/parse", response_model=ApiResponse[ParseQueueRead])
+def parse(
+    payload: FileParseRequest,
+    tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
+    """提交已创建的待解析文档对应的文件解析任务。"""
+    return success_response(
+        service.queue_parse(db, payload.file_id, current_user, tasks, retry=payload.retry)
     )

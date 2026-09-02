@@ -133,6 +133,12 @@ def ensure_resource_owner(
         raise AppException(f"无权以其他用户身份{action}", status_code=403)
 
 
+def ensure_owner(resource_owner_id: int, current_user: "User", *, resource: str = "资源") -> None:
+    """确保已认证用户拥有目标资源。"""
+    if resource_owner_id != current_user.id:
+        raise AppException(f"无权访问其他用户的{resource}", status_code=403)
+
+
 def token_payload_to_user_id(payload: dict[str, Any]) -> int | None:
     """从 JWT 载荷提取用户 ID，非法时返回 None（供非依赖场景复用）。"""
     try:

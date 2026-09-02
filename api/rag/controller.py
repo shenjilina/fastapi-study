@@ -103,19 +103,24 @@ def create_conversation(
     )
 
 
-@router.post("/list", status_code=status.HTTP_200_OK, response_model=ApiResponse[list[ConversationRead]])
+@router.post(
+    "/list", status_code=status.HTTP_200_OK, response_model=ApiResponse[list[ConversationRead]]
+)
 def list_conversations(
     payload: ConversationListRequest,
     db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
 ) -> dict[str, object]:
     """查询对话记录列表。
 
     至少提供 knowledge_base_id 或 user_id 中的一个过滤条件（schema 层已校验）。
     """
     if payload.knowledge_base_id is not None:
-        conversations = service.list_conversations_by_knowledge_base(db, payload.knowledge_base_id)
+        conversations = service.list_conversations_by_knowledge_base(
+            db, payload.knowledge_base_id, current_user
+        )
     else:
-        conversations = service.list_conversations_by_user(db, payload.user_id)
+        conversations = service.list_conversations_by_user(db, payload.user_id, current_user)
 
     conversations_data = [item.model_dump(mode="json") for item in conversations]
     return success_response(conversations_data, message="问答记录列表获取成功")
@@ -129,9 +134,10 @@ def list_conversations(
 def get_conversation(
     payload: ConversationDetailRequest,
     db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
 ) -> dict[str, object]:
     """查询单条问答记录接口。"""
-    conversation = service.get_conversation(db, payload.conversation_id)
+    conversation = service.get_conversation(db, payload.conversation_id, current_user)
     return success_response(
         conversation.model_dump(mode="json"),
         message="问答记录详情获取成功",
@@ -139,16 +145,17 @@ def get_conversation(
 
 
 @router.delete(
-    "/{conversation_id}",
+    "",
     status_code=status.HTTP_200_OK,
     response_model=ApiResponse[ConversationDeleteResponse],
 )
 def delete_conversation(
-    conversation_id: int,
+    payload: ConversationDetailRequest,
     db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
 ) -> dict[str, object]:
     """删除问答记录接口。"""
-    result = service.delete_conversation(db, conversation_id)
+    result = service.delete_conversation(db, payload.conversation_id, current_user)
     return success_response(
         ConversationDeleteResponse(
             conversation_id=result["conversation_id"],

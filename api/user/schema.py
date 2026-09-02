@@ -1,6 +1,6 @@
 """用户模块请求与响应 Schema。"""
 
-from pydantic import ConfigDict, Field, field_validator
+from pydantic import ConfigDict, Field, field_validator, model_validator
 
 from common.base_model import ApiBaseModel, ApiDateTime
 from common.dependencies import strip_text
@@ -57,6 +57,27 @@ class LoginRequest(ApiBaseModel):
         if not text:
             raise ValueError("字段不能为空")
         return text
+
+
+class ChangePasswordRequest(ApiBaseModel):
+    """修改密码请求体。"""
+
+    old_password: str = Field(min_length=1, max_length=128, description="当前密码")
+    new_password: str = Field(min_length=8, max_length=128, description="新密码")
+
+    @field_validator("old_password", "new_password", mode="before")
+    @classmethod
+    def _strip_password(cls, value: str) -> str:
+        text = strip_text(value)
+        if not text:
+            raise ValueError("密码不能为空")
+        return text
+
+    @model_validator(mode="after")
+    def _ensure_password_changed(self) -> "ChangePasswordRequest":
+        if self.old_password == self.new_password:
+            raise ValueError("新密码不能与当前密码相同")
+        return self
 
 
 class LoginResponse(ApiBaseModel):

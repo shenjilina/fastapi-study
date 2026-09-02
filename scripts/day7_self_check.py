@@ -40,7 +40,9 @@ def _create_user(suffix: str) -> tuple[int, dict]:
     )
     assert resp.status_code == 201, f"创建用户失败: {resp.json()}"
     user_id = resp.json()["data"]["id"]
-    login_resp = client.post("/api/v1/auth/login", json={"username": username, "password": "Password123"})
+    login_resp = client.post(
+        "/api/v1/auth/login", json={"username": username, "password": "Password123"}
+    )
     assert login_resp.status_code == 200, f"登录失败: {login_resp.json()}"
     token = login_resp.json()["data"]["access_token"]
     return user_id, {"Authorization": f"Bearer {token}"}
@@ -110,8 +112,7 @@ def main() -> None:
     assert len(answer_data["source_documents"]) > 0
     # 源文档应包含 document_id 元数据
     has_doc_id = any(
-        "document_id" in (doc.get("metadata") or {})
-        for doc in answer_data["source_documents"]
+        "document_id" in (doc.get("metadata") or {}) for doc in answer_data["source_documents"]
     )
     assert has_doc_id, "源文档元数据中应包含 document_id"
     # 对话记录应已落库（无论 LLM 成功与否）
@@ -182,7 +183,7 @@ def main() -> None:
         },
     )
     assert ask_resp2.status_code == 404, f"不存在的知识库应 404: {ask_resp2.json()}"
-    print(f"NOT FOUND OK: 不存在的知识库被 404 拦截")
+    print("NOT FOUND OK: 不存在的知识库被 404 拦截")
 
     # 10. 空知识库提问：验证无检索结果兜底
     empty_kb_id = _create_knowledge_base(user_id, suffix + "_empty")

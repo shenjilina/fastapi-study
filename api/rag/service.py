@@ -16,7 +16,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from api.knowledge import crud as knowledge_crud
-from api.knowledge.enums import KnowledgeBaseStatus
+from api.knowledge.enums import KnowledgeBaseStatus, KnowledgeBaseVisibility
 from api.rag import crud as rag_crud
 from api.rag.enums import ConversationRecordStatus
 from api.rag.schema import (
@@ -27,7 +27,7 @@ from api.rag.schema import (
     RAGSourceDocumentRead,
 )
 from api.user import crud as user_crud
-from common.dependencies import ensure_resource_owner
+from common.dependencies import ensure_owner, ensure_resource_owner
 from config.log_config import get_logger
 from config.settings import get_settings
 from core.exceptions import AppException
@@ -80,10 +80,13 @@ def _validate_question_access(db: Session, payload: RAGQuestionRequest | Convers
     if knowledge_base is None:
         raise AppException("知识库不存在", status_code=404)
 
-    if knowledge_base.owner_id != payload.user_id:
+    if (
+        knowledge_base.owner_id != payload.user_id
+        and knowledge_base.visibility != KnowledgeBaseVisibility.PUBLIC
+    ):
         raise AppException("该用户无权操作当前知识库", status_code=403)
 
-    if knowledge_base.status == KnowledgeBaseStatus.DISABLED:
+    if knowledge_base.status in {KnowledgeBaseStatus.DISABLED, KnowledgeBaseStatus.ARCHIVED}:
         raise AppException("知识库已禁用，无法进行问答", status_code=403)
 
     return knowledge_base
@@ -385,40 +388,49 @@ def create_conversation(
         raise AppException("创建问答记录失败，请稍后重试", status_code=500) from exc
 
 
-def get_conversation(db: Session, conversation_id: int) -> ConversationRead:
+def get_conversation(db: Session, conversation_id: int, current_user: "User") -> ConversationRead:
     """查询单条问答记录。"""
     conversation = rag_crud.get_conversation_by_id(db, conversation_id)
     if conversation is None:
         raise AppException("问答记录不存在", status_code=404)
+    ensure_owner(conversation.user_id, current_user, resource="问答记录")
     return build_conversation_read_model(conversation)
 
 
-def list_conversations_by_knowledge_base(db: Session, knowledge_base_id: int) -> list[ConversationRead]:
+def list_conversations_by_knowledge_base(
+    db: Session, knowledge_base_id: int, current_user: "User"
+) -> list[ConversationRead]:
     """查询知识库下的问答记录。"""
     knowledge_base = knowledge_crud.get_knowledge_base_by_id(db, knowledge_base_id)
     if knowledge_base is None:
         raise AppException("知识库不存在", status_code=404)
+    ensure_owner(knowledge_base.owner_id, current_user, resource="问答记录")
 
     conversations = rag_crud.list_conversations_by_knowledge_base(db, knowledge_base_id)
     return [build_conversation_read_model(item) for item in conversations]
 
 
-def list_conversations_by_user(db: Session, user_id: int) -> list[ConversationRead]:
+def list_conversations_by_user(
+    db: Session, user_id: int, current_user: "User"
+) -> list[ConversationRead]:
     """查询用户的全部问答记录。"""
     user = user_crud.get_user_by_id(db, user_id)
     if user is None:
         raise AppException("用户不存在", status_code=404)
+    ensure_owner(user.id, current_user, resource="问答记录")
 
     conversations = rag_crud.list_conversations_by_user(db, user_id)
     return [build_conversation_read_model(item) for item in conversations]
 
 
-def delete_conversation(db: Session, conversation_id: int) -> dict:
+def delete_conversation(db: Session, conversation_id: int, current_user: "User") -> dict:
     """删除问答记录。"""
     try:
-        deleted = rag_crud.delete_conversation(db, conversation_id)
-        if not deleted:
+        conversation = rag_crud.get_conversation_by_id(db, conversation_id)
+        if conversation is None:
             raise AppException("问答记录不存在", status_code=404)
+        ensure_owner(conversation.user_id, current_user, resource="问答记录")
+        rag_crud.delete_conversation(db, conversation_id)
         db.commit()
     except AppException:
         raise
