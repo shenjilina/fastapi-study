@@ -49,7 +49,9 @@ class Settings(BaseSettings):
     init_admin_password: str | None = None
 
     # RAG / 模型相关配置
-    chroma_persist_directory: str = "./chroma"
+    qdrant_url: str = "http://localhost:6333"
+    qdrant_api_key: str | None = None
+    qdrant_collection_name: str = "rag_documents"
     ollama_base_url: str = "http://localhost:11434"
     ollama_model: str = "qwen2.5:7b"
     ollama_request_timeout: int = 60

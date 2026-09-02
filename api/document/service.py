@@ -24,7 +24,7 @@ from api.knowledge import crud as knowledge_crud
 from config.log_config import get_logger
 from config.settings import get_settings
 from core.exceptions import AppException
-from core.langchain.chroma_store import get_chroma_store
+from core.langchain.qdrant_store import get_qdrant_store
 from utils import file_parser, hash_utils, text_utils
 
 logger = get_logger(__name__)
@@ -35,7 +35,7 @@ def _rollback_vectors(vector_ids: list[str]) -> None:
     if not vector_ids:
         return
     try:
-        get_chroma_store().delete_by_ids(vector_ids)
+        get_qdrant_store().delete_by_ids(vector_ids)
         logger.warning("Rolled back %d vectors after processing failure.", len(vector_ids))
     except Exception as rollback_exc:  # 回滚失败不应掩盖原始错误。
         logger.warning("Failed to rollback vectors: %s", rollback_exc)
@@ -225,7 +225,7 @@ def upload_document(db: Session, knowledge_base_id: int, file: UploadFile) -> di
                 raise AppException("切片后无有效内容", status_code=422)
 
             # 10. 向量入库
-            chroma_store = get_chroma_store()
+            qdrant_store = get_qdrant_store()
             metadatas = [
                 {
                     "knowledge_base_id": knowledge_base_id,
@@ -235,7 +235,7 @@ def upload_document(db: Session, knowledge_base_id: int, file: UploadFile) -> di
                 }
                 for i in range(len(chunks))
             ]
-            vector_ids = chroma_store.add_texts(chunks, metadatas=metadatas)
+            vector_ids = qdrant_store.add_texts(chunks, metadatas=metadatas)
 
             # 11. 更新文档状态为成功，落库失败时回滚已写入的向量，避免无主垃圾向量。
             # 失败后直接标记 FAILED 并抛出，避免进入外层分支重复回滚。
@@ -298,8 +298,8 @@ def delete_document(db: Session, document_id: int) -> dict:
 
     # 1. 删除向量数据
     try:
-        chroma_store = get_chroma_store()
-        deleted_count = chroma_store.delete_by_metadata({"document_id": document_id})
+        qdrant_store = get_qdrant_store()
+        deleted_count = qdrant_store.delete_by_metadata({"document_id": document_id})
         logger.info(
             "Vectors deleted: document_id=%d count=%d",
             document_id,

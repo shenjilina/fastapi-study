@@ -520,7 +520,7 @@ class TestKnowledgeBaseRetriever:
 
     def test_search_with_knowledge_base_id_calls_store(self) -> None:
         from config.settings import get_settings
-        from core.langchain.chroma_store import VectorSearchResult
+        from core.langchain.qdrant_store import VectorSearchResult
         from core.langchain.retriever import KnowledgeBaseRetriever
 
         mock_store = MagicMock()
@@ -528,7 +528,7 @@ class TestKnowledgeBaseRetriever:
             VectorSearchResult(page_content="result", metadata={"knowledge_base_id": 1})
         ]
 
-        retriever = KnowledgeBaseRetriever(chroma_store=mock_store)
+        retriever = KnowledgeBaseRetriever(qdrant_store=mock_store)
         results = retriever.search("query", knowledge_base_id=1)
 
         assert len(results) == 1
@@ -541,7 +541,7 @@ class TestKnowledgeBaseRetriever:
         )
 
     def test_search_multi_knowledge_base(self) -> None:
-        from core.langchain.chroma_store import VectorSearchResult
+        from core.langchain.qdrant_store import VectorSearchResult
         from core.langchain.retriever import KnowledgeBaseRetriever
 
         mock_store = MagicMock()
@@ -550,7 +550,7 @@ class TestKnowledgeBaseRetriever:
             [VectorSearchResult(page_content="kb2", metadata={})],
         ]
 
-        retriever = KnowledgeBaseRetriever(chroma_store=mock_store)
+        retriever = KnowledgeBaseRetriever(qdrant_store=mock_store)
         results = retriever.search_multi_knowledge_base("query", [1, 2])
 
         assert len(results) == 2
@@ -559,6 +559,6 @@ class TestKnowledgeBaseRetriever:
     def test_search_multi_kb_empty_list_raises(self) -> None:
         from core.langchain.retriever import KnowledgeBaseRetriever, RetrieverError
 
-        retriever = KnowledgeBaseRetriever(chroma_store=MagicMock())
+        retriever = KnowledgeBaseRetriever(qdrant_store=MagicMock())
         with pytest.raises(RetrieverError, match="不能为空"):
             retriever.search_multi_knowledge_base("query", [])

@@ -2,14 +2,14 @@
 
 from uuid import uuid4
 
-from core.langchain.chroma_store import ChromaStoreManager
+from core.langchain.qdrant_store import QdrantStoreManager
 from core.langchain.embedding import get_embedding_client
 
 
 def main() -> None:
     """验证嵌入单例、文本入库、向量检索和删除功能。"""
     collection_name = f"day4_check_{uuid4().hex[:8]}"
-    chroma_store = ChromaStoreManager(collection_name=collection_name)
+    chroma_store = QdrantStoreManager(collection_name=collection_name, url=":memory:")
     embedding_client = get_embedding_client()
 
     print("EMBEDDING BACKEND:", embedding_client.get_backend_summary())

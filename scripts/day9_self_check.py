@@ -22,7 +22,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from api.document import crud as document_crud
 from config.settings import get_settings
 from core.db import create_all_tables, load_all_models
-from core.langchain.chroma_store import get_chroma_store
+from core.langchain.qdrant_store import get_qdrant_store
 from init_app import app
 
 client = TestClient(app)
@@ -177,7 +177,7 @@ def main() -> None:
     # ================================================================
     # 场景 9：BUG 修复 - 状态落库失败时向量同步回滚
     # ================================================================
-    chroma_store = get_chroma_store()
+    chroma_store = get_qdrant_store()
     count_before = chroma_store.count()
 
     original_update = document_crud.update_document_status

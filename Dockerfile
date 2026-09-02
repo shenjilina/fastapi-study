@@ -15,9 +15,9 @@ RUN pip install --no-cache-dir torch --index-url https://download.pytorch.org/wh
 RUN pip install --no-cache-dir \
     "fastapi>=0.116.0" "uvicorn[standard]>=0.35.0" \
     "sqlalchemy>=2.0.41" "alembic>=1.16.4" \
-    "chromadb>=1.0.15" "sentence-transformers>=5.0.0" \
+    "sentence-transformers>=5.0.0" \
     "python-multipart>=0.0.20" "python-dotenv>=1.1.1" \
-    "langchain>=0.3.26" "langchain-chroma>=0.2.4" \
+    "langchain>=0.3.26" "langchain-qdrant>=0.2.0" "qdrant-client>=1.14.2" \
     "langchain-ollama>=0.3.3" "langchain-text-splitters>=0.3.8" \
     "langchain-core>=0.3.69" "pydantic-settings>=2.10.1" \
     "pypdf>=6.14.2"
@@ -27,7 +27,7 @@ COPY . .
 RUN pip install --no-cache-dir --no-deps .
 
 # 创建运行时目录
-RUN mkdir -p logs chroma data
+RUN mkdir -p logs data
 
 EXPOSE 8000
 

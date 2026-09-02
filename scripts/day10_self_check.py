@@ -21,12 +21,10 @@ from pathlib import Path
 from uuid import uuid4
 
 from fastapi.testclient import TestClient
-from langchain_chroma import Chroma
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from config.settings import get_settings
 from core.db import create_all_tables, load_all_models
-from core.langchain.embedding import get_embedding_client
 from core.langchain.rag_chain import SYSTEM_PROMPT_TEMPLATE, StandardRAGChain
 from init_app import app
 
@@ -116,7 +114,7 @@ def main() -> None:
     # ================================================================
     # 场景 4：检索优化确定性验证（合成数据：阈值过滤 + 去重）
     # ================================================================
-    from core.langchain.chroma_store import VectorSearchResult
+    from core.langchain.qdrant_store import VectorSearchResult
 
     class _FakeRetriever:
         """返回合成检索结果，模拟重复切片与低相关切片。"""
@@ -185,18 +183,13 @@ def main() -> None:
         ("Which dependency manager uses lockfiles to replace pip?", "uv"),
     ]
 
-    embedding_client = get_embedding_client()
     tmp_root = Path(tempfile.mkdtemp(prefix="day10_compare_"))
 
     def _evaluate(chunk_size: int, chunk_overlap: int, tag: str) -> dict:
         """在独立临时向量库中评估一组切片参数的检索命中率。"""
-        persist_dir = tmp_root / tag
-        persist_dir.mkdir(parents=True, exist_ok=True)
-        store = Chroma(
-            collection_name=f"day10_{tag}",
-            persist_directory=str(persist_dir),
-            embedding_function=embedding_client,
-        )
+        from core.langchain.qdrant_store import QdrantStoreManager
+
+        store = QdrantStoreManager(collection_name=f"day10_{tag}", url=":memory:")
         splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
         chunks = splitter.split_text(corpus)
         store.add_texts(texts=chunks, ids=[uuid4().hex for _ in chunks])

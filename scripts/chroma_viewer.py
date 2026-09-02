@@ -5,12 +5,12 @@
 
 from __future__ import annotations
 
-from core.langchain.chroma_store import ChromaStoreManager
+from core.langchain.qdrant_store import QdrantStoreManager
 
 
 def view_all_data() -> None:
     """打印当前 Chroma collection 中的全部数据。"""
-    store = ChromaStoreManager(collection_name="rag_documents")
+    store = QdrantStoreManager(collection_name="rag_documents")
 
     # 1. 健康状态
     health = store.health_check()

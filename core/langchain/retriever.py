@@ -7,7 +7,7 @@ from functools import lru_cache
 from config.log_config import get_logger
 from config.settings import get_settings
 from core.constants import MAX_RETRIEVAL_TOP_K, MIN_RETRIEVAL_TOP_K
-from core.langchain.chroma_store import ChromaStoreManager, VectorSearchResult, get_chroma_store
+from core.langchain.qdrant_store import QdrantStoreManager, VectorSearchResult, get_qdrant_store
 
 logger = get_logger(__name__)
 
@@ -17,14 +17,17 @@ class RetrieverError(RuntimeError):
 
 
 class KnowledgeBaseRetriever:
-    """基于 Chroma 的向量检索器，支持知识库隔离。
+    """基于 Qdrant 的向量检索器，支持知识库隔离。
 
     通过 metadata 中的 knowledge_base_id 字段实现不同知识库之间的数据隔离，
     确保检索结果仅来自指定知识库的文档。
     """
 
-    def __init__(self, chroma_store: ChromaStoreManager | None = None) -> None:
-        self._store = chroma_store or get_chroma_store()
+    def __init__(
+        self,
+        qdrant_store: QdrantStoreManager | None = None,
+    ) -> None:
+        self._store = qdrant_store or get_qdrant_store()
         settings = get_settings()
         self.default_top_k = settings.retrieval_top_k
 
@@ -32,7 +35,7 @@ class KnowledgeBaseRetriever:
         """构建知识库隔离的 metadata 过滤条件。
 
         保持 knowledge_base_id 的原始类型，与文档入库时写入的 metadata 类型一致，
-        避免 Chroma where 过滤因类型不匹配（int vs str）导致检索结果为空。
+        避免 payload 过滤因类型不匹配（int vs str）导致检索结果为空。
         """
         if knowledge_base_id is None:
             return None
