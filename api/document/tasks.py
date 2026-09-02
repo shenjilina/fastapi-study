@@ -12,7 +12,7 @@ from api.knowledge.enums import KnowledgeBaseStatus
 from api.knowledge.model import KnowledgeBase
 from config.settings import get_settings
 from core.db import SessionLocal
-from core.langchain.chroma_store import get_chroma_store
+from core.langchain.qdrant_store import get_qdrant_store
 from utils import file_parser, text_utils
 
 
@@ -72,7 +72,7 @@ def process_file(file_id: int) -> None:
         contents, _ = text_utils.deduplicate_texts(splitter.split_text(text))
         if not contents:
             raise ValueError("切片后无有效内容")
-        vector_ids = get_chroma_store().add_texts(
+        vector_ids = get_qdrant_store().add_texts(
             # 写入向量库，同时保存知识库、文档和块序号等检索元数据。
             contents,
             metadatas=[
@@ -92,7 +92,7 @@ def process_file(file_id: int) -> None:
         document = crud.active_for_file(db, file_id)
         if not record or not document or record.status != FileStatus.PARSING:
             # 状态已被其他操作改变时，删除刚写入的向量，避免产生孤儿数据。
-            get_chroma_store().delete_by_ids(vector_ids)
+            get_qdrant_store().delete_by_ids(vector_ids)
             return
         create_chunks(db, document.id, contents, vector_ids)
         # 数据库记录与向量 ID 关联，解析成功后更新文件和文档状态。
@@ -118,7 +118,7 @@ def process_file(file_id: int) -> None:
             cleaned = True
             if vector_ids:
                 try:
-                    get_chroma_store().delete_by_ids(vector_ids)
+                    get_qdrant_store().delete_by_ids(vector_ids)
                 except Exception:
                     cleaned = False
             if document:
@@ -152,7 +152,7 @@ def cleanup_vectors(document_id: int) -> None:
             return
         ids = [chunk.vector_id for chunk in document.chunks if chunk.vector_id]
         if ids:
-            get_chroma_store().delete_by_ids(ids)
+                    get_qdrant_store().delete_by_ids(ids)
         document.vector_cleaned = True
         audit(db, action="document.vectors_cleaned", target_type="document", target_id=document_id)
         db.commit()
