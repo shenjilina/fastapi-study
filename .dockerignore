@@ -5,7 +5,6 @@ __pycache__
 .gitignore
 .env
 *.db
-chroma/
 logs/
 .venv/
 tests/

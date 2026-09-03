@@ -9,40 +9,40 @@ from core.langchain.embedding import get_embedding_client
 def main() -> None:
     """验证嵌入单例、文本入库、向量检索和删除功能。"""
     collection_name = f"day4_check_{uuid4().hex[:8]}"
-    chroma_store = QdrantStoreManager(collection_name=collection_name, url=":memory:")
+    vector_store = QdrantStoreManager(collection_name=collection_name, url=":memory:")
     embedding_client = get_embedding_client()
 
     print("EMBEDDING BACKEND:", embedding_client.get_backend_summary())
 
     texts = [
         "FastAPI is a high performance Python web framework.",
-        "Chroma can persist vector embeddings locally.",
+        "Qdrant can persist vector embeddings locally.",
         "LangChain helps organize retrieval and question answering workflows.",
     ]
     metadatas = [
         {"topic": "fastapi", "group": "day4"},
-        {"topic": "chroma", "group": "day4"},
+        {"topic": "qdrant", "group": "day4"},
         {"topic": "langchain", "group": "day4"},
     ]
 
-    inserted_ids = chroma_store.add_texts(texts, metadatas=metadatas)
+    inserted_ids = vector_store.add_texts(texts, metadatas=metadatas)
     print("INSERTED IDS:", inserted_ids)
-    print("COUNT AFTER INSERT:", chroma_store.count())
+    print("COUNT AFTER INSERT:", vector_store.count())
 
-    search_results = chroma_store.similarity_search(
+    search_results = vector_store.similarity_search(
         "Which tool persists vectors locally?",
         k=2,
         metadata_filter={"group": "day4"},
     )
     print("SEARCH RESULTS:", [item.metadata for item in search_results])
 
-    deleted_count = chroma_store.delete_by_metadata({"topic": "chroma"})
+    deleted_count = vector_store.delete_by_metadata({"topic": "qdrant"})
     print("DELETED COUNT:", deleted_count)
-    print("COUNT AFTER DELETE:", chroma_store.count())
+    print("COUNT AFTER DELETE:", vector_store.count())
 
-    cleanup_count = chroma_store.clear_collection()
+    cleanup_count = vector_store.clear_collection()
     print("CLEANUP COUNT:", cleanup_count)
-    print("FINAL HEALTH:", chroma_store.health_check())
+    print("FINAL HEALTH:", vector_store.health_check())
 
 
 if __name__ == "__main__":

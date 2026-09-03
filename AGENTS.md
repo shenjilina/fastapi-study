@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-This Python 3.11-3.13 FastAPI RAG service is managed with `uv`. Domain APIs live in `api/` (for example, `api/knowledge/` and `api/rag/`), with controllers, schemas, models, CRUD, and services grouped by domain. Shared code is in `common/`, infrastructure in `core/`, settings and logging in `config/`, and helpers in `utils/`. `main.py` runs locally; `init_app.py` exposes the application. Tests are in `tests/`, scripts and Alembic migrations in `scripts/`, and notes in `docs/`. `chroma/`, `rag_project.db`, and `logs/` are runtime artifacts.
+This Python 3.11-3.13 FastAPI RAG service is managed with `uv`. Domain APIs live in `api/` (for example, `api/knowledge/` and `api/rag/`), with controllers, schemas, models, CRUD, and services grouped by domain. Shared code is in `common/`, infrastructure in `core/`, settings and logging in `config/`, and helpers in `utils/`. `main.py` runs locally; `init_app.py` exposes the application. Tests are in `tests/`, scripts and Alembic migrations in `scripts/`, and notes in `docs/`. `rag_project.db`, and `logs/` are runtime artifacts.
 
 ## Build, Test, and Development Commands
 
@@ -27,4 +27,4 @@ Use imperative Conventional Commit-style subjects with a scope, such as `feat(ap
 
 ## Security & Configuration Tips
 
-Copy local settings into `.env` and never commit real credentials, JWT keys, model tokens, or private data. Review `config/settings.py` and `docker-compose.yml` when adding settings so local and container defaults remain consistent. Treat the SQLite database, Chroma persistence directory, and logs as environment-specific artifacts.
+Copy local settings into `.env` and never commit real credentials, JWT keys, model tokens, or private data. Review `config/settings.py` and `docker-compose.yml` when adding settings so local and container defaults remain consistent. Treat the SQLite database, Qdrant data, and logs as environment-specific artifacts.

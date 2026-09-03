@@ -161,7 +161,7 @@ def main() -> None:
     kb_a = _create_kb(user_a_id, f"Day12KB-A-{suffix}")
     txt_content = (
         "FastAPI 是一个现代的 Python Web 框架，支持自动文档生成。"
-        "Chroma 是一个轻量级的向量数据库，支持本地持久化存储。"
+        "Qdrant 是一个高性能向量数据库，支持相似度检索。"
         "LangChain 提供了检索、问答等 RAG 核心能力的封装。"
     )
     upload_resp = _upload_txt(kb_a, txt_content, f"day12_{suffix}.txt")

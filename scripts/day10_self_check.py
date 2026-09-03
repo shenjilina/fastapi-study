@@ -9,7 +9,7 @@
 
 说明：
 - 场景 4 的过滤/去重验证使用合成检索结果，不依赖嵌入模型质量，结果确定。
-- 场景 5 的对比实验使用独立临时 Chroma 目录，不污染主向量库。
+- 场景 5 的对比实验使用独立临时向量库目录，不污染主向量库。
 """
 
 from __future__ import annotations
@@ -102,7 +102,7 @@ def main() -> None:
     kb_id = _create_kb(user_id, suffix)
     txt_content = (
         "FastAPI 是一个现代的 Python Web 框架，支持自动文档生成。"
-        "Chroma 是一个轻量级的向量数据库，支持本地持久化存储。"
+        "Qdrant 是一个高性能向量数据库，支持相似度检索。"
         "LangChain 提供了检索、问答等 RAG 核心能力的封装。"
     )
     files = {"file": (f"day10_{suffix}.txt", io.BytesIO(txt_content.encode("utf-8")), "text/plain")}
@@ -131,7 +131,7 @@ def main() -> None:
     fake_results = [
         VectorSearchResult(page_content="FastAPI 是快速的 Web 框架。", metadata={}, score=0.5),
         VectorSearchResult(page_content="FastAPI 是快速的 Web 框架。", metadata={}, score=0.6),  # 重复切片
-        VectorSearchResult(page_content="Chroma 支持向量持久化。", metadata={}, score=0.9),
+        VectorSearchResult(page_content="Qdrant 支持向量持久化。", metadata={}, score=0.9),
         VectorSearchResult(page_content="完全无关的噪声内容。", metadata={}, score=1.35),  # 低相关
     ]
     chain = StandardRAGChain(retriever=_FakeRetriever(fake_results), llm_client=None)
@@ -140,7 +140,7 @@ def main() -> None:
     contents = [doc.page_content for doc in filtered]
     assert contents.count("FastAPI 是快速的 Web 框架。") == 1, "重复切片应被去重"
     assert "完全无关的噪声内容。" not in contents, "超过阈值 1.2 的低相关切片应被过滤"
-    assert "Chroma 支持向量持久化。" in contents, "阈值内的相关切片应保留"
+    assert "Qdrant 支持向量持久化。" in contents, "阈值内的相关切片应保留"
     assert len(filtered) == 2, f"应剩余 2 条: {len(filtered)}"
     print("[4] FILTER+DEDUP OK: 低相关过滤与重复切片去重按预期工作")
 
@@ -162,7 +162,7 @@ def main() -> None:
     corpus_topics = {
         "fastapi": "FastAPI is a modern high performance Python web framework for building APIs "
         "with automatic OpenAPI documentation and dependency injection support.",
-        "chroma": "Chroma is an open source lightweight vector database with local persistence "
+        "qdrant": "Qdrant is an open source high performance vector database with local persistence "
         "and metadata filtering for semantic retrieval in RAG systems.",
         "langchain": "LangChain is a framework for building LLM applications providing document "
         "loaders text splitters retrievers prompt templates and question answering chains.",
@@ -177,7 +177,7 @@ def main() -> None:
 
     queries = [
         ("Which web framework generates OpenAPI documentation automatically?", "fastapi"),
-        ("Which vector database supports metadata filtering?", "chroma"),
+        ("Which vector database supports metadata filtering?", "qdrant"),
         ("Which framework provides text splitters and retrievers?", "langchain"),
         ("Which tool supports database migration rollbacks?", "alembic"),
         ("Which dependency manager uses lockfiles to replace pip?", "uv"),

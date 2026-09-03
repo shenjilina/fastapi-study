@@ -20,10 +20,5 @@ uv sync
 uv run main.py
 ```
 
-```bash
-# chroma 服务
-uv run chroma run --path ./chroma --host 0.0.0.0 --port 8000
-```
-
 
 Open `http://127.0.0.1:8000/health` after startup.

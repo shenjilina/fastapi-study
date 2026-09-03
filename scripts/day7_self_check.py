@@ -93,7 +93,7 @@ def main() -> None:
     txt_content = (
         "FastAPI 是一个现代、快速的 Python Web 框架，用于构建 API。"
         "它基于标准 Python 类型提示，支持自动文档生成。"
-        "Chroma 是一个轻量级的向量数据库，支持本地持久化。"
+        "Qdrant 是一个高性能向量数据库，支持相似度检索。"
         "LangChain 是一个用于构建 LLM 应用的框架，提供了检索、问答等能力。"
     )
     document_id = _upload_txt(kb_id, txt_content)

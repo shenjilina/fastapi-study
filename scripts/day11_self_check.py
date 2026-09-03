@@ -92,7 +92,7 @@ def main() -> None:
     kb_id = _create_kb(user_id, suffix)
     txt_content = (
         "FastAPI 是一个现代的 Python Web 框架，支持自动文档生成。"
-        "Chroma 是一个轻量级的向量数据库，支持本地持久化存储。"
+        "Qdrant 是一个高性能向量数据库，支持相似度检索。"
         "LangChain 提供了检索、问答等 RAG 核心能力的封装。"
     )
     resp = _upload_txt(kb_id, txt_content, f"day11_{suffix}.txt")
@@ -172,7 +172,7 @@ def main() -> None:
         _patch_llm_stream(broken_stream)
         resp = client.post(
             STREAM_URL,
-            json={"user_id": user_id, "knowledge_base_id": kb_id, "question": "Chroma 是什么？"},
+            json={"user_id": user_id, "knowledge_base_id": kb_id, "question": "Qdrant 是什么？"},
         )
     finally:
         _patch_llm_stream(original_stream)

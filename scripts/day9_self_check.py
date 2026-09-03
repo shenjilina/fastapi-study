@@ -122,7 +122,7 @@ def main() -> None:
 
     txt_content = (
         "FastAPI 是一个现代的 Python Web 框架，支持自动文档生成。"
-        "Chroma 是一个轻量级的向量数据库，支持本地持久化存储。"
+        "Qdrant 是一个高性能向量数据库，支持相似度检索。"
         "LangChain 提供了检索、问答等 RAG 核心能力的封装。"
     )
     resp = _upload_txt(kb_id, txt_content)
@@ -177,8 +177,8 @@ def main() -> None:
     # ================================================================
     # 场景 9：BUG 修复 - 状态落库失败时向量同步回滚
     # ================================================================
-    chroma_store = get_qdrant_store()
-    count_before = chroma_store.count()
+    vector_store = get_qdrant_store()
+    count_before = vector_store.count()
 
     original_update = document_crud.update_document_status
     call_counter = {"n": 0}
@@ -205,7 +205,7 @@ def main() -> None:
     assert resp.status_code == 500, f"状态落库失败应 500: {resp.status_code}"
     _assert_unified_format(resp, expect_code_zero=False)
 
-    count_after = chroma_store.count()
+    count_after = vector_store.count()
     assert count_after == count_before, (
         f"向量未回滚: before={count_before} after={count_after}"
     )
