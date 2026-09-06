@@ -4254,3 +4254,97 @@
 2026-08-24 23:06:34,985 | INFO | core.app | Application shutdown complete.
 2026-08-24 23:06:40,572 | INFO | core.app | Application started. Database ready: True
 2026-08-24 23:07:01,755 | INFO | core.app | Application shutdown complete.
+2026-08-24 23:07:07,089 | INFO | core.app | Application started. Database ready: True
+2026-09-06 10:57:59,316 | INFO | common.middleware | [request_id=5475536093364b5a9d8373bd36d005d9] POST /api/v1/auth/create_user completed in 25.28 ms
+2026-09-06 10:57:59,318 | INFO | httpx | HTTP Request: POST http://testserver/api/v1/auth/create_user "HTTP/1.1 404 Not Found"
+2026-09-06 11:03:17,862 | INFO | common.middleware | [request_id=b1c32d1c28164c4f98894e0a5899c84a] POST /api/auth/create_user completed in 117.16 ms
+2026-09-06 11:03:17,862 | INFO | httpx | HTTP Request: POST http://testserver/api/auth/create_user "HTTP/1.1 201 Created"
+2026-09-06 11:03:17,933 | INFO | common.middleware | [request_id=cffb791968b8413c8d59b418553ea178] POST /api/auth/login completed in 64.42 ms
+2026-09-06 11:03:17,935 | INFO | httpx | HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-09-06 11:03:43,100 | INFO | common.middleware | [request_id=779fdca85a4e47bdb41822829d815754] POST /api/auth/create_user completed in 124.03 ms
+2026-09-06 11:03:43,102 | INFO | httpx | HTTP Request: POST http://testserver/api/auth/create_user "HTTP/1.1 201 Created"
+2026-09-06 11:03:43,171 | INFO | common.middleware | [request_id=55e07b37f44b4c6bbbdaa3aafad5062c] POST /api/auth/login completed in 63.05 ms
+2026-09-06 11:03:43,176 | INFO | httpx | HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-09-06 11:04:12,857 | INFO | common.middleware | [request_id=8ffcde42769946c597b8accb7c7b4d7b] POST /api/auth/create_user completed in 123.57 ms
+2026-09-06 11:04:12,859 | INFO | httpx | HTTP Request: POST http://testserver/api/auth/create_user "HTTP/1.1 201 Created"
+2026-09-06 11:04:12,928 | INFO | common.middleware | [request_id=21dea70963c54a60a83f36bf6a9ae442] POST /api/auth/login completed in 63.98 ms
+2026-09-06 11:04:12,932 | INFO | httpx | HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-09-06 11:04:12,980 | INFO | common.middleware | [request_id=7e75cc64d391446380d524ece846ee27] POST /api/knowledge-bases/create completed in 44.49 ms
+2026-09-06 11:04:12,982 | INFO | httpx | HTTP Request: POST http://testserver/api/knowledge-bases/create "HTTP/1.1 201 Created"
+2026-09-06 11:04:13,017 | INFO | common.middleware | [request_id=7e3f1a89ea5d435b8fee467061550224] POST /api/files/upload completed in 32.19 ms
+2026-09-06 11:04:13,019 | INFO | httpx | HTTP Request: POST http://testserver/api/files/upload "HTTP/1.1 422 Unprocessable Entity"
+2026-09-06 11:04:36,979 | INFO | common.middleware | [request_id=f0290646e8f3448e952212e16ef08588] POST /api/auth/create_user completed in 123.61 ms
+2026-09-06 11:04:36,984 | INFO | httpx | HTTP Request: POST http://testserver/api/auth/create_user "HTTP/1.1 201 Created"
+2026-09-06 11:04:37,048 | INFO | common.middleware | [request_id=47bf205e5bb34a47b9994e260fb8b2e9] POST /api/auth/login completed in 62.60 ms
+2026-09-06 11:04:37,048 | INFO | httpx | HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-09-06 11:04:37,100 | INFO | common.middleware | [request_id=017fc0cd2400437b9e0e4918b730d717] POST /api/knowledge-bases/create completed in 46.52 ms
+2026-09-06 11:04:37,102 | INFO | httpx | HTTP Request: POST http://testserver/api/knowledge-bases/create "HTTP/1.1 201 Created"
+2026-09-06 11:04:37,151 | INFO | common.middleware | [request_id=e66a918d48a24c8abcc91f5ac5c034c2] POST /api/files/upload completed in 46.89 ms
+2026-09-06 11:04:37,151 | INFO | httpx | HTTP Request: POST http://testserver/api/files/upload "HTTP/1.1 201 Created"
+2026-09-06 11:04:37,163 | INFO | common.middleware | [request_id=cd15ad2f18d9484f827b75b868f59576] POST /api/files/upload completed in 6.01 ms
+2026-09-06 11:04:37,166 | INFO | httpx | HTTP Request: POST http://testserver/api/files/upload "HTTP/1.1 201 Created"
+2026-09-06 11:04:37,200 | INFO | common.middleware | [request_id=f9245775557a4323b7cb990672dab1c8] POST /api/documents/create completed in 31.73 ms
+2026-09-06 11:04:37,203 | INFO | httpx | HTTP Request: POST http://testserver/api/documents/create "HTTP/1.1 201 Created"
+2026-09-06 11:04:37,235 | INFO | common.middleware | [request_id=0739c570fe5845d797258b4e99e7dd10] POST /api/documents/parse completed in 29.40 ms
+2026-09-06 11:04:37,256 | INFO | utils.file_parser | Parsing TXT file: D:\www\jilin\python\fastapi-study\uploads\b4155b8f1d1740bc89274184999a7042.txt (size=381)
+2026-09-06 11:04:37,262 | INFO | utils.file_parser | TXT parsed successfully: 163 chars
+2026-09-06 11:04:47,268 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-09-06 11:04:48,270 | INFO | httpx | HTTP Request: GET http://localhost:6333/collections/rag_documents/exists "HTTP/1.1 200 OK"
+2026-09-06 11:04:49,066 | INFO | httpx | HTTP Request: PUT http://localhost:6333/collections/rag_documents "HTTP/1.1 200 OK"
+2026-09-06 11:04:49,067 | INFO | core.langchain.qdrant_store | Qdrant collection created: rag_documents
+2026-09-06 11:04:49,120 | INFO | httpx | HTTP Request: GET http://localhost:6333/collections/rag_documents "HTTP/1.1 200 OK"
+2026-09-06 11:04:49,225 | INFO | httpx | HTTP Request: PUT http://localhost:6333/collections/rag_documents/points?wait=true "HTTP/1.1 200 OK"
+2026-09-06 11:04:49,245 | INFO | httpx | HTTP Request: POST http://testserver/api/documents/parse "HTTP/1.1 200 OK"
+2026-09-06 11:04:49,265 | INFO | common.middleware | [request_id=e081a2a6a995416e860d08bed90d19bc] POST /api/documents/detail completed in 12.82 ms
+2026-09-06 11:04:49,267 | INFO | httpx | HTTP Request: POST http://testserver/api/documents/detail "HTTP/1.1 200 OK"
+2026-09-06 11:04:49,285 | INFO | common.middleware | [request_id=d3b4cb9e019e4715b60a3496c50b5044] POST /api/documents/chunks completed in 15.34 ms
+2026-09-06 11:04:49,286 | INFO | httpx | HTTP Request: POST http://testserver/api/documents/chunks "HTTP/1.1 200 OK"
+2026-09-06 11:04:49,304 | INFO | common.middleware | [request_id=2261f25eb08a4fc59f73e8b2d788896f] POST /api/documents/list completed in 10.99 ms
+2026-09-06 11:04:49,306 | INFO | httpx | HTTP Request: POST http://testserver/api/documents/list "HTTP/1.1 200 OK"
+2026-09-06 11:04:49,337 | INFO | common.middleware | [request_id=14e5f243f0e446b7a96696842f2911bf] POST /api/documents/delete completed in 23.50 ms
+2026-09-06 11:04:49,400 | INFO | httpx | HTTP Request: POST http://localhost:6333/collections/rag_documents/points/delete?wait=true "HTTP/1.1 200 OK"
+2026-09-06 11:04:49,408 | INFO | httpx | HTTP Request: POST http://testserver/api/documents/delete "HTTP/1.1 200 OK"
+2026-09-06 11:04:49,426 | INFO | common.middleware | [request_id=9cab67bbfe3b448eaf563f81dcf9c212] POST /api/documents/list completed in 8.66 ms
+2026-09-06 11:04:49,428 | INFO | httpx | HTTP Request: POST http://testserver/api/documents/list "HTTP/1.1 200 OK"
+2026-09-06 11:04:49,437 | INFO | common.middleware | [request_id=ff57c50679ef4c70a5c5b0a2dbf5faf1] POST /api/files/upload completed in 4.41 ms
+2026-09-06 11:04:49,439 | INFO | httpx | HTTP Request: POST http://testserver/api/files/upload "HTTP/1.1 201 Created"
+2026-09-06 11:20:29,133 | INFO | common.middleware | [request_id=9581b5670f8540d2b1913da74e9a3a78] POST /api/auth/create_user completed in 59.72 ms
+2026-09-06 11:20:29,134 | INFO | httpx | HTTP Request: POST http://testserver/api/auth/create_user "HTTP/1.1 201 Created"
+2026-09-06 11:20:29,174 | INFO | common.middleware | [request_id=76a12032956e43308ea651a6add8e5cd] POST /api/auth/login completed in 38.35 ms
+2026-09-06 11:20:29,176 | INFO | httpx | HTTP Request: POST http://testserver/api/auth/login "HTTP/1.1 200 OK"
+2026-09-06 11:20:29,200 | INFO | common.middleware | [request_id=bf7d8596240a4167bd5f436344ec1773] POST /api/knowledge-bases/create completed in 21.90 ms
+2026-09-06 11:20:29,202 | INFO | httpx | HTTP Request: POST http://testserver/api/knowledge-bases/create "HTTP/1.1 201 Created"
+2026-09-06 11:20:29,227 | INFO | common.middleware | [request_id=514e661dacc2419a963543c73887b2f2] POST /api/files/upload completed in 22.96 ms
+2026-09-06 11:20:29,228 | INFO | httpx | HTTP Request: POST http://testserver/api/files/upload "HTTP/1.1 201 Created"
+2026-09-06 11:20:29,234 | INFO | common.middleware | [request_id=eeb9410f0b39403a80b79b20d0d250c3] POST /api/files/upload completed in 4.20 ms
+2026-09-06 11:20:29,235 | INFO | httpx | HTTP Request: POST http://testserver/api/files/upload "HTTP/1.1 201 Created"
+2026-09-06 11:20:29,249 | INFO | common.middleware | [request_id=731287f247e74abda957a71cd354dbd7] POST /api/documents/create completed in 12.21 ms
+2026-09-06 11:20:29,251 | INFO | httpx | HTTP Request: POST http://testserver/api/documents/create "HTTP/1.1 201 Created"
+2026-09-06 11:20:29,263 | INFO | common.middleware | [request_id=b8001f6df6b94384be70241690be0c39] POST /api/documents/parse completed in 11.23 ms
+2026-09-06 11:20:29,272 | INFO | utils.file_parser | Parsing TXT file: D:\www\jilin\python\fastapi-study\uploads\58a5f6b342c5464cb2c689fdfa8f881e.txt (size=381)
+2026-09-06 11:20:29,278 | INFO | utils.file_parser | TXT parsed successfully: 163 chars
+2026-09-06 11:20:31,971 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-09-06 11:20:32,419 | INFO | httpx | HTTP Request: GET http://localhost:6333/collections/rag_documents/exists "HTTP/1.1 200 OK"
+2026-09-06 11:20:32,438 | INFO | httpx | HTTP Request: GET http://localhost:6333/collections/rag_documents "HTTP/1.1 200 OK"
+2026-09-06 11:20:32,503 | INFO | httpx | HTTP Request: PUT http://localhost:6333/collections/rag_documents/points?wait=true "HTTP/1.1 200 OK"
+2026-09-06 11:20:32,512 | INFO | httpx | HTTP Request: POST http://testserver/api/documents/parse "HTTP/1.1 200 OK"
+2026-09-06 11:20:32,518 | INFO | common.middleware | [request_id=9c7f236552fe40d48dbede3a03f12508] POST /api/documents/detail completed in 4.43 ms
+2026-09-06 11:20:32,519 | INFO | httpx | HTTP Request: POST http://testserver/api/documents/detail "HTTP/1.1 200 OK"
+2026-09-06 11:20:32,528 | INFO | common.middleware | [request_id=fdae0d4e6557435ca4055ce7b5e940d3] POST /api/documents/chunks completed in 6.83 ms
+2026-09-06 11:20:32,529 | INFO | httpx | HTTP Request: POST http://testserver/api/documents/chunks "HTTP/1.1 200 OK"
+2026-09-06 11:20:32,537 | INFO | common.middleware | [request_id=f98e871648bf433a983f64cd653a98c9] POST /api/documents/list completed in 5.91 ms
+2026-09-06 11:20:32,538 | INFO | httpx | HTTP Request: POST http://testserver/api/documents/list "HTTP/1.1 200 OK"
+2026-09-06 11:20:32,552 | INFO | common.middleware | [request_id=26d7fd50e06b46c988d16a71319e0003] POST /api/documents/delete completed in 10.91 ms
+2026-09-06 11:20:32,582 | INFO | httpx | HTTP Request: POST http://localhost:6333/collections/rag_documents/points/delete?wait=true "HTTP/1.1 200 OK"
+2026-09-06 11:20:32,589 | INFO | httpx | HTTP Request: POST http://testserver/api/documents/delete "HTTP/1.1 200 OK"
+2026-09-06 11:20:32,595 | INFO | common.middleware | [request_id=88608b2c8a234265be3ee40860f5f48e] POST /api/documents/list completed in 4.21 ms
+2026-09-06 11:20:32,596 | INFO | httpx | HTTP Request: POST http://testserver/api/documents/list "HTTP/1.1 200 OK"
+2026-09-06 11:20:32,602 | INFO | common.middleware | [request_id=fd7a5ee526ef4727a7c7d306e09fd91e] POST /api/files/upload completed in 3.36 ms
+2026-09-06 11:20:32,603 | INFO | httpx | HTTP Request: POST http://testserver/api/files/upload "HTTP/1.1 201 Created"
+2026-09-06 13:04:20,308 | INFO | core.app | Application started. Database ready: True
+2026-09-06 13:04:25,618 | INFO | common.middleware | [request_id=d498c3dc51ee412db9945de555016466] GET / completed in 177.22 ms
+2026-09-06 13:04:25,890 | INFO | common.middleware | [request_id=ff23d17c79804d659b5e6cbc2bdcf8ec] GET /favicon.ico completed in 2.17 ms
+2026-09-06 13:04:35,389 | INFO | common.middleware | [request_id=054a6c2f0c90481eafdeb1ef3e577457] GET /docs completed in 1.69 ms
+2026-09-06 13:04:37,650 | INFO | common.middleware | [request_id=e6a5e6939909431889a5f504bc24d819] GET /openapi.json completed in 552.83 ms
+2026-09-06 13:05:29,978 | INFO | common.middleware | [request_id=9ce5a944a3fd4cfdb133d93c9496a54e] POST /api/auth/login completed in 82.35 ms
+2026-09-06 13:06:34,447 | INFO | common.middleware | [request_id=f78818a46e2647b98e33db66e3fe16b2] POST /api/auth/login completed in 27118.46 ms

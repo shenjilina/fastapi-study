@@ -18,22 +18,27 @@ logger = get_logger(__name__)
 
 
 class QdrantStoreInitializationError(RuntimeError):
-    """Qdrant initialization failed."""
+    """Qdrant 初始化失败异常。"""
 
 
 class QdrantStoreOperationError(RuntimeError):
-    """Qdrant operation failed."""
+    """Qdrant 读写操作失败异常。"""
 
 
 @dataclass(slots=True)
 class VectorSearchResult:
+    """向量检索结果条目：文本内容、元数据与可选的相关度分数。"""
+
     page_content: str
     metadata: dict
     score: float | None = None
 
 
 class QdrantStoreManager:
-    """Single-collection Qdrant manager used by document and RAG services."""
+    """单集合 Qdrant 管理器，供文档与 RAG 服务共用。
+
+    所有文档切片存放在同一个集合中，通过 metadata 过滤实现知识库隔离。
+    """
 
     def __init__(
         self,
@@ -43,6 +48,14 @@ class QdrantStoreManager:
         api_key: str | None = None,
         client: QdrantClient | None = None,
     ) -> None:
+        """初始化 Qdrant 客户端并确保集合可用。
+
+        Args:
+            collection_name: 集合名称，缺省时使用配置中的默认集合。
+            url: Qdrant 服务地址，支持 ":memory:" 内存模式（用于测试）。
+            api_key: Qdrant 鉴权密钥（可选）。
+            client: 外部注入的客户端实例，便于测试时替换。
+        """
         settings = get_settings()
         self.collection_name = collection_name or settings.qdrant_collection_name
         self.url = url or settings.qdrant_url
@@ -62,6 +75,10 @@ class QdrantStoreManager:
         )
 
     def _ensure_collection(self) -> None:
+        """确保集合存在，不存在时自动创建。
+
+        通过一次探针查询探测嵌入向量维度，使集合维度与嵌入模型自动对齐。
+        """
         try:
             if self._client.collection_exists(self.collection_name):
                 return
@@ -76,6 +93,11 @@ class QdrantStoreManager:
 
     @staticmethod
     def _to_filter(metadata_filter: dict | None) -> models.Filter | None:
+        """将 Python 字典转换为 Qdrant payload 过滤条件。
+
+        字典的每个键值对都转为对 metadata.<key> 的精确匹配，
+        多个条件之间为 AND（must）关系。
+        """
         if not metadata_filter:
             return None
         return models.Filter(
@@ -95,6 +117,19 @@ class QdrantStoreManager:
         metadatas: list[dict] | None = None,
         ids: list[str] | None = None,
     ) -> list[str]:
+        """将文本批量写入向量库（自动完成向量化）。
+
+        Args:
+            texts: 待入库的文本列表，不能为空。
+            metadatas: 与文本一一对应的元数据列表（可选）。
+            ids: 与文本一一对应的文档 ID 列表（可选），缺省时自动生成。
+
+        Returns:
+            实际写入的文档 ID 列表。
+
+        Raises:
+            QdrantStoreOperationError: 文本为空或列表长度不一致时抛出。
+        """
         if not texts:
             raise QdrantStoreOperationError("texts 不能为空")
         document_ids = ids or [uuid4().hex for _ in texts]
@@ -110,6 +145,7 @@ class QdrantStoreManager:
             raise QdrantStoreOperationError(f"写入 Qdrant 失败: {exc}") from exc
 
     def similarity_search(self, query: str, *, k: int = 4, metadata_filter: dict | None = None):
+        """按语义相似度检索最相关的 k 条文本（不带分数）。"""
         if k <= 0:
             raise QdrantStoreOperationError("k 必须大于 0")
         try:
@@ -121,6 +157,11 @@ class QdrantStoreManager:
     def similarity_search_with_score(
         self, query: str, *, k: int = 4, metadata_filter: dict | None = None
     ):
+        """带分数的相似度检索，score 为距离（越小越相似）。
+
+        LangChain 返回的是相似度分数（越大越好），此处转换为 1.0 - score，
+        与现有 RAG 阈值过滤逻辑（距离语义，越小越好）保持一致。
+        """
         if k <= 0:
             raise QdrantStoreOperationError("k 必须大于 0")
         try:
@@ -133,6 +174,7 @@ class QdrantStoreManager:
             raise QdrantStoreOperationError(f"检索 Qdrant 分数失败: {exc}") from exc
 
     def delete_by_ids(self, ids: list[str]) -> None:
+        """按文档 ID 精确删除向量，空列表直接跳过。"""
         if not ids:
             return
         try:
@@ -145,6 +187,10 @@ class QdrantStoreManager:
             raise QdrantStoreOperationError(f"删除 Qdrant 向量失败: {exc}") from exc
 
     def delete_by_metadata(self, metadata_filter: dict) -> int:
+        """按 metadata 过滤条件批量删除向量。
+
+        删除前先精确统计匹配数量，用于返回删除条数。
+        """
         try:
             result = self._client.count(
                 collection_name=self.collection_name,
@@ -161,6 +207,7 @@ class QdrantStoreManager:
             raise QdrantStoreOperationError(f"按 metadata 删除 Qdrant 向量失败: {exc}") from exc
 
     def clear_collection(self) -> int:
+        """清空集合中的全部向量，返回清空的条数。"""
         count = self.count()
         if count:
             self._client.delete(
@@ -171,12 +218,14 @@ class QdrantStoreManager:
         return count
 
     def count(self) -> int:
+        """精确统计集合中的向量总数。"""
         try:
             return int(self._client.count(collection_name=self.collection_name, exact=True).count)
         except Exception as exc:
             raise QdrantStoreOperationError(f"统计 Qdrant 向量数量失败: {exc}") from exc
 
     def health_check(self) -> dict[str, object]:
+        """返回存储健康状态：集合名、服务地址、向量数量与嵌入后端摘要。"""
         return {
             "collection_name": self.collection_name,
             "qdrant_url": self.url,
@@ -187,4 +236,5 @@ class QdrantStoreManager:
 
 @lru_cache
 def get_qdrant_store() -> QdrantStoreManager:
+    """返回全局唯一的 QdrantStoreManager 单例。"""
     return QdrantStoreManager()
