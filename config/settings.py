@@ -53,7 +53,7 @@ class Settings(BaseSettings):
     qdrant_api_key: str | None = None
     qdrant_collection_name: str = "rag_documents"
     ollama_base_url: str = "http://localhost:11434"
-    ollama_model: str = "qwen2.5:7b"
+    ollama_model: str = "qwen3.5:4b"
     ollama_request_timeout: int = 60
     ollama_max_retries: int = 3
     ollama_temperature: float = 0.7

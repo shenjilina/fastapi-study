@@ -4348,3 +4348,64 @@
 2026-09-06 13:04:37,650 | INFO | common.middleware | [request_id=e6a5e6939909431889a5f504bc24d819] GET /openapi.json completed in 552.83 ms
 2026-09-06 13:05:29,978 | INFO | common.middleware | [request_id=9ce5a944a3fd4cfdb133d93c9496a54e] POST /api/auth/login completed in 82.35 ms
 2026-09-06 13:06:34,447 | INFO | common.middleware | [request_id=f78818a46e2647b98e33db66e3fe16b2] POST /api/auth/login completed in 27118.46 ms
+2026-09-06 13:15:49,471 | INFO | common.middleware | [request_id=953bc0670c1b49a18be5ece8099a5ec0] POST /api/auth/create_user completed in 121.26 ms
+2026-09-06 13:16:12,057 | INFO | common.middleware | [request_id=4bd46b0298ee45b68faefe3803897165] POST /api/auth/login completed in 7344.35 ms
+2026-09-06 13:16:45,444 | INFO | common.middleware | [request_id=59e020c1bf0846a594f53c935a183297] GET /api/users/list completed in 10.33 ms
+2026-09-06 13:18:24,869 | INFO | common.middleware | [request_id=78b512739f334b7f9e098df895b83837] GET /api/users/info completed in 4.32 ms
+2026-09-07 21:59:36,659 | INFO | core.app | Application started. Database ready: True
+2026-09-07 21:59:46,475 | INFO | common.middleware | [request_id=a44c7eeb3b25442195012899b1b05232] GET / completed in 163.65 ms
+2026-09-07 21:59:46,757 | INFO | common.middleware | [request_id=5d25ab2b255a4dc1974e02f51c521f64] GET /favicon.ico completed in 1.52 ms
+2026-09-07 21:59:53,595 | INFO | common.middleware | [request_id=41d447d358874fe19c9b54b121cdb4d2] GET /docs completed in 1.02 ms
+2026-09-07 21:59:56,704 | INFO | common.middleware | [request_id=79a77d9682ea4e67bc6472dcc0d699fa] GET /openapi.json completed in 1106.63 ms
+2026-09-07 22:01:30,197 | INFO | common.middleware | [request_id=1fa2104fba4f43969477d5f492dc4a37] POST /api/auth/create_user completed in 126.79 ms
+2026-09-07 22:01:39,715 | INFO | common.middleware | [request_id=c100a7ed640c4e0eb302e2491b88a602] POST /api/auth/login completed in 67.32 ms
+2026-09-07 22:02:48,141 | INFO | common.middleware | [request_id=1e8d44241e7a4da4a2dd7fa389781b9c] GET /api/users/list completed in 6.46 ms
+2026-09-07 22:28:27,463 | INFO | common.middleware | [request_id=efd95f0062534f9cb8e2f83c2667f224] GET /health completed in 10.60 ms
+2026-09-07 22:45:52,077 | INFO | common.middleware | [request_id=4b0b09839cc94ba185eefd22bd5668d0] GET /docs completed in 2.67 ms
+2026-09-07 22:45:53,863 | INFO | common.middleware | [request_id=d3a0384065044d8e8fc21d7334aa661c] GET /openapi.json completed in 8.01 ms
+2026-09-07 22:47:51,989 | INFO | common.middleware | [request_id=cf9bded7c85443be99db1721d1541da0] GET /openapi.json completed in 1.11 ms
+2026-09-07 22:48:04,156 | INFO | common.middleware | [request_id=f92467494ce04dbb98771bd05b698e74] GET /openapi.json completed in 0.99 ms
+2026-09-07 22:51:35,950 | INFO | common.middleware | [request_id=ff55e1c1f26a40d495256d56ec801aa1] GET /docs completed in 0.54 ms
+2026-09-07 22:51:36,087 | INFO | common.middleware | [request_id=e417fbdac08a4f51b2898da9f03ae276] GET /openapi.json completed in 1.04 ms
+2026-09-07 22:53:54,330 | INFO | common.middleware | [request_id=ce13a6bf131a4d9ea40a0f2f29d03154] GET /openapi.json completed in 1.06 ms
+2026-09-07 22:57:27,650 | INFO | common.middleware | [request_id=27923fd3128f443486ce54f2f71461cc] GET /openapi.json completed in 1.00 ms
+2026-09-07 22:57:34,956 | INFO | common.middleware | [request_id=3056f0163b0b49059246c786a2e3e8e5] GET /openapi.json completed in 0.90 ms
+2026-09-07 22:57:51,456 | INFO | common.middleware | [request_id=6ba0ee209839467383dc7bed66d91638] GET /openapi.json completed in 124.61 ms
+2026-09-07 22:57:51,456 | INFO | httpx | HTTP Request: GET http://testserver/openapi.json "HTTP/1.1 200 OK"
+2026-09-07 22:58:08,229 | INFO | core.app | Application started. Database ready: True
+2026-09-07 22:58:42,086 | INFO | common.middleware | [request_id=5af47a5a062843bcb61da3100881b300] GET /docs completed in 0.40 ms
+2026-09-07 22:58:42,279 | INFO | common.middleware | [request_id=6c79de9555104cf3bc5a89563ce4695e] GET /openapi.json completed in 131.39 ms
+2026-09-07 23:01:14,182 | INFO | core.app | Application shutdown complete.
+2026-09-07 23:01:19,143 | INFO | core.app | Application started. Database ready: True
+2026-09-07 23:01:19,665 | INFO | common.middleware | [request_id=4de8aacbc42047dc905ec0f1bb110be3] GET /docs completed in 0.58 ms
+2026-09-07 23:01:19,821 | INFO | common.middleware | [request_id=467dbfbfb1104b858714c0d1e9a22e02] GET /openapi.json completed in 1.67 ms
+2026-09-07 23:02:06,458 | INFO | core.app | Application started. Database ready: True
+2026-09-07 23:02:11,863 | INFO | common.middleware | [request_id=7a835778713c4309aad7c90d1a2b2a86] GET /docs completed in 1.91 ms
+2026-09-07 23:02:12,600 | INFO | common.middleware | [request_id=3d649f4af84449a9833f81eafc1fdbba] GET /openapi.json completed in 668.95 ms
+2026-09-07 23:02:24,488 | INFO | common.middleware | [request_id=5afbd0c41f3c4b3c9ecf853d8189cdb3] POST /api/files/upload completed in 9.28 ms
+2026-09-07 23:02:43,399 | INFO | common.middleware | [request_id=e1fdfcfd0820491289d8f5752c44a459] POST /api/auth/login completed in 48.15 ms
+2026-09-07 23:02:58,927 | INFO | common.middleware | [request_id=e105ed37e6c7493fa128671024e0437f] POST /api/files/upload completed in 40.33 ms
+2026-09-07 23:04:08,358 | INFO | common.middleware | [request_id=f344146f98ab4d8590961b7c447ad7e6] POST /api/documents/create completed in 5.56 ms
+2026-09-07 23:07:32,793 | INFO | common.middleware | [request_id=881b76e89e7445e0b0fe6863112319ec] POST /api/knowledge-bases/create completed in 22.01 ms
+2026-09-07 23:07:47,295 | INFO | common.middleware | [request_id=c760b7964afa4409b6caa611586cd2ff] POST /api/documents/create completed in 23.10 ms
+2026-09-07 23:09:28,022 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-09-07 23:09:28,460 | INFO | httpx | HTTP Request: GET http://localhost:6333/collections/rag_documents/exists "HTTP/1.1 200 OK"
+2026-09-07 23:09:28,485 | INFO | httpx | HTTP Request: GET http://localhost:6333/collections/rag_documents "HTTP/1.1 200 OK"
+2026-09-07 23:09:28,547 | INFO | httpx | HTTP Request: POST http://localhost:6333/collections/rag_documents/points/query "HTTP/1.1 200 OK"
+2026-09-07 23:09:28,548 | INFO | core.langchain.rag_chain | RAG chain done: query_len=5 kb_id=46 docs=0 success=True
+2026-09-07 23:09:28,558 | INFO | common.middleware | [request_id=f7e951bf301049378340f8186d74c686] POST /api/conversations/ask completed in 539.38 ms
+2026-09-07 23:09:28,889 | INFO | httpx | HTTP Request: GET http://localhost:6333 "HTTP/1.1 200 OK"
+2026-09-07 23:14:43,035 | INFO | common.middleware | [request_id=d1e010af5aa54521810b4a3982da00bc] POST /api/documents/parse completed in 15.48 ms
+2026-09-07 23:14:43,045 | INFO | utils.file_parser | Parsing PDF file: D:\www\jilin\python\fastapi-study\uploads\52e3e2d815bb420b83fc5be1cb9a15c3.pdf (size=115808)
+2026-09-07 23:14:43,210 | INFO | utils.file_parser | PDF parsed successfully: 2 pages, 1332 chars
+2026-09-07 23:14:59,774 | INFO | httpx | HTTP Request: PUT http://localhost:6333/collections/rag_documents/points?wait=true "HTTP/1.1 200 OK"
+2026-09-07 23:15:31,009 | INFO | httpx | HTTP Request: POST http://localhost:6333/collections/rag_documents/points/query "HTTP/1.1 200 OK"
+2026-09-07 23:15:32,943 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 404 Not Found"
+2026-09-07 23:15:32,945 | WARNING | core.langchain.llm | LLM invoke failed (attempt 1/3): model 'qwen2.5:7b' not found (status code: 404)
+2026-09-07 23:15:34,452 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 404 Not Found"
+2026-09-07 23:15:34,452 | WARNING | core.langchain.llm | LLM invoke failed (attempt 2/3): model 'qwen2.5:7b' not found (status code: 404)
+2026-09-07 23:15:36,707 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 404 Not Found"
+2026-09-07 23:15:36,707 | WARNING | core.langchain.llm | LLM invoke failed (attempt 3/3): model 'qwen2.5:7b' not found (status code: 404)
+2026-09-07 23:15:36,707 | ERROR | core.langchain.rag_chain | RAG LLM invocation failed: LLM 调用在 3 次重试后仍失败: model 'qwen2.5:7b' not found (status code: 404)
+2026-09-07 23:15:36,707 | INFO | core.langchain.rag_chain | RAG chain done: query_len=5 kb_id=46 docs=3 success=False
+2026-09-07 23:15:36,725 | INFO | common.middleware | [request_id=812ca7a31e74453b97e2c9a58fc213b7] POST /api/conversations/ask completed in 5742.71 ms

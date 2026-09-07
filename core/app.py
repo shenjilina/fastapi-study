@@ -2,8 +2,10 @@
 
 from contextlib import asynccontextmanager
 from pathlib import Path
+from typing import Any
 
 from fastapi import FastAPI
+from fastapi.openapi.utils import get_openapi
 
 from api import api_router
 from common.middleware import register_middlewares
@@ -13,6 +15,56 @@ from config.settings import get_settings
 from core.constants import DEFAULT_HEALTH_PATH, DEFAULT_ROOT_MESSAGE
 from core.db import test_database_connection
 from core.exceptions import register_exception_handlers
+
+
+def _fix_upload_file_schemas(schema: dict[str, Any]) -> None:
+    """修复 Swagger UI 文件上传控件不显示的问题。
+
+    FastAPI 0.129.1 起 UploadFile 字段在 OpenAPI 3.1 中生成
+    contentMediaType 而非 format: binary，而 Swagger UI 5.x
+    仅根据 format: binary 渲染文件选择器，导致 /docs 页面
+    只出现文本输入框。此处后处理转换为旧写法以恢复控件。
+    """
+
+    def convert(node: dict[str, Any]) -> None:
+        if not isinstance(node, dict):
+            return
+        items = node.get("items")
+        if isinstance(items, dict) and items.get("contentMediaType") == "application/octet-stream":
+            del items["contentMediaType"]
+            items["format"] = "binary"
+        if node.get("contentMediaType") == "application/octet-stream":
+            del node["contentMediaType"]
+            node["format"] = "binary"
+
+    for component in schema.get("components", {}).get("schemas", {}).values():
+        for prop in component.get("properties", {}).values():
+            convert(prop)
+
+
+def _register_openapi_fix(app: FastAPI) -> None:
+    """挂载自定义 openapi() 生成函数，在标准生成流程后应用文件字段修复。"""
+
+    def custom_openapi() -> dict[str, Any]:
+        if app.openapi_schema:
+            return app.openapi_schema
+        schema = get_openapi(
+            title=app.title,
+            version=app.version,
+            openapi_version=app.openapi_version,
+            description=app.description,
+            terms_of_service=app.terms_of_service,
+            contact=app.contact,
+            license_info=app.license_info,
+            routes=app.routes,
+            tags=app.openapi_tags,
+            servers=app.servers,
+        )
+        _fix_upload_file_schemas(schema)
+        app.openapi_schema = schema
+        return app.openapi_schema
+
+    app.openapi = custom_openapi  # type: ignore[method-assign]
 
 
 def _register_common_components(app: FastAPI, settings) -> None:
@@ -55,6 +107,7 @@ def create_app() -> FastAPI:
     )
 
     _register_common_components(app, settings)
+    _register_openapi_fix(app)
 
     @app.get("/")
     async def root() -> dict[str, object]:

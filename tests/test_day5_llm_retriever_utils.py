@@ -379,11 +379,14 @@ class TestOllamaLLMClient:
         assert client1 is client2
 
     def test_llm_client_configuration(self) -> None:
+        from config.settings import get_settings
         from core.langchain.llm import OllamaLLMClient
 
         client = OllamaLLMClient()
+        settings = get_settings()
         assert client.base_url == "http://localhost:11434"
-        assert client.model_name == "qwen2.5:7b"
+        # 模型名跟随配置，避免硬编码随配置变更失效。
+        assert client.model_name == settings.ollama_model
         assert client.timeout == 60
         assert client.max_retries == 3
 
@@ -409,6 +412,7 @@ class TestOllamaLLMClient:
             client.invoke_with_messages([])
 
     def test_llm_health_check_returns_info(self) -> None:
+        from config.settings import get_settings
         from core.langchain.llm import OllamaLLMClient
 
         client = OllamaLLMClient()
@@ -416,7 +420,7 @@ class TestOllamaLLMClient:
         with patch.object(client, "_available", True):
             info = client.health_check()
             assert info["base_url"] == "http://localhost:11434"
-            assert info["model_name"] == "qwen2.5:7b"
+            assert info["model_name"] == get_settings().ollama_model
             assert info["available"] is True
 
     def test_llm_retry_invokes_multiple_times(self) -> None:
