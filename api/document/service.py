@@ -16,6 +16,19 @@ from core.exceptions import AppException
 
 
 def get_readable(db: Session, document_id: int, current_user):
+    """获取文档并校验当前用户对其所属知识库的读取权限。
+
+    Args:
+        db: 数据库会话。
+        document_id: 文档 ID。
+        current_user: 当前登录用户。
+
+    Returns:
+        Document: 校验通过后的文档 ORM 对象。
+
+    Raises:
+        AppException: 文档不存在（404）或无权限访问所属知识库。
+    """
     document = crud.get(db, document_id)
     if document is None:
         raise AppException("文档不存在", status_code=404)
@@ -24,10 +37,20 @@ def get_readable(db: Session, document_id: int, current_user):
 
 
 def detail(db: Session, document_id: int, current_user) -> DocumentRead:
+    """查询文档详情，返回文档读取模型（含权限校验）。"""
     return DocumentRead.model_validate(get_readable(db, document_id, current_user))
 
 
 def create(db: Session, payload: DocumentCreateRequest, current_user) -> DocumentRead:
+    """基于已上传文件创建文档。
+
+    校验文件归属、知识库所有权与活跃状态、源文件存储状态、文件状态（必须为已上传），
+    并确保该文件不存在有效文档。创建成功后记录审计日志并提交事务。
+
+    Raises:
+        AppException: 文件不存在（404）、非文件所有者、源文件已删除（409）、
+            文件状态不允许创建（409）或该文件已存在有效文档（409）。
+    """
     record = db.get(FileRecord, payload.file_id)
     if record is None:
         raise AppException("文件不存在", status_code=404)
@@ -49,12 +72,29 @@ def create(db: Session, payload: DocumentCreateRequest, current_user) -> Documen
 
 
 def list_items(db: Session, knowledge_base_id: int, current_user, *, parse_status: DocumentParseStatus | None, page: int, page_size: int) -> DocumentPageRead:
+    """分页查询指定知识库下的文档列表。
+
+    Args:
+        parse_status: 可选的解析状态过滤条件。
+        page: 页码（从 1 开始）。
+        page_size: 每页数量。
+
+    Returns:
+        DocumentPageRead: 文档分页结果，包含条目、总数与分页信息。
+    """
     knowledge_service.get_readable(db, knowledge_base_id, current_user)
     rows, total = crud.page_by_knowledge_base(db, knowledge_base_id, parse_status=parse_status, page=page, page_size=page_size)
     return DocumentPageRead(items=[DocumentRead.model_validate(item) for item in rows], total=total, page=page, page_size=page_size)
 
 
 def chunks(db: Session, document_id: int, current_user, page: int, page_size: int) -> ChunkPageRead:
+    """分页查询文档解析后的分块（chunk）列表。
+
+    仅当文档解析状态为成功时才允许查询，否则返回 409 冲突。
+
+    Returns:
+        ChunkPageRead: 分块分页结果，包含条目、总数与分页信息。
+    """
     document = get_readable(db, document_id, current_user)
     if document.parse_status != DocumentParseStatus.SUCCESS:
         raise AppException("文档尚未解析成功", status_code=409)
@@ -63,6 +103,14 @@ def chunks(db: Session, document_id: int, current_user, page: int, page_size: in
 
 
 def delete(db: Session, document_id: int, current_user, tasks: BackgroundTasks) -> DocumentDeleteRead:
+    """软删除文档，并安排后台任务清理其向量数据。
+
+    解析中的文档不允许删除。软删除后，若源文件仍存在则将文件状态恢复为已上传，
+    以便该文件可再次创建新文档。提交事务后注册向量清理后台任务。
+
+    Returns:
+        DocumentDeleteRead: 被删除的文档 ID 及向量清理任务是否已入队。
+    """
     document = get_readable(db, document_id, current_user)
     record = document.file
     knowledge_service.get_owned_active(db, document.knowledge_base_id, current_user)
@@ -78,6 +126,18 @@ def delete(db: Session, document_id: int, current_user, tasks: BackgroundTasks) 
 
 
 def queue_parse(db: Session, file_id: int, current_user, tasks: BackgroundTasks, *, retry: bool = False) -> ParseQueueRead:
+    """将文件的关联文档加入解析队列。
+
+    retry=False 时要求文件状态为已上传且文档解析状态为待解析（首次解析）；
+    retry=True 时要求文件状态为解析失败，并重置文档解析状态与错误信息。
+    校验通过后更新文件状态为待解析，记录审计日志并注册解析后台任务。
+
+    Args:
+        retry: 是否为失败重试。
+
+    Returns:
+        ParseQueueRead: 文件 ID、文档 ID 与当前文件状态。
+    """
     record = db.get(FileRecord, file_id)
     if record is None:
         raise AppException("文件不存在", status_code=404)
@@ -103,6 +163,15 @@ def queue_parse(db: Session, file_id: int, current_user, tasks: BackgroundTasks,
 
 
 def retry_failed(db: Session, knowledge_base_id: int, current_user, tasks: BackgroundTasks) -> BatchRetryRead:
+    """批量重试知识库下所有解析失败的文档。
+
+    查询该知识库内源文件仍存在且解析失败的未删除文档，逐一将其文件状态置为
+    待解析、重置文档解析状态与错误信息，并记录审计日志。提交事务后为每个文件
+    注册解析后台任务。
+
+    Returns:
+        BatchRetryRead: 已入队重试的文件 ID 列表。
+    """
     knowledge_service.get_owned_active(db, knowledge_base_id, current_user)
     records = db.execute(select(FileRecord, Document).join(Document, Document.file_id == FileRecord.id).where(Document.knowledge_base_id == knowledge_base_id, FileRecord.status == FileStatus.PARSE_FAILED, FileRecord.storage_status == FileStorageStatus.PRESENT, Document.deleted_at.is_(None))).all()
     queued = []
