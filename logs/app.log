@@ -4409,3 +4409,422 @@
 2026-09-07 23:15:36,707 | ERROR | core.langchain.rag_chain | RAG LLM invocation failed: LLM 调用在 3 次重试后仍失败: model 'qwen2.5:7b' not found (status code: 404)
 2026-09-07 23:15:36,707 | INFO | core.langchain.rag_chain | RAG chain done: query_len=5 kb_id=46 docs=3 success=False
 2026-09-07 23:15:36,725 | INFO | common.middleware | [request_id=812ca7a31e74453b97e2c9a58fc213b7] POST /api/conversations/ask completed in 5742.71 ms
+2026-10-17 13:42:13,983 | INFO | core.app | Application started. Database ready: True
+2026-10-17 13:44:21,941 | INFO | common.middleware | [request_id=f7c5bef2d14940da994cd0afae7b511a] GET / completed in 216.59 ms
+2026-10-17 13:44:22,228 | INFO | common.middleware | [request_id=1b66177bcf6a49d2aa18279d26c7d483] GET /favicon.ico completed in 2.51 ms
+2026-10-17 13:44:25,635 | INFO | common.middleware | [request_id=f18090215d8c45ac8302c3f3e4961c6c] GET /docs completed in 0.65 ms
+2026-10-17 13:44:27,933 | INFO | common.middleware | [request_id=c48c106a3999402db1252fa9cbc23c77] GET /openapi.json completed in 1073.72 ms
+2026-10-17 14:13:50,599 | INFO | common.middleware | [request_id=f7d0deb3e6b54ff1b41229d480e2f031] POST /api/auth/login completed in 222.30 ms
+2026-10-17 14:14:04,118 | INFO | common.middleware | [request_id=81f4b7016d9146b7a26f962a0421628e] POST /api/auth/login completed in 62.16 ms
+2026-10-17 14:15:07,801 | INFO | common.middleware | [request_id=c4e597b5a5924ed1860776ce5a18ecac] POST /api/auth/login completed in 59.91 ms
+2026-10-17 14:15:14,208 | INFO | common.middleware | [request_id=740e062c48904898b7b207c5ab192786] POST /api/auth/login completed in 61.41 ms
+2026-10-17 14:16:28,326 | INFO | common.middleware | [request_id=bff8e6f32f2b4fc89de4a85a59af0a1e] POST /api/auth/create_user completed in 162.99 ms
+2026-10-17 14:16:44,936 | INFO | common.middleware | [request_id=0c4203bf983040a3ab18df4e976eb5b0] POST /api/auth/login completed in 65.03 ms
+2026-10-17 14:17:05,136 | INFO | common.middleware | [request_id=de377a0ee64c4b3da1495575ad0b68bc] GET /api/users/list completed in 32.46 ms
+2026-10-17 14:17:56,628 | INFO | common.middleware | [request_id=e76c6ec73e414a3393baf4cd08220747] POST /api/users/detail completed in 8.13 ms
+2026-10-17 14:18:32,296 | INFO | common.middleware | [request_id=b030eba571e54e82bf26ef8e9efb6bfb] POST /api/conversations/ask completed in 211.41 ms
+2026-10-17 15:23:35,750 | INFO | common.middleware | [request_id=7775c9529762457b852153636a3c22b6] POST /api/conversations/ask completed in 25.83 ms
+2026-10-17 15:23:58,146 | INFO | common.middleware | [request_id=a993d76e40c8465e81a5eb7672efb20a] POST /api/conversations/ask completed in 24.91 ms
+2026-10-17 15:57:43,930 | INFO | common.middleware | [request_id=7ca50e75b203455c96ec1c5ee514bdfc] GET /docs completed in 15.23 ms
+2026-10-17 15:57:44,954 | INFO | common.middleware | [request_id=3143e7a933cf4a5c9b20657d016ac738] GET /openapi.json completed in 22.42 ms
+2026-10-17 15:57:49,756 | INFO | common.middleware | [request_id=e81f8141d3504e44919466c7ae504937] GET /docs completed in 0.73 ms
+2026-10-17 15:57:49,792 | INFO | common.middleware | [request_id=7e726f35373747cdaa3804476bcf065c] GET /openapi.json completed in 2.28 ms
+2026-10-17 16:02:33,150 | INFO | common.middleware | [request_id=911e11a536bd4ff9a9b43801fae8207c] GET /openapi.json completed in 1.65 ms
+2026-10-17 16:02:44,112 | INFO | common.middleware | [request_id=ce3d10c161e04ddb963a136e37488e50] GET /openapi.json completed in 0.95 ms
+2026-10-17 16:03:08,895 | INFO | common.middleware | [request_id=2453a8a8de4e40c68032d000fe7a82ea] GET /openapi.json completed in 0.94 ms
+2026-10-17 16:03:28,256 | INFO | common.middleware | [request_id=774ed5cb00aa483c9f0efa295eb54493] GET /openapi.json completed in 0.84 ms
+2026-10-17 16:07:12,069 | INFO | common.middleware | [request_id=224c28c520764937b34bd1cdc560a560] GET /openapi.json completed in 1.59 ms
+2026-10-17 16:27:04,938 | INFO | common.middleware | [request_id=b2a2afecd2c84eaea1e9f51b512f8645] GET /openapi.json completed in 1.07 ms
+2026-10-17 16:27:05,080 | INFO | common.middleware | [request_id=e1e42b3143734ed6879733225b7fa3bb] GET /health completed in 11.09 ms
+2026-10-17 16:27:14,938 | INFO | common.middleware | [request_id=55270ecafcd040099d1631c186c089b3] GET /openapi.json completed in 0.92 ms
+2026-10-17 16:28:48,962 | INFO | common.middleware | [request_id=f1ed52fd9c984394ba8aaf06f9a20eef] GET /api/users/info completed in 13.34 ms
+2026-10-17 17:11:22,100 | INFO | common.middleware | [request_id=2032832fbe094026b0669c630499967f] POST /api/conversations/list completed in 51.87 ms
+2026-10-17 17:11:22,104 | INFO | common.middleware | [request_id=2f5e4f9d2c2448889eca640df8e39ae5] POST /api/knowledge-bases/list completed in 49.56 ms
+2026-10-17 17:11:26,506 | INFO | common.middleware | [request_id=2663cf8443824f9cab86869db9d38e77] POST /api/auth/login completed in 84.53 ms
+2026-10-17 17:11:26,549 | INFO | common.middleware | [request_id=7dd39a0b81a348508d7a55c784916f57] GET /api/users/info completed in 21.10 ms
+2026-10-17 17:11:26,605 | INFO | common.middleware | [request_id=929f7647472a46f39eb2557cbf20da7c] POST /api/conversations/list completed in 72.39 ms
+2026-10-17 17:11:26,617 | INFO | common.middleware | [request_id=68c2a04f3264408e8a448b12840d8f97] POST /api/knowledge-bases/list completed in 75.81 ms
+2026-10-17 17:11:39,816 | INFO | common.middleware | [request_id=1b9780036aa9418290d67bc7633aae9b] POST /api/conversations/ask/stream completed in 19.48 ms
+2026-10-17 17:11:39,830 | INFO | core.langchain.embedding | Embedding model path not found locally, using fallback backend. model=sentence-transformers/all-MiniLM-L6-v2
+2026-10-17 17:11:44,568 | INFO | httpx | HTTP Request: GET http://localhost:6333/collections/rag_documents/exists "HTTP/1.1 502 Bad Gateway"
+2026-10-17 17:11:44,589 | ERROR | core.exceptions | Unhandled exception [request_id=1b9780036aa9418290d67bc7633aae9b]: Qdrant initialization failed: Unexpected Response: 502 (Bad Gateway)
+Raw response content:
+b''
+Traceback (most recent call last):
+  File "D:\www\jilin\python\fastapi-study\core\langchain\qdrant_store.py", line 83, in _ensure_collection
+    if self._client.collection_exists(self.collection_name):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\qdrant_client\qdrant_client.py", line 1603, in collection_exists
+    return self._client.collection_exists(collection_name=collection_name, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\qdrant_client\qdrant_remote.py", line 1897, in collection_exists
+    result: models.CollectionExistence | None = self.http.collections_api.collection_exists(
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\qdrant_client\http\api\collections_api.py", line 438, in collection_exists
+    return self._build_for_collection_exists(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\qdrant_client\http\api\collections_api.py", line 67, in _build_for_collection_exists
+    return self.api_client.request(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\qdrant_client\http\api_client.py", line 98, in request
+    return self.send(request, type_)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\qdrant_client\http\api_client.py", line 133, in send
+    raise UnexpectedResponse.for_response(response)
+qdrant_client.http.exceptions.UnexpectedResponse: Unexpected Response: 502 (Bad Gateway)
+Raw response content:
+b''
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\middleware\base.py", line 198, in __call__
+    raise app_exc
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\middleware\base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\routing.py", line 2683, in app
+    await route.handle(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\routing.py", line 1764, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\routing.py", line 1764, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\routing.py", line 1773, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\routing.py", line 1264, in handle
+    await app(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\routing.py", line 150, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\routing.py", line 137, in app
+    await response(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\responses.py", line 273, in __call__
+    async with create_collapsing_task_group() as task_group:
+  File "D:\Windows\python\Lib\contextlib.py", line 231, in __aexit__
+    await self.gen.athrow(value)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\_utils.py", line 93, in create_collapsing_task_group
+    raise exc from exc.__cause__ or context
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\anyio\_core\_tasks.py", line 278, in _run_coro
+    retval = await self._coro
+             ^^^^^^^^^^^^^^^^
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\responses.py", line 276, in wrap
+    await func()
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\responses.py", line 250, in stream_response
+    async for chunk in self.body_iterator:
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\concurrency.py", line 57, in iterate_in_threadpool
+    yield await anyio.to_thread.run_sync(_next, as_iterator)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\anyio\to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2596, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1029, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\concurrency.py", line 46, in _next
+    return next(iterator)
+           ^^^^^^^^^^^^^^
+  File "D:\www\jilin\python\fastapi-study\api\rag\service.py", line 276, in _stream_sse_events
+    rag_chain = get_rag_chain()
+                ^^^^^^^^^^^^^^^
+  File "D:\www\jilin\python\fastapi-study\core\langchain\rag_chain.py", line 447, in get_rag_chain
+    return StandardRAGChain()
+           ^^^^^^^^^^^^^^^^^^
+  File "D:\www\jilin\python\fastapi-study\core\langchain\rag_chain.py", line 105, in __init__
+    self._retriever = retriever or get_retriever()
+                                   ^^^^^^^^^^^^^^^
+  File "D:\www\jilin\python\fastapi-study\core\langchain\retriever.py", line 153, in get_retriever
+    return KnowledgeBaseRetriever()
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\www\jilin\python\fastapi-study\core\langchain\retriever.py", line 30, in __init__
+    self._store = qdrant_store or get_qdrant_store()
+                                  ^^^^^^^^^^^^^^^^^^
+  File "D:\www\jilin\python\fastapi-study\core\langchain\qdrant_store.py", line 240, in get_qdrant_store
+    return QdrantStoreManager()
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\www\jilin\python\fastapi-study\core\langchain\qdrant_store.py", line 70, in __init__
+    self._ensure_collection()
+  File "D:\www\jilin\python\fastapi-study\core\langchain\qdrant_store.py", line 92, in _ensure_collection
+    raise QdrantStoreInitializationError(f"Qdrant initialization failed: {exc}") from exc
+core.langchain.qdrant_store.QdrantStoreInitializationError: Qdrant initialization failed: Unexpected Response: 502 (Bad Gateway)
+Raw response content:
+b''
+2026-10-17 17:11:44,893 | INFO | common.middleware | [request_id=9c0a17933d804c37be9cc1da57831b6b] POST /api/conversations/list completed in 4.97 ms
+2026-10-17 17:11:45,202 | INFO | httpx | HTTP Request: GET http://localhost:6333 "HTTP/1.1 502 Bad Gateway"
+2026-10-17 17:13:08,621 | INFO | common.middleware | [request_id=acd7757cd2c641429f94753e7db08f26] POST /api/conversations/list completed in 10.26 ms
+2026-10-17 17:13:08,626 | INFO | common.middleware | [request_id=f18f3e804ced4436a5bf668a21792199] POST /api/knowledge-bases/list completed in 12.79 ms
+2026-10-17 17:13:15,568 | INFO | common.middleware | [request_id=f959df28f3ba42e091b1e1d5fcd4d9b8] POST /api/conversations/list completed in 7.31 ms
+2026-10-17 17:13:15,573 | INFO | common.middleware | [request_id=c0118e2648de41b7833d55dca109c36a] POST /api/knowledge-bases/list completed in 9.99 ms
+2026-10-17 17:13:25,326 | INFO | common.middleware | [request_id=4bcab59f7f334b6ca4d5952757f52019] POST /api/knowledge-bases/list completed in 39.53 ms
+2026-10-17 17:13:25,336 | INFO | common.middleware | [request_id=76c1126687624f4d9cd0d6b0423c899a] POST /api/files/list completed in 48.12 ms
+2026-10-17 17:13:25,433 | INFO | common.middleware | [request_id=88b8be4cc6de4de785d68f41f065901a] POST /api/knowledge-bases/summary completed in 16.19 ms
+2026-10-17 17:13:25,450 | INFO | common.middleware | [request_id=30084fa2fdd046a9a5d4eddfc3910b6b] POST /api/documents/list completed in 39.59 ms
+2026-10-17 17:13:26,794 | INFO | common.middleware | [request_id=e3bfbdd629c9429c9a47934bdc15ccf3] POST /api/knowledge-bases/summary completed in 10.10 ms
+2026-10-17 17:13:26,795 | INFO | common.middleware | [request_id=4596131799ed4c9692025bc9a9603a0a] POST /api/documents/list completed in 13.79 ms
+2026-10-17 17:13:27,255 | INFO | common.middleware | [request_id=83849c50c19a441d851ff0bd9495032b] POST /api/knowledge-bases/summary completed in 6.35 ms
+2026-10-17 17:13:29,025 | INFO | common.middleware | [request_id=c4278a60a40d4aceb107d714675d1208] POST /api/knowledge-bases/summary completed in 6.09 ms
+2026-10-17 17:13:43,573 | INFO | common.middleware | [request_id=979c78aeb88f43a483134d1f3469d467] POST /api/knowledge-bases/list completed in 8.58 ms
+2026-10-17 17:13:43,643 | INFO | common.middleware | [request_id=9f8316f1ce09434ca95d9c0fe351a224] POST /api/knowledge-bases/summary completed in 6.68 ms
+2026-10-17 17:13:44,720 | INFO | common.middleware | [request_id=0496e2c8aeb54e44843104eac9a8d3cb] POST /api/knowledge-bases/list completed in 4.08 ms
+2026-10-17 17:13:46,047 | INFO | common.middleware | [request_id=4bd2ee43947f4bb1b8a12e9880a3ab48] POST /api/knowledge-bases/list completed in 4.48 ms
+2026-10-17 17:13:47,161 | INFO | common.middleware | [request_id=7ec95e8f6ff04023b28900e9e4c6eff5] POST /api/knowledge-bases/summary completed in 5.80 ms
+2026-10-17 17:13:48,293 | INFO | common.middleware | [request_id=d10914dae4ea438da4e013a4ed5c0a19] POST /api/knowledge-bases/summary completed in 5.69 ms
+2026-10-17 17:13:51,477 | INFO | common.middleware | [request_id=40a0281e572f4202bae8c300d29af0f3] POST /api/knowledge-bases/summary completed in 6.44 ms
+2026-10-17 17:14:04,937 | INFO | common.middleware | [request_id=3a1ec86d785049d0ad09c6e20ac76a3a] POST /api/documents/list completed in 24.73 ms
+2026-10-17 17:14:04,945 | INFO | common.middleware | [request_id=05fe07705fb74bbab9891fb39a4d850a] POST /api/files/list completed in 30.54 ms
+2026-10-17 17:14:04,951 | INFO | common.middleware | [request_id=3372b288e3984e8f89f35c35cbfc6851] POST /api/knowledge-bases/summary completed in 35.65 ms
+2026-10-17 17:14:04,954 | INFO | common.middleware | [request_id=0827eb8103044ad187181350e08eecc4] POST /api/knowledge-bases/summary completed in 35.16 ms
+2026-10-17 17:14:04,955 | INFO | common.middleware | [request_id=fce52fdc79554fff9d172abc2026e93f] POST /api/knowledge-bases/list completed in 35.43 ms
+2026-10-17 17:14:06,011 | INFO | common.middleware | [request_id=d3bf88f924de4ecf9ed3c4a46e1cba09] POST /api/documents/list completed in 33.71 ms
+2026-10-17 17:14:06,014 | INFO | common.middleware | [request_id=e8074805fee64107baf47664976d5f82] POST /api/knowledge-bases/summary completed in 32.19 ms
+2026-10-17 17:14:06,017 | INFO | common.middleware | [request_id=4df4eb7b35994e819221d779e82f8e01] POST /api/files/list completed in 37.87 ms
+2026-10-17 17:14:06,018 | INFO | common.middleware | [request_id=ebe8f203a7fb4a6497235e249b2220dc] POST /api/knowledge-bases/summary completed in 34.81 ms
+2026-10-17 17:14:06,019 | INFO | common.middleware | [request_id=3e4a869149f74e0b855061d5c807fbb2] POST /api/knowledge-bases/list completed in 34.79 ms
+2026-10-17 17:14:09,033 | INFO | common.middleware | [request_id=bec7fe0bb4914a67ad9c56296e3bb3ac] POST /api/documents/list completed in 26.58 ms
+2026-10-17 17:14:09,036 | INFO | common.middleware | [request_id=ea5f0e071d444363a0409d9e12d167e0] POST /api/knowledge-bases/summary completed in 27.99 ms
+2026-10-17 17:14:14,587 | INFO | common.middleware | [request_id=13493716411d44e1a206485e94993ae3] POST /api/knowledge-bases/summary completed in 5.36 ms
+2026-10-17 17:14:31,644 | INFO | common.middleware | [request_id=66124a2ddba541c7ad7e74aaeef5de2c] POST /api/knowledge-bases/list completed in 10.14 ms
+2026-10-17 17:14:31,645 | INFO | common.middleware | [request_id=787e0983841d40ada93536b63d70f549] POST /api/conversations/list completed in 12.63 ms
+2026-10-17 17:14:51,222 | INFO | common.middleware | [request_id=e66597e604034d339a6e070329dc077c] POST /api/conversations/list completed in 4.40 ms
+2026-10-17 17:14:55,477 | INFO | common.middleware | [request_id=933dca85b58040c2a99a0e195ffe2322] POST /api/knowledge-bases/list completed in 24.89 ms
+2026-10-17 17:14:55,482 | INFO | common.middleware | [request_id=e72f69a1e0b7415fbc62bc9c921ba402] POST /api/files/list completed in 29.06 ms
+2026-10-17 17:14:55,485 | INFO | common.middleware | [request_id=27efd2733f764a67af9972935110769c] POST /api/knowledge-bases/summary completed in 27.55 ms
+2026-10-17 17:14:55,486 | INFO | common.middleware | [request_id=d7243e236170410f84cabe0410bf0e35] POST /api/documents/list completed in 32.06 ms
+2026-10-17 17:14:55,505 | INFO | common.middleware | [request_id=db7bd05dae56457db3689aafb40ea456] POST /api/knowledge-bases/summary completed in 47.58 ms
+2026-10-17 17:15:04,015 | INFO | common.middleware | [request_id=5546a0a95c7c48558a81953d521b3cc1] POST /api/documents/parse completed in 88.27 ms
+2026-10-17 17:15:04,055 | INFO | utils.file_parser | Parsing TXT file: D:\www\jilin\python\fastapi-study\uploads\d9331b0e48d44458b243df83ea8f519b.txt (size=649)
+2026-10-17 17:15:04,068 | INFO | common.middleware | [request_id=627986d83b824194816087078ee0a7ed] POST /api/knowledge-bases/summary completed in 42.26 ms
+2026-10-17 17:15:04,074 | INFO | utils.file_parser | TXT parsed successfully: 223 chars
+2026-10-17 17:15:04,076 | INFO | common.middleware | [request_id=f4a3eed9856d4eca98e0ebe5669192d6] POST /api/files/list completed in 50.61 ms
+2026-10-17 17:15:04,082 | INFO | common.middleware | [request_id=d2818dc7c3124d9783a7e7d45d5e336f] POST /api/documents/list completed in 59.11 ms
+2026-10-17 17:15:04,084 | INFO | common.middleware | [request_id=4ae966af42954a5680a615506c99fad2] POST /api/files/list completed in 41.26 ms
+2026-10-17 17:15:04,087 | INFO | common.middleware | [request_id=bb5cbe1341084a73b8ea412fd690d03c] POST /api/knowledge-bases/summary completed in 43.63 ms
+2026-10-17 17:15:04,089 | INFO | common.middleware | [request_id=5a1bb0bc89ce47cab6a5208211f3ab96] POST /api/documents/list completed in 48.66 ms
+2026-10-17 17:15:04,122 | INFO | common.middleware | [request_id=3d549c06268e47688827eeecb59bc3c1] POST /api/knowledge-bases/list completed in 24.89 ms
+2026-10-17 17:15:04,126 | INFO | common.middleware | [request_id=e22d633a29194f7d8e121ee93279b70b] POST /api/knowledge-bases/summary completed in 44.35 ms
+2026-10-17 17:15:06,521 | INFO | common.middleware | [request_id=cda5075b19d34ea0a8c5216d3164211f] POST /api/documents/parse completed in 17.78 ms
+2026-10-17 17:15:06,532 | INFO | utils.file_parser | Parsing TXT file: D:\www\jilin\python\fastapi-study\uploads\980beb1d45f14bd688dbff277ff3cdf3.txt (size=1546)
+2026-10-17 17:15:06,542 | INFO | utils.file_parser | TXT parsed successfully: 920 chars
+2026-10-17 17:15:06,575 | INFO | common.middleware | [request_id=fed99a5971564eaf85dfe6fb666e92f9] POST /api/knowledge-bases/summary completed in 34.24 ms
+2026-10-17 17:15:06,579 | INFO | common.middleware | [request_id=aa3aacf6a8e04d3eba74d1596ad10dab] POST /api/documents/list completed in 43.78 ms
+2026-10-17 17:15:06,580 | INFO | common.middleware | [request_id=e146c2bbb2524f24ab3d84434f53e1ae] POST /api/files/list completed in 40.66 ms
+2026-10-17 17:15:06,584 | INFO | common.middleware | [request_id=4599c40b0cde4180ab4fecc9ddac6fd1] POST /api/files/list completed in 38.22 ms
+2026-10-17 17:15:06,589 | INFO | common.middleware | [request_id=b09f1b34e1a04c3a8c4d61d7bd195fba] POST /api/knowledge-bases/summary completed in 38.83 ms
+2026-10-17 17:15:06,590 | INFO | common.middleware | [request_id=eedb899e1d1243da963fa863daec072d] POST /api/documents/list completed in 44.34 ms
+2026-10-17 17:15:06,604 | INFO | common.middleware | [request_id=5ce9b470f4674556aaf70c0ad86a7808] POST /api/knowledge-bases/list completed in 11.22 ms
+2026-10-17 17:15:06,606 | INFO | common.middleware | [request_id=c0cd8d1e311849a38c94f2f26f657fdc] POST /api/knowledge-bases/summary completed in 14.40 ms
+2026-10-17 17:15:09,493 | INFO | common.middleware | [request_id=cf56c848684f4b4ebbf6a83e84e9a4d4] POST /api/documents/detail completed in 15.15 ms
+2026-10-17 17:15:09,503 | INFO | common.middleware | [request_id=db9f56eba5894bc5a203633fc704902d] POST /api/documents/chunks completed in 21.79 ms
+2026-10-17 17:15:10,127 | INFO | common.middleware | [request_id=f4adad39ca9c48009c79d4536f652558] POST /api/files/list completed in 534.58 ms
+2026-10-17 17:15:10,131 | INFO | common.middleware | [request_id=bf078dc479204e9ab84cbb7444dc3acc] POST /api/documents/list completed in 19.89 ms
+2026-10-17 17:15:13,148 | INFO | common.middleware | [request_id=a9c7f0665f354817a8b26ed8c73b6756] POST /api/files/list completed in 7.30 ms
+2026-10-17 17:15:13,179 | INFO | common.middleware | [request_id=80aeeddaac274541a29382013a81518c] POST /api/documents/list completed in 7.21 ms
+2026-10-17 17:15:16,183 | INFO | common.middleware | [request_id=a5aae72117f443c59c1bbde846bcddea] POST /api/files/list completed in 6.57 ms
+2026-10-17 17:15:16,245 | INFO | common.middleware | [request_id=f0566afd8e934db38bf480e2fc0d228d] POST /api/documents/list completed in 7.35 ms
+2026-10-17 17:15:19,221 | INFO | common.middleware | [request_id=6b8b4bf89d1f4af1b7f5f869c1d8b10a] POST /api/files/list completed in 8.92 ms
+2026-10-17 17:15:19,296 | INFO | common.middleware | [request_id=d2d4fbc28f064701b0aafa3121a353ae] POST /api/documents/list completed in 5.35 ms
+2026-10-17 17:15:21,550 | INFO | httpx | HTTP Request: GET http://localhost:6333 "HTTP/1.1 502 Bad Gateway"
+2026-10-17 17:15:22,042 | INFO | httpx | HTTP Request: GET http://localhost:6333/collections/rag_documents/exists "HTTP/1.1 502 Bad Gateway"
+2026-10-17 17:15:22,097 | INFO | httpx | HTTP Request: GET http://localhost:6333/collections/rag_documents/exists "HTTP/1.1 502 Bad Gateway"
+2026-10-17 17:15:22,263 | INFO | common.middleware | [request_id=5c31afec67e94526856b824402b4a71a] POST /api/files/list completed in 5.35 ms
+2026-10-17 17:15:22,334 | INFO | common.middleware | [request_id=d7e0f81dccd3420d98b92083eaffb560] POST /api/documents/list completed in 5.31 ms
+2026-10-17 17:15:22,400 | INFO | common.middleware | [request_id=e81e4cf68b944ffb9a01fe2af546e17a] POST /api/knowledge-bases/summary completed in 6.14 ms
+2026-10-17 17:15:22,727 | INFO | httpx | HTTP Request: GET http://localhost:6333 "HTTP/1.1 502 Bad Gateway"
+2026-10-17 17:16:01,660 | INFO | common.middleware | [request_id=9eee3ae1c2d046cea49137b42b951214] POST /api/knowledge-bases/list completed in 26.35 ms
+2026-10-17 17:16:01,663 | INFO | common.middleware | [request_id=60d0acce89904ea7b390772ca70a500d] POST /api/files/list completed in 23.26 ms
+2026-10-17 17:16:01,666 | INFO | common.middleware | [request_id=87584a5bbc8f453cb56a9e93d3a55a4c] POST /api/documents/list completed in 25.86 ms
+2026-10-17 17:16:01,671 | INFO | common.middleware | [request_id=c4504a5eebf24883931a15b266b38b45] POST /api/knowledge-bases/summary completed in 27.93 ms
+2026-10-17 17:16:05,796 | INFO | common.middleware | [request_id=e2612f4abc8e499ab9cb77375cb2304d] POST /api/conversations/list completed in 8.47 ms
+2026-10-17 17:16:05,799 | INFO | common.middleware | [request_id=09aede65039345ce894a92cda011f6d1] POST /api/knowledge-bases/list completed in 10.28 ms
+2026-10-17 17:16:25,256 | INFO | common.middleware | [request_id=9df6f5fa49f3464da1a3cb42d44a8d23] POST /api/conversations/ask/stream completed in 6.18 ms
+2026-10-17 17:16:28,454 | INFO | httpx | HTTP Request: GET http://localhost:6333/collections/rag_documents/exists "HTTP/1.1 502 Bad Gateway"
+2026-10-17 17:16:28,457 | ERROR | core.exceptions | Unhandled exception [request_id=9df6f5fa49f3464da1a3cb42d44a8d23]: Qdrant initialization failed: Unexpected Response: 502 (Bad Gateway)
+Raw response content:
+b''
+Traceback (most recent call last):
+  File "D:\www\jilin\python\fastapi-study\core\langchain\qdrant_store.py", line 83, in _ensure_collection
+    if self._client.collection_exists(self.collection_name):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\qdrant_client\qdrant_client.py", line 1603, in collection_exists
+    return self._client.collection_exists(collection_name=collection_name, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\qdrant_client\qdrant_remote.py", line 1897, in collection_exists
+    result: models.CollectionExistence | None = self.http.collections_api.collection_exists(
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\qdrant_client\http\api\collections_api.py", line 438, in collection_exists
+    return self._build_for_collection_exists(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\qdrant_client\http\api\collections_api.py", line 67, in _build_for_collection_exists
+    return self.api_client.request(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\qdrant_client\http\api_client.py", line 98, in request
+    return self.send(request, type_)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\qdrant_client\http\api_client.py", line 133, in send
+    raise UnexpectedResponse.for_response(response)
+qdrant_client.http.exceptions.UnexpectedResponse: Unexpected Response: 502 (Bad Gateway)
+Raw response content:
+b''
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\middleware\base.py", line 198, in __call__
+    raise app_exc
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\middleware\base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\routing.py", line 2683, in app
+    await route.handle(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\routing.py", line 1764, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\routing.py", line 1764, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\routing.py", line 1773, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\routing.py", line 1264, in handle
+    await app(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\routing.py", line 150, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\fastapi\routing.py", line 137, in app
+    await response(scope, receive, send)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\responses.py", line 273, in __call__
+    async with create_collapsing_task_group() as task_group:
+  File "D:\Windows\python\Lib\contextlib.py", line 231, in __aexit__
+    await self.gen.athrow(value)
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\_utils.py", line 93, in create_collapsing_task_group
+    raise exc from exc.__cause__ or context
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\anyio\_core\_tasks.py", line 278, in _run_coro
+    retval = await self._coro
+             ^^^^^^^^^^^^^^^^
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\responses.py", line 276, in wrap
+    await func()
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\responses.py", line 250, in stream_response
+    async for chunk in self.body_iterator:
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\concurrency.py", line 57, in iterate_in_threadpool
+    yield await anyio.to_thread.run_sync(_next, as_iterator)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\anyio\to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2596, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1029, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\www\jilin\python\fastapi-study\.venv\Lib\site-packages\starlette\concurrency.py", line 46, in _next
+    return next(iterator)
+           ^^^^^^^^^^^^^^
+  File "D:\www\jilin\python\fastapi-study\api\rag\service.py", line 276, in _stream_sse_events
+    rag_chain = get_rag_chain()
+                ^^^^^^^^^^^^^^^
+  File "D:\www\jilin\python\fastapi-study\core\langchain\rag_chain.py", line 447, in get_rag_chain
+    return StandardRAGChain()
+           ^^^^^^^^^^^^^^^^^^
+  File "D:\www\jilin\python\fastapi-study\core\langchain\rag_chain.py", line 105, in __init__
+    self._retriever = retriever or get_retriever()
+                                   ^^^^^^^^^^^^^^^
+  File "D:\www\jilin\python\fastapi-study\core\langchain\retriever.py", line 153, in get_retriever
+    return KnowledgeBaseRetriever()
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\www\jilin\python\fastapi-study\core\langchain\retriever.py", line 30, in __init__
+    self._store = qdrant_store or get_qdrant_store()
+                                  ^^^^^^^^^^^^^^^^^^
+  File "D:\www\jilin\python\fastapi-study\core\langchain\qdrant_store.py", line 240, in get_qdrant_store
+    return QdrantStoreManager()
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\www\jilin\python\fastapi-study\core\langchain\qdrant_store.py", line 70, in __init__
+    self._ensure_collection()
+  File "D:\www\jilin\python\fastapi-study\core\langchain\qdrant_store.py", line 92, in _ensure_collection
+    raise QdrantStoreInitializationError(f"Qdrant initialization failed: {exc}") from exc
+core.langchain.qdrant_store.QdrantStoreInitializationError: Qdrant initialization failed: Unexpected Response: 502 (Bad Gateway)
+Raw response content:
+b''
+2026-10-17 17:16:28,478 | INFO | common.middleware | [request_id=b6dfc4a30fa046749d8942173f4e1353] POST /api/conversations/list completed in 5.06 ms
+2026-10-17 17:16:29,825 | INFO | httpx | HTTP Request: GET http://localhost:6333 "HTTP/1.1 502 Bad Gateway"
+2026-10-17 17:17:27,496 | INFO | common.middleware | [request_id=dbad349815774be08d7e7fa40bfa2482] POST /api/conversations/list completed in 26.68 ms
+2026-10-17 17:17:27,501 | INFO | common.middleware | [request_id=06f558638ea34b7fae4b2d7912e4490c] POST /api/knowledge-bases/list completed in 20.00 ms
+2026-10-17 17:19:17,220 | INFO | common.middleware | [request_id=4ed39b52a6c4424d86b6cef803aa6c8e] POST /api/conversations/list completed in 13.65 ms
+2026-10-17 17:19:17,222 | INFO | common.middleware | [request_id=59e5f29357a7452297982cd76c588fa7] POST /api/knowledge-bases/list completed in 11.65 ms
+2026-10-17 17:25:51,708 | INFO | common.middleware | [request_id=0623476d1e344490985be8b40ae439c1] POST /api/conversations/list completed in 11.92 ms
+2026-10-17 17:25:51,711 | INFO | common.middleware | [request_id=081e4dc901fb45af8af4f1afdf095e47] POST /api/knowledge-bases/list completed in 13.34 ms
+2026-10-17 17:25:58,086 | INFO | common.middleware | [request_id=a2aa1fafede34914ae71d8e89dcd02ff] POST /api/knowledge-bases/list completed in 10.07 ms
+2026-10-17 17:25:58,088 | INFO | common.middleware | [request_id=ef5255eb7ee641829baa5cef7c5fe670] POST /api/files/list completed in 11.05 ms
+2026-10-17 17:25:58,184 | INFO | common.middleware | [request_id=50a97eba7de14bd4a0b140af625bc096] POST /api/documents/list completed in 11.11 ms
+2026-10-17 17:25:58,187 | INFO | common.middleware | [request_id=cd272aeaf55043d4ae18ad5da3333de1] POST /api/knowledge-bases/summary completed in 12.10 ms
+2026-10-17 17:26:00,139 | INFO | common.middleware | [request_id=193f27ef20bf4eef84d697d64793e97a] POST /api/knowledge-bases/summary completed in 8.46 ms
+2026-10-17 17:26:03,099 | INFO | common.middleware | [request_id=7b27c95d42f447a3b1522a8f7c26890f] POST /api/documents/list completed in 5.43 ms
+2026-10-17 17:26:04,351 | INFO | common.middleware | [request_id=a552a1b2e2b941f79455c2ccb9427e6b] POST /api/documents/chunks completed in 6.34 ms
+2026-10-17 17:26:38,768 | INFO | common.middleware | [request_id=4a888f4f98c44cf8924b85d0f11522de] POST /api/knowledge-bases/list completed in 18.25 ms
+2026-10-17 17:26:38,774 | INFO | common.middleware | [request_id=132f514c0f78417c9aa1cbec8afe73b0] POST /api/documents/list completed in 17.63 ms
+2026-10-17 17:26:38,776 | INFO | common.middleware | [request_id=b8ff8631405448faaa666b92504e8441] POST /api/documents/chunks completed in 19.06 ms
+2026-10-17 17:27:03,747 | INFO | common.middleware | [request_id=32a3d17fb440454ca6f7f61352de2887] POST /api/documents/list completed in 6.53 ms
+2026-10-17 17:27:09,468 | INFO | common.middleware | [request_id=4143646979d84e0ea2f92fd3e7d58f9e] POST /api/documents/chunks completed in 6.50 ms
+2026-10-17 21:02:08,535 | INFO | common.middleware | [request_id=7a3a17f91f5c479a837af4c5a527a19b] POST /api/documents/list completed in 71.48 ms
+2026-10-17 21:02:08,543 | INFO | common.middleware | [request_id=be14e4f5dae24c24a24619d6015ea4c7] POST /api/knowledge-bases/list completed in 107.92 ms
+2026-10-17 21:02:08,554 | INFO | common.middleware | [request_id=467ec5561bd34e20ae8cde7ca5117c85] POST /api/documents/chunks completed in 85.85 ms
+2026-10-17 21:02:08,923 | INFO | common.middleware | [request_id=a7d20d920995478f8f89699a05da9172] POST /api/knowledge-bases/list completed in 4.37 ms
